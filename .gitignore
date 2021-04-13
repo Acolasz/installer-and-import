@@ -1,0 +1,60 @@
+# Maven Wrapper
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Maven
+/**/log/
+/**/target
+/**/.flattened-pom.xml
+/**/bin
+/**/oms-rest/
+/**/.externalToolBuilders
+/**/.springBeans
+/**/.tern-project
+/**/dependency-reduced-pom.xml
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+.flattened-pom.xml
+
+### IntelliJ IDEA ###
+.idea
+/**/*.iml
+/**/*.iws
+/**/*.dot
+/**/*.ipr
+/**/out/
+
+## Eclipse ##
+/**/.classpath
+/**/.project
+/**/.settings/
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+## Mac ##
+.DS_Store
+
+# Git
+/**/*.orig
+/**/*.rej
+/**/.editorconfig
+/.metadata/
+
+/**/npm-debug.log
+
+.vscode/
+mw-authentication-adapter-docker/install/apps/authentication-adapter-sarasin-1.0.0-SNAPSHOT.jar
+mw-authentication-adapter-service-sarasin-impl/src/main/java/uk/sarasin/sic/**/*
