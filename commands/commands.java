@@ -40,4 +40,71 @@ git revert <commit_hash> -m 1
 
 /**********************/
 /**** Empty commit ****/
-git commit --allow-empty -m "test empty commit"
+git commit --allow-empty -m "test empty commit" && git push -u origin <brancg>
+/***********************************************************************/
+/********************************* OPENSHIFT ***************************/
+/***********************************************************************/
+/********************* OC ****************************/
+/*****************************************************/
+/***************/
+/**** login ****/
+oc login https://api.okd.dorsum.intra:6443
+oc login
+// oc 4.7.6 version
+https://oauth-openshift.apps.okd.dorsum.intra/oauth/token/request
+oc login --token=<ADuser_token> --server=https://api.okd.dorsum.intra:6443
+
+/*****************/
+/**** project ****/
+oc new-project clavisnxt-bundle-otp --display-name="clavisnxt-bundle-otp"
+//List projects
+oc projects
+oc get projects  
+//Change project
+oc project clavisnxt-bundle-otp
+//Check current project
+oc project
+oc project -q
+//Delete project
+oc delete project clavisnxt-bundle-otp
+
+/**********************/
+/**** Image-Stream ****/
+oc import-image <image_stream-name>:version --from=<image_from_registry> --confirm --insecure=true
+oc import-image clavisnxt-node-otp:20.10.1-latest --from=artifactory-nxt.dorsum.eu/docker/otp/clavis-nxt-bundle-node-docker-otp/20.10.1/clavis-nxt-bundle-node-docker-otp:20.10.1-latest --confirm --insecure=true
+
+/*****************************************/
+/**** CREATE APP (DEPLOYMENT, SERVICE) ***/
+oc new-app <image_stream-name>:version
+oc new-app clavisnxt-node-otp:20.10.1-latest
+// DEPLOYMENT YAML
+spec:
+	template:
+		spec:
+			containers:
+				- name:
+					imagePullPolicy: Always
+			serviceAccountName: runasanyuid
+			serviceAccount: runasanyuid
+		
+/*******************/
+/**** CONFIGMAP ****/
+oc create configmap <configmap_name> \
+    --from-file=./path/to/file/prop.properties
+oc create configmap shadow-datasources-properties \
+    --from-file=./install/installation-guide/localhost/properties_files/shadow.properties
+spec:
+	template:
+		spec:
+			containers:
+				- name:
+					envFrom:
+					- configMapRef:
+						name: <configmap_name>
+
+
+
+
+
+
+
