@@ -2,6 +2,32 @@
 /*************************************** Commands ************************************************/
 /*************************************************************************************************/
 /***********************************************************************/
+/********************************* BUILD TOOL **************************/
+/***********************************************************************/
+/***********************************************************************/
+/********************* NVM ***************************/
+/*****************************************************/
+/** Download **/
+https://github.com/coreybutler/nvm-windows/releases 
+/** install for windows **/
+https://stackoverflow.com/questions/25654234/node-version-manager-nvm-on-windows
+installed: 
+	c:\Portable\nvm\nvm-1.1.7\nvm\
+//
+nvm version
+nvm install <nodejs_version>
+nvm install 10.15.1
+// installed: 
+//	c:\Portable\nvm\nvm-1.1.7\nvm\v10.15.1
+// symlink to c:\Portable\nodejs
+nvm list
+nvm use <nodejs_version>
+nvm use 10.15.1
+/*****************************************************/
+/********************* Yarn **************************/
+/*****************************************************/
+npm install -g yarn
+/***********************************************************************/
 /********************************* GIT *********************************/
 /***********************************************************************/
 /********************* SUBMODULE *********************/
@@ -40,7 +66,7 @@ git revert <commit_hash> -m 1
 
 /**********************/
 /**** Empty commit ****/
-git commit --allow-empty -m "test empty commit" && git push -u origin <brancg>
+git commit --allow-empty -m "test empty commit" && git push -u origin <branch>
 /***********************************************************************/
 /********************************* OPENSHIFT ***************************/
 /***********************************************************************/
@@ -100,11 +126,43 @@ spec:
 				- name:
 					envFrom:
 					- configMapRef:
-						name: <configmap_name>
+						name: service-properties
 
-
-
-
+/***********************************************************************/
+/********************************* UNIX ********************************/
+/***********************************************************************/
+/* service */
+//
+journalctl -u docker.service
+// service fájl
+/etc/systemd/system/docker.service
+// service parancsok
+systemctl status docker.service
+systemctl stop docker.service
+systemctl start docker.service
+// könyvtárak méretét listázzuk
+df -h
+// futó processeket
+ps -ef
+ps auxww
+// használt portok és ipcímek
+netstat -anp
+netstat -aun
+// CPU, memory usage
+prstat -t
+// adott userrel indított processeket mutatja
+prstat -u <user>
+// fájlokba keresi a greppelt szöveket és kilistázza a fájlt és a sort, ahol ez található
+find ./ -name 'iq.log.2020-04-23*' -exec grep 'AppleNotificationHandler' {} \; -print
+/***********************************************************************/
+/********************************* DOCKER ********************************/
+/***********************************************************************/
+/********************* Linux-on **********************/
+/*****************************************************/
+// probléma:
+a docker image készítésekor nem tudunk leszedni linux-os package-ket vagy letölteni csomagolt fájlokat
+// ip feloldás
+saját linux-unkon az /etc/resolv.conf fájlt kell felülírni
 
 
 
