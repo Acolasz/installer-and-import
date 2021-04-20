@@ -53,6 +53,15 @@ git rm ./install/clavis-nxt-installation-guide-otp/
 git commit-m "Removed submodule "
 rm -rf .git/modules/installation-guide/
 /*****************************************************/
+/********************* RESET *************************/
+/*****************************************************/
+// Discard
+git reset --hard HEAD~1
+// before last commit
+git reset --soft HEAD~1
+git reset --mixed HEAD~1
+git reset --hard HEAD~1
+/*****************************************************/
 /********************* COMMIT ************************/
 /*****************************************************/
 /*****************************/
