@@ -30,6 +30,8 @@ npm install -g yarn
 /***********************************************************************/
 /********************************* GIT *********************************/
 /***********************************************************************/
+git config --global user.email "oo@dorsum.eu"
+git config --global user.name "Olivér"
 /********************* SUBMODULE *********************/
 /*****************************************************/
 // Change branch
@@ -79,6 +81,14 @@ git commit --allow-empty -m "test empty commit" && git push -u origin <branch>
 /***********************************************************************/
 /********************************* OPENSHIFT ***************************/
 /***********************************************************************/
+/********************* HELM **************************/
+/*****************************************************/
+helm lint -f ./default-simple-service-override.yaml.yaml ./default-simple-service
+helm template -f ./default-simple-service-override.yaml.yaml ./default-simple-service
+helm package ./default-simple-service
+helm install -f myvalues.yaml -f override.yaml  myredis ./redis
+helm install wmp-srv-sarsn -f ./default-simple-service-override.yaml.yaml ./default-simple-service-1.0.0.tgz
+helm repo update helm --username oo --password AP3rd15kegHHQSagiuX4aLTuw4R
 /********************* OC ****************************/
 /*****************************************************/
 /***************/
@@ -140,8 +150,7 @@ spec:
 /***********************************************************************/
 /********************************* UNIX ********************************/
 /***********************************************************************/
-/* service */
-//
+/** service **/
 journalctl -u docker.service
 // service fájl
 /etc/systemd/system/docker.service
@@ -149,22 +158,33 @@ journalctl -u docker.service
 systemctl status docker.service
 systemctl stop docker.service
 systemctl start docker.service
-// könyvtárak méretét listázzuk
+/** könyvtárak méretét listázzuk **/
 df -h
-// futó processeket
+/** futó processeket **/
 ps -ef
 ps auxww
-// használt portok és ipcímek
+/** használt portok és ipcímek **/
 netstat -anp
 netstat -aun
-// CPU, memory usage
+/** CPU, memory usage **/
 prstat -t
 // adott userrel indított processeket mutatja
 prstat -u <user>
 // fájlokba keresi a greppelt szöveket és kilistázza a fájlt és a sort, ahol ez található
 find ./ -name 'iq.log.2020-04-23*' -exec grep 'AppleNotificationHandler' {} \; -print
+find ./install/installation-guide -name assetbasket -exec ls -l {} ;\ 
+
+/** CURL **/
+curl --insecure -i -d "clientIdentifierType=CIT_1004&brand=5000&IMPgIndx=1&IMPgRcCnt=500&clientId=22052&clientId=22345"  http://erstelnx:7001/ihs-adapter/restapi/clientlist/search
+curl -X GET "http://dit19mpc014.dorsum.intra:9090/actuator" -H "Authorization: Basic X2NsYXZpc19wYl93czpfY2xhdmlzX3BiX3dz"
+curl -X POST http://erstelnx:7001/ihs-adapter/restapi/investmentaccountdetails/search?investmentAccountNumberType=IAIT_1&clientIdentifierType=CIT_1004&brand=5000&IMPgRcCnt=5&IMPgIndx=1
+/** WGET **/
+wget --header="X-JFrog-Art-Api: AKCp5fUDpkASSHdmtosbg8id1s7fnrLtqVq22J3BT1fBu58P3gF3ayfqYe53PqESr7WsZgvFg" http://artifactory-nxt.dorsum.eu/artifactory/devops-installer/oracle/jdk/jdk-8u261-linux-x64.tar.gz
+/** TAR **/
+tar zxvf /tmp/install/wildfly-14.0.1.Final.tar.gz --strip 1 -C /opt/wildfly-14.0.1
+
 /***********************************************************************/
-/********************************* DOCKER ********************************/
+/********************************* DOCKER ******************************/
 /***********************************************************************/
 /********************* Linux-on **********************/
 /*****************************************************/
@@ -172,6 +192,90 @@ find ./ -name 'iq.log.2020-04-23*' -exec grep 'AppleNotificationHandler' {} \; -
 a docker image készítésekor nem tudunk leszedni linux-os package-ket vagy letölteni csomagolt fájlokat
 // ip feloldás
 saját linux-unkon az /etc/resolv.conf fájlt kell felülírni
+/********************* Image Run *********************/
+/*****************************************************/
+/** PsAdmin **/
+docker run --rm -p 7444:80 -e PGADMIN_DEFAULT_EMAIL=acolasz@postgres.local -e PGADMIN_DEFAULT_PASSWORD=acolasz --name pgadmin-1 -d dpage/pgadmin4
+
+/***********************************************************************/
+/********************************* AZURE DEVOPS ************************/
+/***********************************************************************/
+/********************* Rest API **********************/
+/*****************************************************/
+/** PAT **/
+MY_PAT=yourPAT		# replace "yourPAT" with your actual PAT
+B64_PAT=$(printf "%s"":$MY_PAT" | base64)
+/** API list **/
+curl https://$B64_PAT:dev.azure.com/{organization}/_apis/build-release/builds
+
+/***********************************************************************/
+/********************************* MAVEN *******************************/
+/***********************************************************************/
+/** Custom settings.xml **/
+mvn -U clean package --global-settings ./path/to/location/global-settings.xml --settings ./path/to/location/local-settings.xml
+/** Deploy file to artifactory **/
+mvn deploy:deploy-file -DrepositoryId="dsp" -Durl="https://pkgs.dev.azure.com/MPZRT/dsp-devops/_packaging/dsp/maven/v1" -DgroupId="eu.dorsum.posta" -DartifactId="posta-srv-kwr-ejb" -Dversion="1.1.0" -Dclassifier="client" -Dpackaging="jar" -Dfile="./posta-srv-kwr-ejb-2.2.5-2-client.jar"
+mvn deploy:deploy-file -Dpackaging="pom" -DrepositoryId="drsm" -Durl="https://pkgs.dev.azure.com/Dorsum/Posta/_packaging/drsm/maven/v1" -DgroupId="eu.dorsum.cm" -DartifactId="azure-pipeline-mvn-parent" -Dversion="1.0.0" -Dfile="./pom.xml"
+/** Sonar **/
+mvn sonar:sonar -Dsonar.projectKey=eu.dorsum.otp.java.clavis-iq-otp:clavis-iq-otp:int -Dsonar.host.url=https://sonar.dorsum.eu -Dsonar.login=89ebc802c6592e7ba3c2b994e21473b32305d5ce
+
+/***********************************************************************/
+/********************************* SQL *********************************/
+/***********************************************************************/
+/********************* Select ************************/
+/*****************************************************/
+/** Intervallum check **/
+/***********************/
+										S----E 3.
+			S---------------E 2.	
+					[S]----------------------------[E]
+												S----------------E 1.
+SELECT *
+FROM "AO_08B316_CLIENT_DETAIL" WHERE
+("END_DATE" >= start AND "START_DATE" <= end) OR --2.
+("START_DATE" <= end AND "END_DATE" >= start) OR --1.
+("START_DATE" >= start AND "END_DATE" <= end) --3.
+
+/***********************************************************************/
+/********************************* JAVA ********************************/
+/***********************************************************************/
+/*************/
+/** Keytool **/
+/*************/
+// List
+keytool -v -list -keystore "d:\Portable\Java\jdk1.8.0_172\jre\lib\security\cacerts"
+keytool -list -keystore "d:\Portable\Java\jdk1.8.0_172\jre\lib\security\cacerts" -alias erste.hu
+// Print
+keytool -printcert -file "d:\workspace\stash-prd\ERSTE\tmp\ersteca.cer"
+// Import
+keytool -importcert -file "d:\workspace\stash-prd\ERSTE\tmp\ersteca.cer" -alias erste.hu -keystore "d:\Portable\Java\jdk1.8.0_172\jre\lib\security\cacerts" -storepass changeit 
+// delete
+keytool -delete -alias erste.hu -keystore "d:\Portable\Java\jdk1.8.0_172\jre\lib\security\cacerts" -storepass changeit
+/***********************************/
+/** WSImport WSDL to Java Objects **/
+/***********************************/
+d:\Portable\Java\jdk1.6.0_24\bin\wsimport.exe -p eu.dorsum.erste.cwa.web.filenet.store https://_clavis_filenet_ws:12345678@ebhfat.erste.hu:476/fnapiws/StoreV1?wsdl
+d:\Portable\Java\jdk1.6.0_24\bin\wsimport.exe https://_clavis_filenet_ws:12345678@ebhfat.erste.hu:476/fnapiws/StoreV1?wsdl
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
