@@ -269,6 +269,10 @@ keytool -delete -alias erste.hu -keystore "d:\Portable\Java\jdk1.8.0_172\jre\lib
 d:\Portable\Java\jdk1.6.0_24\bin\wsimport.exe -p eu.dorsum.erste.cwa.web.filenet.store https://_clavis_filenet_ws:12345678@ebhfat.erste.hu:476/fnapiws/StoreV1?wsdl
 d:\Portable\Java\jdk1.6.0_24\bin\wsimport.exe https://_clavis_filenet_ws:12345678@ebhfat.erste.hu:476/fnapiws/StoreV1?wsdl
 /***********************************************************************/
+/********************************* Total Commander *********************/
+/***********************************************************************/
+http://dirty-joe.com/
+/***********************************************************************/
 /********************************* JENKINS *****************************/
 /***********************************************************************/
 /** Build number increase **/
