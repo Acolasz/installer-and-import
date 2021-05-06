@@ -23,6 +23,8 @@ nvm install 10.15.1
 nvm list
 nvm use <nodejs_version>
 nvm use 10.15.1
+/** Transitive Dependencies **/
+https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Transitive_Dependencies
 /*****************************************************/
 /********************* Yarn **************************/
 /*****************************************************/
