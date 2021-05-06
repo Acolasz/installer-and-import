@@ -91,6 +91,7 @@ helm package ./default-simple-service
 helm install -f myvalues.yaml -f override.yaml  myredis ./redis
 helm install wmp-srv-sarsn -f ./default-simple-service-override.yaml.yaml ./default-simple-service-1.0.0.tgz
 helm repo update helm --username oo --password AP3rd15kegHHQSagiuX4aLTuw4R
+/*****************************************************/
 /********************* OC ****************************/
 /*****************************************************/
 /***************/
@@ -148,7 +149,16 @@ spec:
 					envFrom:
 					- configMapRef:
 						name: service-properties
-
+/**********************/
+/**** ETCD backup *****/
+ https://docs.openshift.com/container-platform/4.5/backup_and_restore/backing-up-etcd.html#backing-up-etcd-data_backup-etcd
+/****************************/
+/**** Gracefull shutdown ****/
+https://docs.openshift.com/container-platform/4.5/backup_and_restore/graceful-cluster-shutdown.html#graceful-shutdown-cluster
+/**********************/
+/**** UDP protokol ****/
+https://docs.openshift.com/container-platform/4.4/networking/openshift_sdn/enabling-multicast.html
+oc annotate netnamespace otp-bundle netnamespace.network.openshift.io/multicast-enabled=true
 /***********************************************************************/
 /********************************* UNIX ********************************/
 /***********************************************************************/
