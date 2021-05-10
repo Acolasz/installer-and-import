@@ -228,8 +228,10 @@ curl https://$B64_PAT:dev.azure.com/{organization}/_apis/build-release/builds
 /********************************* MAVEN *******************************/
 /***********************************************************************/
 /** Skip test **/
+// Plugin maven-surefire-plugin
 mvn -U clean package -DskipTests
 /** Skip Integration test **/
+// Plugin maven-failsafe-plugin
 mvn -U clean package -DskipITs
 /** Custom settings.xml **/
 mvn -U clean package --global-settings ./path/to/location/global-settings.xml --settings ./path/to/location/local-settings.xml
