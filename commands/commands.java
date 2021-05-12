@@ -193,6 +193,13 @@ oc annotate netnamespace otp-bundle netnamespace.network.openshift.io/multicast-
 /***********************************************************************/
 /********************************* UNIX ********************************/
 /***********************************************************************/
+/** zip - unzip with tar.gz **/
+// Create tar.gz Archive File
+tar cvzf MyImages-14-09-12.tar.gz /home/MyImages
+// OR
+tar cvzf MyImages-14-09-12.tgz /home/MyImages
+// Uncompress tar.gz Archive File
+tar -xvf thumbnails-14-09-12.tar.gz -C /path/to/dir/
 /** service **/
 journalctl -u docker.service
 // service fájl
