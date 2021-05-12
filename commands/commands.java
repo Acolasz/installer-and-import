@@ -332,20 +332,6 @@ keytool -delete -alias erste.hu -keystore "d:\Portable\Java\jdk1.8.0_172\jre\lib
 d:\Portable\Java\jdk1.6.0_24\bin\wsimport.exe -p eu.dorsum.erste.cwa.web.filenet.store https://_clavis_filenet_ws:12345678@ebhfat.erste.hu:476/fnapiws/StoreV1?wsdl
 d:\Portable\Java\jdk1.6.0_24\bin\wsimport.exe https://_clavis_filenet_ws:12345678@ebhfat.erste.hu:476/fnapiws/StoreV1?wsdl
 /***********************************************************************/
-/********************************* Total Commander *********************/
-/***********************************************************************/
-http://dirty-joe.com/
-/***********************************************************************/
-/********************************* PUTTY *******************************/
-/** export **/
-https://stackoverflow.com/questions/13023920/how-to-export-import-putty-sessions-list
-// vagy 
-Windows gomb és export, ahol kell és mentés
-/** import **/
-https://stackoverflow.com/questions/13023920/how-to-export-import-putty-sessions-list
-// vagy
-dupla klikk a mentett fájlon
-/***********************************************************************/
 /***********************************************************************/
 /********************************* JENKINS *****************************/
 /***********************************************************************/
@@ -368,7 +354,21 @@ machine api.heroku.com
 machine git.heroku.com
   login ocsko.oliver13@gmail.com
   password 39820363-ab1d-4cea-b076-2d1fe20dd608 
-
+/*****************************************************/
+/********************* Total Commander ***************/
+/*****************************************************/
+http://dirty-joe.com/
+/*****************************************************/
+/********************* PUTTY *************************/
+/*****************************************************/
+/** export **/
+https://stackoverflow.com/questions/13023920/how-to-export-import-putty-sessions-list
+// vagy 
+Windows gomb és export, ahol kell és mentés
+/** import **/
+https://stackoverflow.com/questions/13023920/how-to-export-import-putty-sessions-list
+// vagy
+dupla klikk a mentett fájlon
 
 
 
