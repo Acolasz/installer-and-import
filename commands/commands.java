@@ -329,6 +329,17 @@ d:\Portable\Java\jdk1.6.0_24\bin\wsimport.exe https://_clavis_filenet_ws:1234567
 /***********************************************************************/
 http://dirty-joe.com/
 /***********************************************************************/
+/********************************* PUTTY *******************************/
+/** export **/
+https://stackoverflow.com/questions/13023920/how-to-export-import-putty-sessions-list
+// vagy 
+Windows gomb és export, ahol kell és mentés
+/** import **/
+https://stackoverflow.com/questions/13023920/how-to-export-import-putty-sessions-list
+// vagy
+dupla klikk a mentett fájlon
+/***********************************************************************/
+/***********************************************************************/
 /********************************* JENKINS *****************************/
 /***********************************************************************/
 /** Build number increase **/
