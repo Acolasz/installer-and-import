@@ -264,6 +264,10 @@ curl https://$B64_PAT:dev.azure.com/{organization}/_apis/build-release/builds
 /***********************************************************************/
 /********************************* MAVEN *******************************/
 /***********************************************************************/
+/********************* Lifecycle *********************/
+/*****************************************************/
+https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
+/*****************************************************/
 /** Skip test **/
 // Plugin maven-surefire-plugin
 mvn -U clean package -DskipTests
