@@ -194,7 +194,18 @@ curl -X POST http://erstelnx:7001/ihs-adapter/restapi/investmentaccountdetails/s
 wget --header="X-JFrog-Art-Api: AKCp5fUDpkASSHdmtosbg8id1s7fnrLtqVq22J3BT1fBu58P3gF3ayfqYe53PqESr7WsZgvFg" http://artifactory-nxt.dorsum.eu/artifactory/devops-installer/oracle/jdk/jdk-8u261-linux-x64.tar.gz
 /** TAR **/
 tar zxvf /tmp/install/wildfly-14.0.1.Final.tar.gz --strip 1 -C /opt/wildfly-14.0.1
-
+/*****************************************************/
+/********************* NETRC *************************/
+/*****************************************************/
+/** file neve **/
+.netrc
+// tartalma:
+machine api.heroku.com
+  login ocsko.oliver13@gmail.com
+  password 39820363-ab1d-4cea-b076-2d1fe20dd608
+machine git.heroku.com
+  login ocsko.oliver13@gmail.com
+  password 39820363-ab1d-4cea-b076-2d1fe20dd608 
 /***********************************************************************/
 /********************************* DOCKER ******************************/
 /***********************************************************************/
@@ -289,8 +300,21 @@ http://dirty-joe.com/
 /***************************/
 Jenkins.instance.getItemByFullName("projectName/repositoryName/release%2F1.0").updateNextBuildNumber(2)
 Jenkins.instance.getItemByFullName("projectName/repositoryName/master").updateNextBuildNumber(5)
-
-
+/***********************************************************************/
+/********************************* WINDOWS *****************************/
+/***********************************************************************/
+/*****************************************************/
+/********************* NETRC *************************/
+/*****************************************************/
+/** file neve **/
+_netrc
+// tartalma:
+machine api.heroku.com
+  login ocsko.oliver13@gmail.com
+  password 39820363-ab1d-4cea-b076-2d1fe20dd608
+machine git.heroku.com
+  login ocsko.oliver13@gmail.com
+  password 39820363-ab1d-4cea-b076-2d1fe20dd608 
 
 
 
