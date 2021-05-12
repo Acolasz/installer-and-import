@@ -26,8 +26,31 @@ nvm use 10.15.1
 /** Transitive Dependencies **/
 https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Transitive_Dependencies
 /*****************************************************/
+/********************* .NPMRC ************************/
+/*****************************************************/
+/** locations .npmrc **/
+yarn install v1.22.10
+14:06:55  verbose 0.389 Checking for configuration file "/var/jenkins-nxt-prd/workspace/MYW_mw-web_diofa_1.70.1-nxt-test/.npmrc".
+14:06:55  verbose 0.39 Checking for configuration file "/home/DORSUM/jenkins-prd/.npmrc".
+14:06:55  verbose 0.39 Found configuration file "/home/DORSUM/jenkins-prd/.npmrc".
+14:06:55  verbose 0.39 Checking for configuration file "/opt/nodejs-8.11.3/etc/npmrc".
+14:06:55  verbose 0.391 Checking for configuration file "/var/jenkins-nxt-prd/workspace/MYW_mw-web_diofa_1.70.1-nxt-test/.npmrc".
+14:06:55  verbose 0.391 Checking for configuration file "/var/jenkins-nxt-prd/workspace/.npmrc".
+14:06:55  verbose 0.391 Checking for configuration file "/var/jenkins-nxt-prd/.npmrc".
+14:06:55  verbose 0.391 Checking for configuration file "/var/.npmrc".
+/*****************************************************/
 /********************* Yarn **************************/
 /*****************************************************/
+/** Locations .yarnrc **/
+14:06:55  verbose 0.394 Checking for configuration file "/var/jenkins-nxt-prd/workspace/MYW_mw-web_diofa_1.70.1-nxt-test/.yarnrc".
+14:06:55  verbose 0.395 Checking for configuration file "/home/DORSUM/jenkins-prd/.yarnrc".
+14:06:55  verbose 0.395 Found configuration file "/home/DORSUM/jenkins-prd/.yarnrc".
+14:06:55  verbose 0.395 Checking for configuration file "/opt/nodejs-8.11.3/etc/yarnrc".
+14:06:55  verbose 0.395 Checking for configuration file "/var/jenkins-nxt-prd/workspace/MYW_mw-web_diofa_1.70.1-nxt-test/.yarnrc".
+14:06:55  verbose 0.396 Checking for configuration file "/var/jenkins-nxt-prd/workspace/.yarnrc".
+14:06:55  verbose 0.396 Checking for configuration file "/var/jenkins-nxt-prd/.yarnrc".
+14:06:55  verbose 0.396 Checking for configuration file "/var/.yarnrc".
+/** Global install to NodeJS **/
 npm install -g yarn
 /***********************************************************************/
 /********************************* GIT *********************************/
