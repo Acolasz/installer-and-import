@@ -41,6 +41,11 @@ yarn install v1.22.10
 /*****************************************************/
 /********************* Yarn **************************/
 /*****************************************************/
+https://www.whitesourcesoftware.com/free-developer-tools/blog/npm-vs-yarn-which-should-you-choose/
+/** Cache **/
+https://classic.yarnpkg.com/en/docs/cli/cache/
+yarn cache list --pattern lodash
+yarn cache dir
 /** Locations .yarnrc **/
 14:06:55  verbose 0.394 Checking for configuration file "/var/jenkins-nxt-prd/workspace/MYW_mw-web_diofa_1.70.1-nxt-test/.yarnrc".
 14:06:55  verbose 0.395 Checking for configuration file "/home/DORSUM/jenkins-prd/.yarnrc".
