@@ -52,6 +52,9 @@ yarn install v1.22.10
 14:06:55  verbose 0.396 Checking for configuration file "/var/.yarnrc".
 /** Global install to NodeJS **/
 npm install -g yarn
+/** Add package **/
+https://classic.yarnpkg.com/en/docs/cli/add/
+yarn add package-name@1.2.3
 /***********************************************************************/
 /********************************* GIT *********************************/
 /***********************************************************************/
