@@ -46,6 +46,8 @@ https://www.whitesourcesoftware.com/free-developer-tools/blog/npm-vs-yarn-which-
 https://classic.yarnpkg.com/en/docs/cli/cache/
 yarn cache list --pattern lodash
 yarn cache dir
+// Cache versiója v1, v2, v4, v6
+A yarn cacheelése is függ a yarn verziójától, ezzel együtt a cache mappa is!
 /** Locations .yarnrc **/
 14:06:55  verbose 0.394 Checking for configuration file "/var/jenkins-nxt-prd/workspace/MYW_mw-web_diofa_1.70.1-nxt-test/.yarnrc".
 14:06:55  verbose 0.395 Checking for configuration file "/home/DORSUM/jenkins-prd/.yarnrc".
