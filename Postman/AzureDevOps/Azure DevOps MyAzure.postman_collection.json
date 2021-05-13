@@ -1,0 +1,524 @@
+{
+	"info": {
+		"_postman_id": "6ac7d4b5-9e75-4481-99f9-5a177bbe6bf0",
+		"name": "Azure DevOps MyAzure",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Pipeline List MyAzure",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/pipelines?api-version=6.0-preview.1",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"pipelines"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0-preview.1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pipeline ID MyAzure",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/pipelines/6?api-version=6.0-preview.1",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"pipelines",
+						"6"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0-preview.1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pipeline ID runs MyAzure",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/pipelines/6/runs?api-version=6.0-preview.1",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"pipelines",
+						"6",
+						"runs"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0-preview.1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pipeline ID runID MyAzure",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/pipelines/6/runs/162?api-version=6.0-preview.1",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"pipelines",
+						"6",
+						"runs",
+						"162"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0-preview.1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pipeline run ID MyAzure",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"previewRun\": false,\r\n\t\"stagesToSkip\": [],\r\n\t\"resources\": {\r\n\t\t\"repositories\": {\r\n\t\t\t\"refName\": \"refs/heads/master\",\r\n\t\t\t\"version\": \"8ed0570daf0a731627504066ace64d12f8c60faa\"\r\n\t\t}\r\n\t},\r\n\t\"templateParameters\": {},\r\n\t\"variables\": {\r\n        \"JIRA_TICKET\": {\r\n            \"isSecret\": true,\r\n            \"value\": \"DEVOPS-1885\"\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/pipelines/6/runs?api-version=6.0-preview.1",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"pipelines",
+						"6",
+						"runs"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0-preview.1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VariableGroups MyAzure",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/distributedtask/variablegroups?api-version=5.0-preview.1",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"distributedtask",
+						"variablegroups"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "5.0-preview.1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VariableGroup MyAzure",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/distributedtask/variablegroups/3?api-version=6.0-preview.2",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"distributedtask",
+						"variablegroups",
+						"3"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0-preview.2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VariableUpdate MyAzure",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"description\": \"\",\r\n\t\"name\": \"jira-ticket\",\r\n\t\"providerData\": \"\",\r\n\t\"type\": \"Vsts\",\r\n\t\"variableGroupProjectReferences\": [\r\n\t\t{\r\n\t\t\t\"projectReference\": {\r\n\t\t\t\t\"id\": \"3c2915ec-31b6-4742-9fc7-fb08d5f4aa27\",\r\n\t\t\t\t\"name\": \"Posta\"\r\n\t\t\t},\r\n\t\t\t\"name\": \"jira-ticket\",\r\n\t\t\t\"description\": \"\"\r\n\t\t}\r\n\t],\r\n\t\"variables\": {\r\n        \"JIRA_TICKET\": {\r\n            \"value\": \"DEVOPS-1885\"\r\n        }\r\n\t}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/_apis/distributedtask/variablegroups/3?api-version=6.0-preview.2",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"_apis",
+						"distributedtask",
+						"variablegroups",
+						"3"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0-preview.2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get work item id MyAzure",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"previewRun\": false,\r\n\t\"stagesToSkip\": [],\r\n\t\"resources\": {\r\n\t\t\"repositories\": {\r\n\t\t\t\"refName\": \"refs/heads/master\",\r\n\t\t\t\"version\": \"8ed0570daf0a731627504066ace64d12f8c60faa\"\r\n\t\t}\r\n\t},\r\n\t\"templateParameters\": {},\r\n\t\"variables\": {}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/wit/workitems/37?$expand=all&api-version=6.0",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"wit",
+						"workitems",
+						"37"
+					],
+					"query": [
+						{
+							"key": "$expand",
+							"value": "all"
+						},
+						{
+							"key": "api-version",
+							"value": "6.0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create work item MyAzure",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json-patch+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"op\": \"add\",\r\n        \"path\": \"/fields/System.Title\",\r\n        \"from\": null,\r\n        \"value\": \"Sample PBI 2\"\r\n    },\r\n    {\r\n        \"op\": \"add\",\r\n        \"path\": \"/fields/System.Description\",\r\n        \"from\": null,\r\n        \"value\": \"Sample task failed due to erro\"\r\n    },\r\n    {\r\n        \"op\": \"add\",\r\n        \"path\": \"/fields/System.History\",\r\n        \"from\": null,\r\n        \"value\": \"Test comment\"\r\n    },\r\n    {\r\n        \"op\": \"add\",\r\n        \"path\": \"/fields/System.AssignedTo\",\r\n        \"from\": null,\r\n        \"value\": \"OcskoO@mpextservices.onmicrosoft.com\"\r\n    },\r\n    {\r\n        \"op\": \"add\",\r\n        \"path\": \"/fields/System.AreaPath\",\r\n        \"from\": null,\r\n        \"value\": \"Posta\\\\Migrated\"\r\n    },\r\n    {\r\n        \"op\": \"add\",\r\n        \"path\": \"/fields/System.IterationPath\",\r\n        \"from\": null,\r\n        \"value\": \"Posta\\\\Migrated\"\r\n    },\r\n    {\r\n        \"op\": \"add\",\r\n        \"path\": \"/fields/Microsoft.VSTS.Common.AcceptanceCriteria\",\r\n        \"from\": null,\r\n        \"value\": \"Test Acceptance\"\r\n    },\r\n    {\r\n        \"op\": \"add\",\r\n        \"path\": \"/fields/Microsoft.VSTS.Common.Priority\",\r\n        \"from\": null,\r\n        \"value\": \"2\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/wit/workitems/$task?api-version=6.0",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"wit",
+						"workitems",
+						"$task"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fields list MyAzure",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/wit/fields?api-version=6.0",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"wit",
+						"fields"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Variable List - useless",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/test/variables/1?api-version=5.0-preview.1",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"test",
+						"variables",
+						"1"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "5.0-preview.1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "YamlSchema - maybe useless",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/_apis/distributedtask/yamlschema?api-version=6.0",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"_apis",
+						"distributedtask",
+						"yamlschema"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/3c2915ec-31b6-4742-9fc7-fb08d5f4aa27/_apis/pipelines/6?revision=1",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"3c2915ec-31b6-4742-9fc7-fb08d5f4aa27",
+						"_apis",
+						"pipelines",
+						"6"
+					],
+					"query": [
+						{
+							"key": "revision",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "sus2so3rjr3idw7ynfdgqo2xdgymko76ixk6bafzikpobbzuftoq",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
