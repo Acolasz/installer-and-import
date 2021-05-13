@@ -199,7 +199,8 @@ tar cvzf myImages-14-09-12.tar.gz /home/MyImages
 // OR
 tar cvzf myImages-14-09-12.tgz /home/MyImages
 // Uncompress tar.gz Archive File
-tar -cxvf myImages-14-09-12.tar.gz /path/to/dir/
+tar -xvf myImages-14-09-12.tar.gz -C /path/to/dir/
+tar -Cxvf myImages-14-09-12.tar.gz /path/to/dir/
 /** service **/
 journalctl -u docker.service
 // service fájl
