@@ -213,6 +213,9 @@ systemctl stop docker.service
 systemctl start docker.service
 /** könyvtárak méretét listázzuk **/
 df -h
+du -sh /var
+//du -shc /var/* 
+du -h --max-depth=1 /var
 /** futó processeket **/
 ps -ef
 ps auxww
@@ -233,8 +236,6 @@ curl -X GET "http://dit19mpc014.dorsum.intra:9090/actuator" -H "Authorization: B
 curl -X POST http://erstelnx:7001/ihs-adapter/restapi/investmentaccountdetails/search?investmentAccountNumberType=IAIT_1&clientIdentifierType=CIT_1004&brand=5000&IMPgRcCnt=5&IMPgIndx=1
 /** WGET **/
 wget --header="X-JFrog-Art-Api: AKCp5fUDpkASSHdmtosbg8id1s7fnrLtqVq22J3BT1fBu58P3gF3ayfqYe53PqESr7WsZgvFg" http://artifactory-nxt.dorsum.eu/artifactory/devops-installer/oracle/jdk/jdk-8u261-linux-x64.tar.gz
-/** TAR **/
-tar zxvf /tmp/install/wildfly-14.0.1.Final.tar.gz --strip 1 -C /opt/wildfly-14.0.1
 /*****************************************************/
 /********************* NETRC *************************/
 /*****************************************************/
