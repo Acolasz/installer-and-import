@@ -168,6 +168,162 @@
 			"response": []
 		},
 		{
+			"name": "Get Builds MyAzure",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/build/builds?api-version=6.0",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"build",
+						"builds"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Build with BuildId MyAzure",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/build/builds/248?api-version=6.0",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"build",
+						"builds",
+						"248"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Builds Tags MyAzure",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/build/tags?api-version=4.1",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"build",
+						"tags"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "4.1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get BuildId Tags MyAzure",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/build/builds/248/tags?api-version=6.0",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"build",
+						"builds",
+						"248",
+						"tags"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Build Tags MyAzure Copy",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://dev.azure.com/Dorsum/Posta/_apis/build/builds/248/tags/2.1.0?api-version=6.0",
+					"protocol": "https",
+					"host": [
+						"dev",
+						"azure",
+						"com"
+					],
+					"path": [
+						"Dorsum",
+						"Posta",
+						"_apis",
+						"build",
+						"builds",
+						"248",
+						"tags",
+						"2.1.0"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "6.0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "VariableGroups MyAzure",
 			"request": {
 				"method": "GET",
