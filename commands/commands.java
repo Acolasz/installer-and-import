@@ -203,6 +203,9 @@ tar cvzf myImages-14-09-12.tgz /home/MyImages
 // Uncompress tar.gz Archive File
 tar -xvf myImages-14-09-12.tar.gz -C /path/to/dir/
 tar -Cxvf myImages-14-09-12.tar.gz /path/to/dir/
+/** service parancsok **/
+// service-ek listája
+systemctl list-units --type=service
 /** service **/
 journalctl -u docker.service
 // service fájl
@@ -211,6 +214,9 @@ journalctl -u docker.service
 systemctl status docker.service
 systemctl stop docker.service
 systemctl start docker.service
+/** user crontab **/
+https://www.geeksforgeeks.org/crontab-in-linux-with-examples/
+crontab -l
 /** könyvtárak méretét listázzuk **/
 df -h
 du -sh /var
