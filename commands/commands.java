@@ -116,6 +116,66 @@ git commit --allow-empty -m "test empty commit" && git push -u origin <branch>
 /***********************************************************************/
 /********************************* OPENSHIFT ***************************/
 /***********************************************************************/
+/*****************************************************/
+/********************* Üzemeltetés *******************/
+/**********************/
+/**** ETCD backup *****/
+ https://docs.openshift.com/container-platform/4.5/backup_and_restore/backing-up-etcd.html#backing-up-etcd-data_backup-etcd
+/****************************/
+/**** Gracefull shutdown ****/
+https://docs.openshift.com/container-platform/4.5/backup_and_restore/graceful-cluster-shutdown.html#graceful-shutdown-cluster
+/****************************/
+/**** understanding-ephemeral-storage ****/
+https://docs.openshift.com/container-platform/4.5/storage/understanding-ephemeral-storage.html
+https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#local-ephemeral-storage
+// az erőforrások leginkább felhasznált CPU, RAM-on kívül 
+// a file rendszer mérete is befolyásolja a működését a környzetnek.
+// az OpenShift (kubernetes) fenn tart magának helyet a működésnek, kublet-config, és fenn tartja a pod-oknak is. Ha a kublet-config-nak nem jutna elég hely a működéshez,
+// akkor a rendszer a pod-okat .
+https://docs.openshift.com/container-platform/4.5/scalability_and_performance/recommended-host-practices.html
+/**** Partició ellenőrzés ****/
+sudo su -
+
+df -hT /
+Filesystem     Type  Size  Used Avail Use% Mounted on
+/dev/sda4      xfs   120G   79G   42G  66% /
+
+lsblk
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+sda      8:0    0   240G  0 disk
+|-sda1   8:1    0   384M  0 part /boot
+|-sda2   8:2    0   127M  0 part /boot/efi
+|-sda3   8:3    0     1M  0 part
+`-sda4   8:4    0 239.5G  0 part /sysroot
+sr0     11:0    1   711M  0 rom
+
+/**** Parancsok install ****/
+sudo yum -y install cloud-utils-growpart gdisk
+
+/**** Partició növelés ****/
+https://computingforgeeks.com/resize-ext-and-xfs-root-partition-without-lvm/
+sudo growpart /dev/sda 4
+CHANGED: partition=4 start=1050624 old: size=250607583 end=251658207 new: size=502265823 end=503316447
+
+// type: xfs
+sudo xfs_growfs /sysroot/
+meta-data=/dev/sda4              isize=512    agcount=219, agsize=143423 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=1, sparse=1, rmapbt=0
+         =                       reflink=1
+data     =                       bsize=4096   blocks=31325947, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
+log      =internal log           bsize=4096   blocks=2560, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+data blocks changed from 31325947 to 62783227
+// check after sudo xfs_growfs /sysroot/
+df -hT /
+Filesystem     Type  Size  Used Avail Use% Mounted on
+/dev/sda4      xfs   240G   80G  161G  34% /
+
+/*****************************************************/
 /********************* HELM **************************/
 /*****************************************************/
 helm lint -f ./default-simple-service-override.yaml.yaml ./default-simple-service
@@ -183,15 +243,13 @@ spec:
 					- configMapRef:
 						name: service-properties
 /**********************/
-/**** ETCD backup *****/
- https://docs.openshift.com/container-platform/4.5/backup_and_restore/backing-up-etcd.html#backing-up-etcd-data_backup-etcd
-/****************************/
-/**** Gracefull shutdown ****/
-https://docs.openshift.com/container-platform/4.5/backup_and_restore/graceful-cluster-shutdown.html#graceful-shutdown-cluster
-/**********************/
 /**** UDP protokol ****/
 https://docs.openshift.com/container-platform/4.4/networking/openshift_sdn/enabling-multicast.html
 oc annotate netnamespace otp-bundle netnamespace.network.openshift.io/multicast-enabled=true
+/*****************************/
+/**** Remove evicted pods ****/
+https://sachsenhofer.io/how-to-remove-evicted-pods-in-kubernetes-openshift/
+oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | "oc delete pods \(.metadata.name) -n \(.metadata.namespace)"' | xargs -n 1 bash -c
 /***********************************************************************/
 /********************************* UNIX ********************************/
 /***********************************************************************/
@@ -217,6 +275,11 @@ systemctl start docker.service
 /** user crontab **/
 https://www.geeksforgeeks.org/crontab-in-linux-with-examples/
 crontab -l
+/** particiók mérete **/
+fdisk -l
+dmesg | grep -i sda
+df -hT /
+lsblk
 /** könyvtárak méretét listázzuk **/
 df -h
 du -sh /var
