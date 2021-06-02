@@ -118,14 +118,23 @@ git commit --allow-empty -m "test empty commit" && git push -u origin <branch>
 /***********************************************************************/
 /*****************************************************/
 /********************* Üzemeltetés *******************/
+/*****************************************************/
 /**********************/
 /**** ETCD backup *****/
  https://docs.openshift.com/container-platform/4.5/backup_and_restore/backing-up-etcd.html#backing-up-etcd-data_backup-etcd
 /****************************/
 /**** Gracefull shutdown ****/
 https://docs.openshift.com/container-platform/4.5/backup_and_restore/graceful-cluster-shutdown.html#graceful-shutdown-cluster
+
 /****************************/
-/**** understanding-ephemeral-storage ****/
+/**** Allocated resource ****/
+/* system-reserved */
+// latest
+https://docs.okd.io/latest/nodes/nodes/nodes-nodes-resources-configuring.html
+// 4.5
+https://docs.openshift.com/container-platform/4.5/nodes/nodes/nodes-nodes-resources-configuring.html
+/***********************************************/
+/**** Understanding Local Ephemeral Storage ****/
 https://docs.openshift.com/container-platform/4.5/storage/understanding-ephemeral-storage.html
 https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#local-ephemeral-storage
 // az erőforrások leginkább felhasznált CPU, RAM-on kívül 
