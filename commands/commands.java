@@ -196,6 +196,9 @@ helm repo update helm --username oo --password AP3rd15kegHHQSagiuX4aLTuw4R
 /*****************************************************/
 /********************* OC ****************************/
 /*****************************************************/
+/***************************/
+/**** Install for Linux ****/
+sudo ln -s /opt/oc-4.7.1 /opt/oc
 /***************/
 /**** login ****/
 oc login https://api.okd.dorsum.intra:6443
@@ -259,6 +262,7 @@ oc annotate netnamespace otp-bundle netnamespace.network.openshift.io/multicast-
 /**** Remove evicted pods ****/
 https://sachsenhofer.io/how-to-remove-evicted-pods-in-kubernetes-openshift/
 oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | "oc delete pods \(.metadata.name) -n \(.metadata.namespace)"' | xargs -n 1 bash -c
+oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Running")) | xargs -n 1 bash -c
 /***********************************************************************/
 /********************************* UNIX ********************************/
 /***********************************************************************/
@@ -314,6 +318,8 @@ curl -X GET "http://dit19mpc014.dorsum.intra:9090/actuator" -H "Authorization: B
 curl -X POST http://erstelnx:7001/ihs-adapter/restapi/investmentaccountdetails/search?investmentAccountNumberType=IAIT_1&clientIdentifierType=CIT_1004&brand=5000&IMPgRcCnt=5&IMPgIndx=1
 /** WGET **/
 wget --header="X-JFrog-Art-Api: AKCp5fUDpkASSHdmtosbg8id1s7fnrLtqVq22J3BT1fBu58P3gF3ayfqYe53PqESr7WsZgvFg" http://artifactory-nxt.dorsum.eu/artifactory/devops-installer/oracle/jdk/jdk-8u261-linux-x64.tar.gz
+/** jq command **/
+https://www.baeldung.com/linux/jq-command-json
 /*****************************************************/
 /********************* NETRC *************************/
 /*****************************************************/
