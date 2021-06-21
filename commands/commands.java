@@ -279,7 +279,7 @@ tar -ztvf projects.tar.gz
 // service-ek listája
 systemctl list-units --type=service
 /** service **/
-journalctl -u docker.service
+journalctl -u -f -b docker.service
 // service fájl
 /etc/systemd/system/docker.service
 // service parancsok
