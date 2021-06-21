@@ -273,7 +273,8 @@ tar cvzf myImages-14-09-12.tar.gz /home/MyImages
 tar cvzf myImages-14-09-12.tgz /home/MyImages
 // Uncompress tar.gz Archive File
 tar -xvf myImages-14-09-12.tar.gz -C /path/to/dir/
-tar -Cxvf myImages-14-09-12.tar.gz /path/to/dir/
+// List tar.gz content
+tar -ztvf projects.tar.gz
 /** service parancsok **/
 // service-ek listája
 systemctl list-units --type=service
