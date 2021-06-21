@@ -266,6 +266,7 @@ oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=nul
 /***********************************************************************/
 /********************************* UNIX ********************************/
 /***********************************************************************/
+sudo su -
 /** zip - unzip with tar.gz **/
 // Create tar.gz Archive File
 tar cvzf myImages-14-09-12.tar.gz /home/MyImages
