@@ -407,6 +407,15 @@ FROM "AO_08B316_CLIENT_DETAIL" WHERE
 ("START_DATE" >= start AND "END_DATE" <= end) --3.
 
 /***********************************************************************/
+/********************************* JAD *********************************/
+/***********************************************************************/
+/** CLI **/
+http://www.javadecompilers.com/jad
+// command
+jad -o -r -sjava -dsrc ./**/*.class
+/** GUI **/
+https://github-releases.githubusercontent.com/32844456/f5daf300-272d-11ea-93dc-b7f9005f21d0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20210818%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210818T072439Z&X-Amz-Expires=300&X-Amz-Signature=21bd02bef81dd528a548cc7f03c20a2a3c47546673cc804e6e1a51cab82ffb0f&X-Amz-SignedHeaders=host&actor_id=53154839&key_id=0&repo_id=32844456&response-content-disposition=attachment%3B%20filename%3Djd-gui-windows-1.6.6.zip&response-content-type=application%2Foctet-stream
+/***********************************************************************/
 /********************************* JAVA ********************************/
 /***********************************************************************/
 /*************/
