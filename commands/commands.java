@@ -273,6 +273,7 @@ tar cvzf myImages-14-09-12.tar.gz /home/MyImages
 // OR
 tar cvzf myImages-14-09-12.tgz /home/MyImages
 // Uncompress tar.gz Archive File
+tar zxvf ./jdk-7u80-linux-x64.tar.gz --strip 1 -C /opt/oracle-7u80-jdk/ 
 tar -xvf myImages-14-09-12.tar.gz -C /path/to/dir/
 // List tar.gz content
 tar -ztvf projects.tar.gz
@@ -290,6 +291,22 @@ systemctl start docker.service
 /** user crontab **/
 https://www.geeksforgeeks.org/crontab-in-linux-with-examples/
 crontab -l
+//allow another user, add running user
+sudo nano /etc/cron.allow
+//added cron job another user
+crontab -u <user> -l
+crontab -u <user> -e
+//sample
+35 1 */1 * * /home/user/crontab-test.sh --cron >/dev/null 2>&1
+// cron log
+sudo less /var/log/cron
+/** vi usage **/
+vi <filename>
+press i or a
+ESC
+:wq
+// if no write in file
+:q!
 /** particiók mérete **/
 fdisk -l
 dmesg | grep -i sda
