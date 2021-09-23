@@ -121,7 +121,7 @@ git commit --allow-empty -m "test empty commit" && git push -u origin <branch>
 /*****************************************************/
 /**********************/
 /**** ETCD backup *****/
- https://docs.openshift.com/container-platform/4.5/backup_and_restore/backing-up-etcd.html#backing-up-etcd-data_backup-etcd
+https://docs.openshift.com/container-platform/4.5/backup_and_restore/backing-up-etcd.html#backing-up-etcd-data_backup-etcd
 /****************************/
 /**** Gracefull shutdown ****/
 https://docs.openshift.com/container-platform/4.5/backup_and_restore/graceful-cluster-shutdown.html#graceful-shutdown-cluster
