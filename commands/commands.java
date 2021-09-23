@@ -338,6 +338,18 @@ prstat -u <user>
 // fájlokba keresi a greppelt szöveket és kilistázza a fájlt és a sort, ahol ez található
 find ./ -name 'iq.log.2020-04-23*' -exec grep 'AppleNotificationHandler' {} \; -print
 find ./install/installation-guide -name assetbasket -exec ls -l {} ;\ 
+/** User and Group **/
+// Create group
+sudo groupadd docker
+// Add a user for group
+sudo usermod -aG docker $USER
+// list exists group
+compgen -g
+getent group		//more informations
+// List all members of a group
+grep -i --color 'ftponly' /etc/group
+// List all group of a user
+groups $USER
 
 /** CURL **/
 curl --insecure -i -d "clientIdentifierType=CIT_1004&brand=5000&IMPgIndx=1&IMPgRcCnt=500&clientId=22052&clientId=22345"  http://erstelnx:7001/ihs-adapter/restapi/clientlist/search
