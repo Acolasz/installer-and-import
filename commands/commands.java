@@ -266,7 +266,15 @@ oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=nul
 /***********************************************************************/
 /********************************* UNIX ********************************/
 /***********************************************************************/
+// change to "root" user
 sudo su -
+// List debian repositories
+man sources.list 
+/etc/apt/sources.list
+/etc/apt/sources.list.d/
+// list installed package
+sudo apt list --installed
+sudo dpkg-query -l
 /** zip - unzip with tar.gz **/
 // Create tar.gz Archive File
 tar cvzf myImages-14-09-12.tar.gz /home/MyImages
