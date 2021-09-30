@@ -292,6 +292,8 @@ systemctl list-units --type=service
 journalctl -u -f -b docker.service
 // service fájl
 /etc/systemd/system/docker.service
+// reload service update
+systemctl daemon-reload
 // service parancsok
 systemctl status docker.service
 systemctl stop docker.service
@@ -357,6 +359,8 @@ curl -X GET "http://dit19mpc014.dorsum.intra:9090/actuator" -H "Authorization: B
 curl -X POST http://erstelnx:7001/ihs-adapter/restapi/investmentaccountdetails/search?investmentAccountNumberType=IAIT_1&clientIdentifierType=CIT_1004&brand=5000&IMPgRcCnt=5&IMPgIndx=1
 /** WGET **/
 wget --header="X-JFrog-Art-Api: AKCp5fUDpkASSHdmtosbg8id1s7fnrLtqVq22J3BT1fBu58P3gF3ayfqYe53PqESr7WsZgvFg" http://artifactory-nxt.dorsum.eu/artifactory/devops-installer/oracle/jdk/jdk-8u261-linux-x64.tar.gz
+wget --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz?AuthParam=1626267242_9b298a76a4b214b888f121c3d85d98a3 -O jdk-7u80-linux-x64.tar.gz 
+wget https://archive.apache.org/dist/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz -O apache-maven-3.3.3-bin.tar.gz 
 /** jq command **/
 https://www.baeldung.com/linux/jq-command-json
 /*****************************************************/
@@ -477,13 +481,6 @@ d:\Portable\Java\jdk1.6.0_24\bin\wsimport.exe -p eu.dorsum.erste.cwa.web.filenet
 d:\Portable\Java\jdk1.6.0_24\bin\wsimport.exe https://_clavis_filenet_ws:12345678@ebhfat.erste.hu:476/fnapiws/StoreV1?wsdl
 /***********************************************************************/
 /***********************************************************************/
-/********************************* JENKINS *****************************/
-/***********************************************************************/
-/** Build number increase **/
-/***************************/
-Jenkins.instance.getItemByFullName("projectName/repositoryName/release%2F1.0").updateNextBuildNumber(2)
-Jenkins.instance.getItemByFullName("projectName/repositoryName/master").updateNextBuildNumber(5)
-/***********************************************************************/
 /********************************* WINDOWS *****************************/
 /***********************************************************************/
 /*****************************************************/
@@ -516,11 +513,26 @@ dupla klikk a mentett fájlon
 
 
 
+/***********************************************************************/
+/********************************* CI SYSTEMS **************************/
+/***********************************************************************/
+/***********************************************************************/
+/********************************* JENKINS *****************************/
+/***********************************************************************/
+/** Build number increase **/
+/***************************/
+Jenkins.instance.getItemByFullName("projectName/repositoryName/release%2F1.0").updateNextBuildNumber(2)
+Jenkins.instance.getItemByFullName("projectName/repositoryName/master").updateNextBuildNumber(5)
 
-
-
-
-
+/***********************************************************************/
+/********************************* JFROG *******************************/
+/***********************************************************************/
+/*****************************************************/
+/********************* ARTIFACTORY *******************/
+/*****************************************************/
+/** 	Migration		  **/
+/***************************/
+https://jfrog.com/knowledge-base/what-is-the-best-way-to-migrate-a-large-artifactory-instance-with-minimal-downtime/
 
 
 
