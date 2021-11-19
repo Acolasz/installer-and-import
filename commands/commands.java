@@ -303,6 +303,8 @@ https://www.geeksforgeeks.org/crontab-in-linux-with-examples/
 crontab -l
 //allow another user, add running user
 sudo nano /etc/cron.allow
+// or
+sudo nano /etc/cron.d/cron.allow
 //added cron job another user
 crontab -u <user> -l
 crontab -u <user> -e
@@ -310,6 +312,8 @@ crontab -u <user> -e
 35 1 */1 * * /home/user/crontab-test.sh --cron >/dev/null 2>&1
 // cron log
 sudo less /var/log/cron
+// or
+sudo less /var/log/syslog
 /** vi usage **/
 vi <filename>
 press i or a
