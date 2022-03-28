@@ -416,6 +416,29 @@ sudo docker tag artifactory-nxt.dorsum.eu/docker/path:latest nexus-registry.dors
 sudo docker push nexus-registry.dorsum.eu/docker-public/path:latest	
 
 /***********************************************************************/
+/********************************* HEROKU ******************************/
+/***********************************************************************/
+/********************* Heroku CLI ********************/
+/*****************************************************/
+/** Download heroku CLI **/
+curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+heroku -v
+heroku --help
+//heroku/7.59.4 linux-x64 node-v12.21.0
+/** Heroku login **/
+heroku login
+//heroku: Press any key to open up the browser to login or q to exit:
+//press any key
+//up browser and login
+/** Create app with name **/
+heroku create <app_name>
+heroku stack:set container --app <app_name>
+/** Create Heroku addons **/
+//default postgresql version: 12
+heroku addons:create heroku-postgresql:hobby-dev
+heroku addons:create heroku-postgresql:hobby-dev --version=13 --name=postgresql-<app_name>-db
+heroku pg:info
+/***********************************************************************/
 /********************************* AZURE DEVOPS ************************/
 /***********************************************************************/
 /********************* Rest API **********************/
