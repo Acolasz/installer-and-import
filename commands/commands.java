@@ -447,6 +447,12 @@ mvn deploy:deploy-file -Dpackaging="pom" -DrepositoryId="drsm" -Durl="https://pk
 /** Sonar **/
 mvn sonar:sonar -Dsonar.projectKey=eu.dorsum.otp.java.clavis-iq-otp:clavis-iq-otp:int -Dsonar.host.url=https://sonar.dorsum.eu -Dsonar.login=89ebc802c6592e7ba3c2b994e21473b32305d5ce
 
+/** plugin help / descriptor **/
+mvn help:describe -Dplugin=eu.dorsum.cm.java.git-changelog:git-changelog-maven-plugin
+mvn git-changelog-maven-plugin:help -Ddetail=true
+mvn eu.dorsum.cm.java.git-changelog:git-changelog-maven-plugin:help -Ddetail=true
+mvn git-changelog-maven-plugin:help -Ddetail=true -Dgoal=git-changelog
+mvn eu.dorsum.cm.java.git-changelog:git-changelog-maven-plugin:help -Ddetail=true -Dgoal=git-changelog
 /***********************************************************************/
 /********************************* SQL *********************************/
 /***********************************************************************/
