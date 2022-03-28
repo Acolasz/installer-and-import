@@ -271,6 +271,10 @@ oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=nul
 /***********************************************************************/
 /********************************* UNIX ********************************/
 /***********************************************************************/
+// change file/folder owner and group
+chown -R <user> /path/to/
+chown -R <user>:<group> /path/to/
+chgrp -R <group> /path/to/
 // change to "root" user
 sudo su -
 // List debian repositories
