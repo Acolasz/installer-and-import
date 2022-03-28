@@ -346,6 +346,7 @@ ps auxww
 /** használt portok és ipcímek **/
 netstat -anp
 netstat -aun
+netstat -tulpn
 /** CPU, memory usage **/
 prstat -t
 // adott userrel indított processeket mutatja
