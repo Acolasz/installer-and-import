@@ -295,6 +295,9 @@ tar -xvf myImages-14-09-12.tar.gz -C /path/to/dir/
 // List tar.gz content
 tar -ztvf projects.tar.gz
 /** service parancsok **/
+/** 
+ * https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units 
+ */
 // service-ek listája
 systemctl list-units --type=service
 /** service **/
@@ -307,6 +310,11 @@ systemctl daemon-reload
 systemctl status docker.service
 systemctl stop docker.service
 systemctl start docker.service
+// check status
+systemctl is-active application.service
+systemctl is-enabled application.service
+// show service content
+systemctl cat atd.service
 /** user crontab **/
 https://www.geeksforgeeks.org/crontab-in-linux-with-examples/
 crontab -l
