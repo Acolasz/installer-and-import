@@ -307,6 +307,8 @@ oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=nul
 /***********************************************************************/
 /********************************* UNIX ********************************/
 /***********************************************************************/
+// copy to two machine between
+scp -r /opt/keycloak sysadmin@192.168.15.21:/opt/
 // change file/folder owner and group
 chown -R <user> /path/to/
 chown -R <user>:<group> /path/to/
@@ -325,6 +327,9 @@ sudo dpkg-query -l
 tar cvzf myImages-14-09-12.tar.gz /home/MyImages
 // OR
 tar cvzf myImages-14-09-12.tgz /home/MyImages
+// OR
+tar -xvf myImages-14-09-12.tgz file1 file2 file3 dir1 --strip 1 -C /path/to/dir/
+tar zxvf myImages-14-09-12.tgz file1 file2 file3 dir1 --strip 1 -C /path/to/dir/
 // Uncompress tar.gz Archive File
 tar zxvf ./jdk-7u80-linux-x64.tar.gz --strip 1 -C /opt/oracle-7u80-jdk/ 
 tar -xvf myImages-14-09-12.tar.gz -C /path/to/dir/
@@ -337,7 +342,8 @@ tar -ztvf projects.tar.gz
 // service-ek listája
 systemctl list-units --type=service
 /** service **/
-journalctl -u -f -b docker.service
+journalctl -xe
+journalctl -u jenkins.service
 // service fájl
 /etc/systemd/system/docker.service
 // reload service update
@@ -382,6 +388,7 @@ lsblk
 /** könyvtárak méretét listázzuk **/
 df -h
 du -sh /var
+du -shc /var
 //du -shc /var/* 
 du -h --max-depth=1 /var
 /** futó processeket **/
@@ -401,8 +408,10 @@ find ./install/installation-guide -name assetbasket -exec ls -l {} ;\
 /** User and Group **/
 // Create group
 sudo groupadd docker
-// Add a user for group
+// Add a user from group
 sudo usermod -aG docker $USER
+// Remove a user from group
+sudo gpasswd -d $USER docker
 // list exists group
 compgen -g
 getent group		//more informations
