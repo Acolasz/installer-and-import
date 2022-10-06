@@ -585,12 +585,45 @@ Jenkins.instance.getItemByFullName("projectName/repositoryName/master").updateNe
 /***************************/
 https://jfrog.com/knowledge-base/what-is-the-best-way-to-migrate-a-large-artifactory-instance-with-minimal-downtime/
 
-
-
-
-
-
-
-
+/***********************************************************************/
+/********************************* DATABASES ***************************/
+/***********************************************************************/
+/***********************************************************************/
+/********************************* POSTGRESQL **************************/
+/***********************************************************************/
+// bash command: $
+/**************************************/
+/** Create OWNER (User) AND DATABASE **/
+$createuser <new_user_name>;
+$psql
+	ALTER USER <new_user_name> WITH ENCRYPTED PASSWORD <user_name_password>;
+	CREATE DATABASE <new_database> OWNER <new_user_name>;
+	GRANT ALL PRIVILEGES ON DATABASE <new_database> TO <new_user_name>;
+/** Drop user and remove ROLE **/
+$dropuser <user_name_1> -e;
+$psql
+	DROP OWNED BY <user_name_1>;
+	DROP USER IF EXISTS <user_name_1>, <user_name_2>;
+	exit;
+/***********************/
+/** List of databases **/
+$psql
+	\l
+/*********************/
+/** Change database **/
+$psql
+	\c <new_database>
+// for example:
+postgres=# \c <new_database>
+You are now connected to database "<new_database>" as user "postgres".
+<new_database>=#
+/*****************************************/
+/** List of relations of <new_database> **/
+// 1.
+$psql
+	\dt
+// 2.
+$psql
+	SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
 
 
