@@ -68,6 +68,23 @@ yarn add package-name@1.2.3
 git config --global user.email "oo@dorsum.eu"
 git config --global user.name "Olivér"
 /*****************************************************/
+/********************* Verbose ***********************/
+/*****************************************************/
+# Linux
+export GIT_TRACE_PACKET=1
+export GIT_TRACE=1
+export GIT_CURL_VERBOSE=1
+/*****************************************************/
+/********************* Push **************************/
+/*****************************************************/
+// error: RPC failed; HTTP 500 curl 22 The requested URL returned error: 500
+// send-pack: unexpected disconnect while reading sideband packet
+// Writing objects: 100% (50/50), 77.67 MiB | 25.22 MiB/s, done.
+// Total 50 (delta 7), reused 0 (delta 0), pack-reused 0
+// fatal: the remote end hung up unexpectedly
+git config --global http.postBuffer 500M
+git config --global http.maxRequestBuffer 100M
+/*****************************************************/
 /********************* Copy **************************/
 /*****************************************************/
 git checkout <otherbranch> <path/to/file>
