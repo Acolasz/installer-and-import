@@ -550,14 +550,15 @@ mvn eu.dorsum.cm.java.git-changelog:git-changelog-maven-plugin:help -Ddetail=tru
 /***********************/
 										S----E 3.
 			S---------------E 2.	
-					[S]----------------------------[E]
+					[START]----------------------------[END]
 												S----------------E 1.
+S:= "START_DATE"
+E:= "END_DATE"
 SELECT *
 FROM "AO_08B316_CLIENT_DETAIL" WHERE
-("END_DATE" >= start AND "START_DATE" <= end) OR --2.
-("START_DATE" <= end AND "END_DATE" >= start) OR --1.
-("START_DATE" >= start AND "END_DATE" <= end) --3.
-
+("START_DATE" <= [END] AND "END_DATE" >= [START]) OR --1.
+("END_DATE" >= [START] AND "START_DATE" <= [END]) OR --2.
+("START_DATE" >= [START] AND "END_DATE" <= [END]) --3.
 /***********************************************************************/
 /********************************* JAD *********************************/
 /***********************************************************************/
