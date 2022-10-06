@@ -437,6 +437,12 @@ wget https://archive.apache.org/dist/maven/maven-3/3.3.3/binaries/apache-maven-3
 /** jq command **/
 https://www.baeldung.com/linux/jq-command-json
 /*****************************************************/
+/********************* BASH **************************/
+/*****************************************************/
+/*********************************/
+/**** Paraméter helyettesítés ****/
+https://www.cyberciti.biz/tips/bash-shell-parameter-substitution-2.html
+/*****************************************************/
 /********************* NETRC *************************/
 /*****************************************************/
 /** file neve **/
