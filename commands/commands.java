@@ -128,7 +128,7 @@ rm -rf .git/modules/installation-guide/
 git submodule deinit ./install/clavis-nxt-installation-guide-otp/
 git rm ./install/clavis-nxt-installation-guide-otp/
 // remote commit !!
-git commit-m "Removed submodule "
+git commit -m "Removed submodule "
 rm -rf .git/modules/installation-guide/
 /*****************************************************/
 /********************* RESET *************************/
@@ -154,6 +154,12 @@ git revert <commit_hash> -m 1
 /**********************/
 /**** Empty commit ****/
 git commit --allow-empty -m "test empty commit" && git push -u origin <branch>
+/***************************/
+/**** Windows credetial ****/
+// remove: 
+// - passwd file ins sourcetre
+// - windows credentials bitbucket.dorsum.eu
+git config --global credential.helperselector.selected wincred
 /***********************************************************************/
 /********************************* OPENSHIFT ***************************/
 /***********************************************************************/
