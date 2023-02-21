@@ -356,6 +356,9 @@ apt list git
 reboot
 // server time of up
 uptime
+/* SSH */
+ssh-keygen -b 2048 -t rsa -C johndoe@kukutyin.hu
+/* copy command */
 // copy to two machine between
 scp -r /opt/keycloak sysadmin@192.168.15.21:/opt/
 // change file/folder owner and group
