@@ -619,6 +619,10 @@ mvn git-changelog-maven-plugin:help -Ddetail=true
 mvn eu.dorsum.cm.java.git-changelog:git-changelog-maven-plugin:help -Ddetail=true
 mvn git-changelog-maven-plugin:help -Ddetail=true -Dgoal=git-changelog
 mvn eu.dorsum.cm.java.git-changelog:git-changelog-maven-plugin:help -Ddetail=true -Dgoal=git-changelog
+
+/** effective-pom **/
+// pass properties value and write content all pom.xml
+mvn help:effective-pom
 /***********************************************************************/
 /********************************* SQL *********************************/
 /***********************************************************************/
