@@ -545,12 +545,19 @@ saját linux-unkon az /etc/resolv.conf fájlt kell felülírni
 /*****************************************************/
 /** PsAdmin **/
 docker run --rm -p 7444:80 -e PGADMIN_DEFAULT_EMAIL=acolasz@postgres.local -e PGADMIN_DEFAULT_PASSWORD=acolasz --name pgadmin-1 -d dpage/pgadmin4
+/********************* Image to/from tar *********************/
+/*************************************************************/
+// https://docs.docker.com/engine/reference/commandline/load/
+docker load --input fedora.tar
+docker load < busybox.tar.gz
+// https://docs.docker.com/engine/reference/commandline/save/
+docker save busybox > busybox.tar
+docker save --output busybox.tar busybox
 /********************* Image Tag *********************/
 /*****************************************************/
 sudo docker pull artifactory-nxt.dorsum.eu/docker/path:latest
 sudo docker tag artifactory-nxt.dorsum.eu/docker/path:latest nexus-registry.dorsum.eu/docker-public/path:latest	
-sudo docker push nexus-registry.dorsum.eu/docker-public/path:latest	
-
+sudo docker push nexus-registry.dorsum.eu/docker-public/path:latest
 /***********************************************************************/
 /********************************* HEROKU ******************************/
 /***********************************************************************/
