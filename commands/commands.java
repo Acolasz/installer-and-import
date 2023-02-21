@@ -373,6 +373,9 @@ chgrp -R <group> /path/to/
 // change to "root" user
 sudo su -
 // List debian repositories
+/** Related article:
+ * https://difyel.com/linux/usr/bin/apt-key/
+ */
 man sources.list 
 /etc/apt/sources.list
 /etc/apt/sources.list.d/
@@ -389,11 +392,13 @@ sudo dpkg-query -l
 tar cvzf myImages-14-09-12.tar.gz /home/MyImages
 // OR
 tar cvzf myImages-14-09-12.tgz /home/MyImages
+tar -czvf pgsql.tar.gz /home/MyImages/file.txt
 // OR
 tar -xvf myImages-14-09-12.tgz file1 file2 file3 dir1 --strip 1 -C /path/to/dir/
 tar zxvf myImages-14-09-12.tgz file1 file2 file3 dir1 --strip 1 -C /path/to/dir/
 // Uncompress tar.gz Archive File
 tar zxvf ./jdk-7u80-linux-x64.tar.gz --strip 1 -C /opt/oracle-7u80-jdk/ 
+tar -xzvf ./pgsql.tar.gz -C /opt/oo
 tar -xvf myImages-14-09-12.tar.gz -C /path/to/dir/
 // List tar.gz content
 tar -ztvf projects.tar.gz
