@@ -361,6 +361,11 @@ ssh-keygen -b 2048 -t rsa -C johndoe@kukutyin.hu
 /* copy command */
 // copy to two machine between
 scp -r /opt/keycloak sysadmin@192.168.15.21:/opt/
+// copy with folders
+cp -R /opt/jenkins-prd/* /opt/jenkins-tst/
+// better copy with folders and hidden files
+cp -rT /opt/jenkins-prd /opt/jenkins-tst
+/* copy command */
 // change file/folder owner and group
 chown -R <user> /path/to/
 chown -R <user>:<group> /path/to/
