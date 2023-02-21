@@ -161,6 +161,13 @@ git commit --allow-empty -m "test empty commit" && git push -u origin <branch>
 // - passwd file ins sourcetre
 // - windows credentials bitbucket.dorsum.eu
 git config --global credential.helperselector.selected wincred
+/*********************/
+/**** Remote list ****/
+git remote -v
+/***************************/
+/**** Update .git cache ****/
+git rm -r --cached .
+git add .
 /***********************************************************************/
 /********************************* OPENSHIFT ***************************/
 /***********************************************************************/
