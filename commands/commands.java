@@ -726,6 +726,16 @@ Jenkins.instance.getItemByFullName("projectName/repositoryName/release%2F1.0").u
 Jenkins.instance.getItemByFullName("projectName/repositoryName/master").updateNextBuildNumber(5)
 
 /***********************************************************************/
+/********************************* SonarQube ***************************/
+/***********************************************************************/
+/** The admin user password change **/
+user="admin"
+new_salt=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 40 ; echo '')
+new_password="NEW-PASSWORD"
+salted_password=$(echo -n "--${new_salt}--${new_password}--" | sha1sum | awk '{print $1}')
+psql --username=sonar_tst sonarqube -c "UPDATE users SET crypted_password='$salted_password', salt='$new_salt', hash_method='SHA1' WHERE login='$user';"
+
+/***********************************************************************/
 /********************************* JFROG *******************************/
 /***********************************************************************/
 /*****************************************************/
