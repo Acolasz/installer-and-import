@@ -533,6 +533,10 @@ machine git.heroku.com
 nohup bash -c "sudo dockerd 2>&1 &"
 /********************* Commands **********************/
 /*****************************************************/
+/** Format **/
+docker ps --format "{{.ID}} {{.Ports}} {{.Status}} {{.Names}}"
+docker images --format="{{.ID}}"
+/** system **/
 docker system prune --force
 docker rmi $(docker images --format="{{.ID}}")
 /********************* Linux-on **********************/
