@@ -263,7 +263,7 @@ https://oauth-openshift.apps.okd.dorsum.intra/oauth/token/request
 oc login --token=<ADuser_token> --server=https://api.okd.dorsum.intra:6443
 
 /*****************/
-/**** project ****/
+/**** Project ****/
 oc new-project clavisnxt-bundle-otp --display-name="clavisnxt-bundle-otp"
 //List projects
 oc projects
@@ -275,7 +275,11 @@ oc project
 oc project -q
 //Delete project
 oc delete project clavisnxt-bundle-otp
-
+/****************************/
+/**** Project permission ****/
+// for group
+oc adm policy add-role-to-group -h
+oc adm policy add-role-to-group <role> <group_name> --rolebinding-name='<rolebinding_name>' -n <project>
 /**********************/
 /**** Image-Stream ****/
 oc import-image <image_stream-name>:version --from=<image_from_registry> --confirm --insecure=true
@@ -311,13 +315,35 @@ spec:
 						name: service-properties
 /**********************/
 /**** UDP protokol ****/
-https://docs.openshift.com/container-platform/4.4/networking/openshift_sdn/enabling-multicast.html
+/* @see https://docs.openshift.com/container-platform/4.4/networking/openshift_sdn/enabling-multicast.html */
 oc annotate netnamespace otp-bundle netnamespace.network.openshift.io/multicast-enabled=true
 /*****************************/
 /**** Remove evicted pods ****/
-https://sachsenhofer.io/how-to-remove-evicted-pods-in-kubernetes-openshift/
+/* @see https://sachsenhofer.io/how-to-remove-evicted-pods-in-kubernetes-openshift/ */
 oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | "oc delete pods \(.metadata.name) -n \(.metadata.namespace)"' | xargs -n 1 bash -c
 oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Running")) | xargs -n 1 bash -c
+/*****************************/
+/**** Delete Node steps ******/
+/* @see https://www.techbeatly.com/openshift-cluster-how-to-drain-or-evacuate-a-node-for-maintenance/ */
+sudo podman images
+oc get nodes | grep compute-102
+// Mark as Unschedulable
+oc adm cordon okd-w3.okd.dorsum.intra
+// Mark as Schedulable
+oc adm uncordon okd-w3.okd.dorsum.intra
+// drain node
+oc adm drain okd-w3.okd.dorsum.intra
+oc adm drain okd-w3.okd.dorsum.intra --delete-local-data=false --ignore-daemonsets=false  --grace-period=120 --force=true
+oc adm drain okd-w3.okd.dorsum.intra --delete-local-data=false --ignore-daemonsets=false  --grace-period=120 --pod-selector='' --force=true
+oc adm drain okd-w3.okd.dorsum.intra --delete-local-data=false --ignore-daemonsets=false  --grace-period=120 --selector='' --force=true
+// get/describe node
+oc get node okd-w3.okd.dorsum.intra
+oc describe node okd-w3.okd.dorsum.intra
+// top node
+oc adm top nodes
+/*****************************/
+/**** open Node OC command ***/
+oc debug node/okd-w1.okd.dorsum.intra
 /***********************************************************************/
 /********************************* UNIX ********************************/
 /***********************************************************************/
