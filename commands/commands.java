@@ -411,6 +411,7 @@ systemctl list-units --type=service
 /** service **/
 journalctl -xe
 journalctl -u jenkins.service
+journalctl --unit jenkins --since  "2016-10-30 18:17:16"
 // service fájl
 /etc/systemd/system/docker.service
 // reload service update
