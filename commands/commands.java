@@ -347,6 +347,15 @@ oc debug node/okd-w1.okd.dorsum.intra
 /***********************************************************************/
 /********************************* UNIX ********************************/
 /***********************************************************************/
+/** pacakge update **/
+apt --only-upgrade install git
+apt --only-upgrade install git-man
+// Check
+apt list git
+/* server reboot */
+reboot
+// server time of up
+uptime
 // copy to two machine between
 scp -r /opt/keycloak sysadmin@192.168.15.21:/opt/
 // change file/folder owner and group
@@ -361,6 +370,11 @@ man sources.list
 /etc/apt/sources.list.d/
 // list installed package
 sudo apt list --installed
+// trusted package
+/etc/apt/trusted.gpg.d
+/* apt-key */
+apt-key list
+
 sudo dpkg-query -l
 /** zip - unzip with tar.gz **/
 // Create tar.gz Archive File
