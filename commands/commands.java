@@ -78,6 +78,7 @@ A yarn cacheelése is függ a yarn verziójától, ezzel együtt a cache mappa i
 14:06:55  verbose 0.396 Checking for configuration file "/var/.yarnrc".
 /** Global install to NodeJS **/
 npm install -g yarn
+npm install -g yarn@1.22.5
 /** Add package **/
 https://classic.yarnpkg.com/en/docs/cli/add/
 yarn add package-name@1.2.3
