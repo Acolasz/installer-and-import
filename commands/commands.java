@@ -487,7 +487,12 @@ getent group		//more informations
 grep -i --color 'ftponly' /etc/group
 // List all group of a user
 groups $USER
-
+/** sysctl **/
+sysctl -w vm.max_map_count=262144
+// OR
+/etc/sysctl.conf
+/** facl **/
+setfacl -m u:postgres:rwx /var/log/postgresql/
 /** CURL **/
 curl --insecure -i -d "clientIdentifierType=CIT_1004&brand=5000&IMPgIndx=1&IMPgRcCnt=500&clientId=22052&clientId=22345"  http://erstelnx:7001/ihs-adapter/restapi/clientlist/search
 curl -X GET "http://dit19mpc014.dorsum.intra:9090/actuator" -H "Authorization: Basic X2NsYXZpc19wYl93czpfY2xhdmlzX3BiX3dz"
