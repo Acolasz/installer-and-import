@@ -690,6 +690,16 @@ machine git.heroku.com
 /********************* Total Commander ***************/
 /*****************************************************/
 http://dirty-joe.com/
+/*************/
+/** Feature **/
+/*************/
+/** Colors **/
+// https://ghisler.ch/board/viewtopic.php?t=22055
+// Added new lines to APPDATA/Roaming/GHISLER/wincmd.ini
+[Colors]
+RedirectSection=%USERPROFILE%\Portable\tcm-plugins\ini\colors.ini
+// Create file
+%USERPROFILE%\Portable\tcm-plugins\ini\colors.ini
 /*****************************************************/
 /********************* PUTTY *************************/
 /*****************************************************/
