@@ -641,6 +641,10 @@ curl https://$B64_PAT:dev.azure.com/{organization}/_apis/build-release/builds
 /*****************************************************/
 https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
 /*****************************************************/
+/** only test **/
+mvn clean test -Dtest="DummySpringbootAppJPATests"
+// with parent and own dependency module
+mvn --projects dummy-springboot-app-service --also-make clean install -Dtest="DummySpringbootAppJPATests" -DfailIfNoTests=false
 /** Skip test **/
 // Plugin maven-surefire-plugin
 mvn -U clean package -DskipTests
