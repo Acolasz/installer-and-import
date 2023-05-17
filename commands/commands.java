@@ -757,6 +757,11 @@ RedirectSection=%USERPROFILE%\Portable\tcm-plugins\ini\colors.ini
 // Create file
 %USERPROFILE%\Portable\tcm-plugins\ini\colors.ini
 /*****************************************************/
+/********************* POSTMAN *************************/
+/*****************************************************/
+/** ShortCut **/
+https://elispostman.github.io/docs/v5/postman/launching_postman/navigating_postman
+/*****************************************************/
 /********************* PUTTY *************************/
 /*****************************************************/
 /** export **/
