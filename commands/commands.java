@@ -386,6 +386,7 @@ apt --only-upgrade install git
 apt --only-upgrade install git-man
 // Check
 apt list git
+apt list --installed git
 /* server reboot */
 reboot
 // server time of up
@@ -493,6 +494,7 @@ du -sh /var
 du -shc /var
 //du -shc /var/* 
 du -h --max-depth=1 /var
+du -b --max-depth=1 /var
 /** futó processeket **/
 ps -ef
 ps auxww
@@ -514,6 +516,8 @@ sudo groupadd docker
 sudo usermod -aG docker $USER
 // Remove a user from group
 sudo gpasswd -d $USER docker
+// To activate the changes to group/s
+newgrp docker
 // list exists group
 compgen -g
 getent group		//more informations
