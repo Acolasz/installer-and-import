@@ -285,6 +285,23 @@ oc project
 oc project -q
 //Delete project
 oc delete project clavisnxt-bundle-otp
+/************************/
+/**** ServiceAccount ****/
+// create SA
+oc create serviceaccount jenkins-tst -n <namespace>
+// added permission to SA
+oc adm policy add-cluster-role-to-user edit system:serviceaccount:default:jenkins-tst
+// get SA
+oc get sa
+oc get serviceaccount
+oc get sa --all-namespaces
+oc get serviceaccount --all-namespaces
+// desccribe SA
+oc describe sa robot
+oc describe serviceaccount robot
+// delete SA
+oc delete sa robot
+oc delete serviceaccount robot
 /****************************/
 /**** Project permission ****/
 // for group
