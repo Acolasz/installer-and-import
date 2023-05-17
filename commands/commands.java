@@ -368,6 +368,13 @@ oc get node okd-w3.okd.dorsum.intra
 oc describe node okd-w3.okd.dorsum.intra
 // top node
 oc adm top nodes
+/*************************/
+/** Evicted pods delete **/
+// https://sachsenhofer.io/how-to-remove-evicted-pods-in-kubernetes-openshift/
+// all namespace
+oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | "oc delete pods \(.metadata.name) -n \(.metadata.namespace)"' | xargs -n 1 bash -c
+// custome namespace
+oc get pods -n <namespace> -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | "oc delete pods \(.metadata.name) -n \(.metadata.namespace)"' | xargs -n 1 bash -c
 /*****************************/
 /**** open Node OC command ***/
 oc debug node/okd-w1.okd.dorsum.intra
