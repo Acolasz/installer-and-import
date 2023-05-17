@@ -172,6 +172,12 @@ git remote -v
 /**** Update .git cache ****/
 git rm -r --cached .
 git add .
+/*******************/
+/** empty objects **/
+https://stackoverflow.com/questions/11706215/how-can-i-fix-the-git-error-object-file-is-empty
+git fsck --full
+rm .git/objects/8b/61d0135d3195966b443f6c73fb68466264c68e
+git update-ref HEAD 9f0abf890b113a287e10d56b66dbab66adc1662d
 /***********************************************************************/
 /********************************* OPENSHIFT ***************************/
 /***********************************************************************/
