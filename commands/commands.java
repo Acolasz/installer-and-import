@@ -60,6 +60,10 @@ yarn install v1.22.10
 /*****************************************************/
 /********************* Yarn **************************/
 /*****************************************************/
+/** Artifactory auth **/
+#User specific npm registry settings
+curl -u ${artifactory_user}:${artifactory_password} ${artifactory_url}/api/npm/auth >>.npmrc
+/*****/
 https://www.whitesourcesoftware.com/free-developer-tools/blog/npm-vs-yarn-which-should-you-choose/
 /** Cache **/
 https://classic.yarnpkg.com/en/docs/cli/cache/
