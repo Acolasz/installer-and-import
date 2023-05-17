@@ -600,6 +600,9 @@ docker save --output busybox.tar busybox
 sudo docker pull artifactory-nxt.dorsum.eu/docker/path:latest
 sudo docker tag artifactory-nxt.dorsum.eu/docker/path:latest nexus-registry.dorsum.eu/docker-public/path:latest	
 sudo docker push nexus-registry.dorsum.eu/docker-public/path:latest
+/*********************  Remote docker deamon setup ***/
+/*****************************************************/
+echo "export DOCKER_HOST=tcp://10.120.10.210:2375" >> ~/.bashrc && source ~/.bashrc
 /***********************************************************************/
 /********************************* HEROKU ******************************/
 /***********************************************************************/
