@@ -311,6 +311,8 @@ Filesystem     Type  Size  Used Avail Use% Mounted on
 /*****************************************************/
 /********************* HELM **************************/
 /*****************************************************/
+helm repo add helm <url> --username <user> --password <userpassword>
+helm pull helm/<chartname>
 helm lint -f ./default-simple-service-override.yaml.yaml ./default-simple-service
 helm template -f ./default-simple-service-override.yaml.yaml ./default-simple-service
 helm package ./default-simple-service
