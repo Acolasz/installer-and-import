@@ -290,7 +290,17 @@ helm template -f ./default-simple-service-override.yaml.yaml ./default-simple-se
 helm package ./default-simple-service
 helm install -f myvalues.yaml -f override.yaml  myredis ./redis
 helm install wmp-srv-sarsn -f ./default-simple-service-override.yaml.yaml ./default-simple-service-1.0.0.tgz
-helm repo update helm --username oo --password AP3rd15kegHHQSagiuX4aLTuw4R
+helm list
+helm repo update helm
+helm search repo helm
+helm show all
+helm registry login https://artifactory.dorsum.eu/artifactory/helm-manual-local/ --username oo --password AKCp8k7uYNRRWDsRniSMzBuyTkKsdcEwCkunLaoVb1gu5Vwj67oogcKnMBf24MHAxwTEL6x2f
+// artifactory plugin install and usage
+helm repo add helm-manual-local https://artifactory.dorsum.eu/artifactory/helm-manual-local/ --username oo --password AKCp8k7uYNRRWDsRniSMzBuyTkKsdcEwCkunLaoVb1gu5Vwj67oogcKnMBf24MHAxwTEL6x2f
+helm repo add helm-manual-local https://artifactory.dorsum.eu/artifactory/helm-manual-local/ --username oo --password AKCp8k7uYNRRWDsRniSMzBuyTkKsdcEwCkunLaoVb1gu5Vwj67oogcKnMBf24MHAxwTEL6x2f
+helm plugin install https://github.com/belitre/helm-push-artifactory-plugin --version 1.0.1
+helm plugin list
+helm push-artifactory java-springboot-1.0.0.tgz helm-manual-local
 /*****************************************************/
 /********************* OC ****************************/
 /*****************************************************/
