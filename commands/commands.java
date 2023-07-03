@@ -475,6 +475,15 @@ oc debug node/worker3
 oc debug node/worker3
 #chroot /host
 #sudo su
+/*************************/
+// https://access.redhat.com/webassets/avalon/j/includes/session/scribe/?redirectTo=https%3A%2F%2Faccess.redhat.com%2Fsolutions%2F5610941
+// https://access.redhat.com/solutions/6738851
+// Manually clearing unnecessary container resources
+sudo crictl ps -a | grep -i exited
+for id in $(sudo crictl ps -a | grep -i exited | awk '{print $1}') ; do sudo crictl rm $id ; done
+crictl rmp `crictl pods -q -s NotReady`
+crictl rm `crictl ps -q --state Exited`
+sudo crictl rmi --prune
 /*****************************/
 /**** open Node OC command ***/
 oc debug node/okd-w1.okd.dorsum.intra
