@@ -492,8 +492,35 @@ sudo crictl rmi --prune
 oc adm node-logs worker3 -u kubelet
 https://faun.pub/node-kubelet-troubleshooting-for-openshift-10e7009af9c4
 /*****************************/
-/**** open Node OC command ***/
-oc debug node/okd-w1.okd.dorsum.intra
+/**** LDAP Group sync ********/
+oc adm groups sync --sync-config=/etc/config/ldap-group-sync.yaml --confirm
+oc adm groups sync --sync-config=/etc/config/ldap-group-sync.yaml --confirm --loglevel=10
+ldap-group-sync.yaml
+kind: LDAPSyncConfig
+    apiVersion: v1
+    url: ldap://192.168.1.1:443
+    insecure: true
+    bindDN: <tech-user>
+    bindPassword: <tech-user-passwd>
+    rfc2307:
+        groupsQuery:
+            baseDN: "OU=<group>,OU=DomainGroups,DC=domain,DC=valami"
+            scope: sub
+            filter: "(objectClass=group)"
+            derefAliases: never
+            pageSize: 0
+        groupUIDAttribute: dn
+        groupNameAttributes: [ cn ]
+        groupMembershipAttributes: [ member ]
+        usersQuery:
+            baseDN: "OU=<group>,OU=DomainUsers,DC=domain,DC=valami"
+            scope: sub
+            derefAliases: never      
+            pageSize: 0
+        userUIDAttribute: dn
+        userNameAttributes: [ sAMAccountName ]
+        tolerateMemberNotFoundErrors: true
+        tolerateMemberOutOfScopeErrors: true
 /***********************************************************************/
 /********************************* ANSIBLE *****************************/
 /***********************************************************************/
