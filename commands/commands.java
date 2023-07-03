@@ -45,18 +45,33 @@ nvm use 10.15.1
 /** Transitive Dependencies **/
 https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Transitive_Dependencies
 /*****************************************************/
-/********************* .NPMRC ************************/
+/********************* NPM ***************************/
 /*****************************************************/
-/** locations .npmrc **/
-yarn install v1.22.10
-14:06:55  verbose 0.389 Checking for configuration file "/var/jenkins-nxt-prd/workspace/MYW_mw-web_diofa_1.70.1-nxt-test/.npmrc".
-14:06:55  verbose 0.39 Checking for configuration file "/home/DORSUM/jenkins-prd/.npmrc".
-14:06:55  verbose 0.39 Found configuration file "/home/DORSUM/jenkins-prd/.npmrc".
-14:06:55  verbose 0.39 Checking for configuration file "/opt/nodejs-8.11.3/etc/npmrc".
-14:06:55  verbose 0.391 Checking for configuration file "/var/jenkins-nxt-prd/workspace/MYW_mw-web_diofa_1.70.1-nxt-test/.npmrc".
-14:06:55  verbose 0.391 Checking for configuration file "/var/jenkins-nxt-prd/workspace/.npmrc".
-14:06:55  verbose 0.391 Checking for configuration file "/var/jenkins-nxt-prd/.npmrc".
-14:06:55  verbose 0.391 Checking for configuration file "/var/.npmrc".
+/*************************************/
+/**** evironment variables ***********/
+// https://docs.npmjs.com/cli/v9/using-npm/config#environment-variables
+// https://gist.github.com/moos/4635bda5b04dc8113d8ea7ee974cabc2
+npm config ls -l
+// variable config
+NPM_CONFIG_FOO=bar
+/******************************/
+/**** npm lifecycle ***********/
+npm ci --only=production
+/*********************/
+/**** .npmrc *********/
+Checking for configuration file "/var/jenkins/workspace/own-app/.npmrc".
+Checking for configuration file "/home/jenkins/.npmrc".
+Found configuration file "/home/jenkins/.npmrc".
+Checking for configuration file "/opt/nodejs-8.11.3/etc/npmrc".
+Checking for configuration file "/var/jenkins/workspace/own-app/.npmrc".
+Checking for configuration file "/var/jenkins/workspace/.npmrc".
+Checking for configuration file "/var/jenkins/.npmrc".
+Checking for configuration file "/var/.npmrc".
+/**********************/
+/**** Cache ***********/
+NPM_CONFIG_PREFIX=./npm
+NPM_CONFIG_CACHE=${NPM_CONFIG_PREFIX}/cache
+npm cache clean --force
 /*****************************************************/
 /********************* Yarn **************************/
 /*****************************************************/
