@@ -541,6 +541,10 @@ tar -xzvf ./pgsql.tar.gz -C /opt/oo
 tar -xvf myImages-14-09-12.tar.gz -C /path/to/dir/
 // List tar.gz content
 tar -ztvf projects.tar.gz
+/** zip - unzip with .zip file **/
+sudo apt-get install -y unzip zip
+// Uncompress .zip Archive File
+unzip file.zip -d destination_folder
 /** service parancsok **/
 /** 
  * https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units 
