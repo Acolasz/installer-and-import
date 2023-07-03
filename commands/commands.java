@@ -469,6 +469,12 @@ oc adm top nodes
 oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | "oc delete pods \(.metadata.name) -n \(.metadata.namespace)"' | xargs -n 1 bash -c
 // custome namespace
 oc get pods -n <namespace> -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | "oc delete pods \(.metadata.name) -n \(.metadata.namespace)"' | xargs -n 1 bash -c
+/*************************/
+/** Node debug ***********/
+oc debug node/worker3
+oc debug node/worker3
+#chroot /host
+#sudo su
 /*****************************/
 /**** open Node OC command ***/
 oc debug node/okd-w1.okd.dorsum.intra
