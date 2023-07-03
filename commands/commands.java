@@ -108,6 +108,17 @@ yarn add package-name@1.2.3
 https://www.npmjs.com/package/bower-dependency-tree
 bower-dependency-tree
 bower-dependency-tree --log-level
+/*****************************************************/
+/********************* SonarScanner ******************/
+/*****************************************************/
+/*****************************/
+/********* sonar-scanner-cli */
+SONAR_SCANNER_VERSION=4.8.0
+SONAR_SCANNER_BUILD_NUMBER=2856
+curl https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}.${SONAR_SCANNER_BUILD_NUMBER}-linux.zip \
+-o sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip
+unzip ./sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip -d /opt/
+mv ./sonar-scanner-${SONAR_SCANNER_VERSION}.${SONAR_SCANNER_BUILD_NUMBER}-linux /opt/sonar-scanner-${SONAR_SCANNER_VERSION} 
 /***********************************************************************/
 /********************************* GIT *********************************/
 /***********************************************************************/
