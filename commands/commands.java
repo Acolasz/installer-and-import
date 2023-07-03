@@ -484,6 +484,13 @@ for id in $(sudo crictl ps -a | grep -i exited | awk '{print $1}') ; do sudo cri
 crictl rmp `crictl pods -q -s NotReady`
 crictl rm `crictl ps -q --state Exited`
 sudo crictl rmi --prune
+/*************************/
+// Helpful Data
+/etc/kubernetes
+/var/lib/kubelet
+/*************************/
+oc adm node-logs worker3 -u kubelet
+https://faun.pub/node-kubelet-troubleshooting-for-openshift-10e7009af9c4
 /*****************************/
 /**** open Node OC command ***/
 oc debug node/okd-w1.okd.dorsum.intra
