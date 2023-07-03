@@ -426,7 +426,7 @@ spec:
 /**********************/
 /**** UDP protokol ****/
 /* @see https://docs.openshift.com/container-platform/4.4/networking/openshift_sdn/enabling-multicast.html */
-oc annotate netnamespace otp-bundle netnamespace.network.openshift.io/multicast-enabled=true
+oc annotate netnamespace project-bundle netnamespace.network.openshift.io/multicast-enabled=true
 /*****************************/
 /**** Pods *******************/
 oc get pods
