@@ -444,18 +444,23 @@ oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=nul
 sudo podman images
 oc get nodes | grep compute-102
 // Mark as Unschedulable
-oc adm cordon okd-w3.okd.dorsum.intra
+oc adm cordon worker1
+oc adm cordon worker2
+oc adm cordon worker3
 // Mark as Schedulable
-oc adm uncordon okd-w3.okd.dorsum.intra
+oc adm uncordon worker1
+oc adm uncordon worker2
+oc adm uncordon worker3
 // drain node
-oc adm drain okd-w3.okd.dorsum.intra
-oc adm drain okd-w3.okd.dorsum.intra --delete-local-data=false --ignore-daemonsets=false  --grace-period=120 --force=true
-oc adm drain okd-w3.okd.dorsum.intra --delete-local-data=false --ignore-daemonsets=false  --grace-period=120 --pod-selector='' --force=true
-oc adm drain okd-w3.okd.dorsum.intra --delete-local-data=false --ignore-daemonsets=false  --grace-period=120 --selector='' --force=true
+oc adm drain worker3
+oc adm drain worker3 --delete-local-data=false --ignore-daemonsets=false  --grace-period=120 --force=true
+oc adm drain worker3 --delete-local-data=false --ignore-daemonsets=false  --grace-period=120 --pod-selector='' --force=true
+oc adm drain worker3 --delete-local-data=false --ignore-daemonsets=false  --grace-period=120 --selector='' --force=true
+oc adm drain worker3 --force --delete-local-data --ignore-daemonsets 
 // get/describe node
-oc get node okd-w3.okd.dorsum.intra
-oc describe node okd-w3.okd.dorsum.intra
-// top node
+oc get node worker3
+oc describe node worker3
+// View resource nodes
 oc adm top nodes
 /*************************/
 /** Evicted pods delete **/
