@@ -139,6 +139,18 @@ https://github.com/github/gitignore
 https://github.com/alexkaratarakis/gitattributes/blob/master/.gitattributes
 // Attribute sets
 git ls-files | git check-attr -a --stdin
+/*****************************************************/
+/********************* Environment Variable **********/
+/*****************************************************/
+https://git-scm.com/book/en/v2/Git-Internals-Environment-Variables
+/**********************/
+/**** Committing ******/
+GIT_AUTHOR_NAME is the human-readable name in the “author” field.
+GIT_AUTHOR_EMAIL is the email for the “author” field.
+GIT_AUTHOR_DATE is the timestamp used for the “author” field.
+GIT_COMMITTER_NAME sets the human name for the “committer” field.
+/**********************/
+/**** Verbose *********/
 # Linux
 export GIT_TRACE_PACKET=1
 export GIT_TRACE=1
