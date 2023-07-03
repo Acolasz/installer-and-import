@@ -75,6 +75,8 @@ npm cache clean --force
 /*****************************************************/
 /********************* Yarn **************************/
 /*****************************************************/
+/** install **/
+yarn install v1.22.10
 /** Artifactory auth **/
 #User specific npm registry settings
 curl -u ${artifactory_user}:${artifactory_password} ${artifactory_url}/api/npm/auth >>.npmrc
@@ -101,7 +103,10 @@ npm install -g yarn@1.22.5
 /** Add package **/
 https://classic.yarnpkg.com/en/docs/cli/add/
 yarn add package-name@1.2.3
-
+/** Trouble shooting **/
+// no space left on device
+// "ENOSPC: no space left on device, open '/opt/jenkins/workspace/custom-repo/yarn-error.log'"
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 /*****************************************************/
 /********************* Bower *************************/
 /*****************************************************/
