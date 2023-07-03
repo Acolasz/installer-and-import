@@ -133,6 +133,12 @@ git config --global user.name "Olivér"
 /********************* gitignore *********************/
 /*****************************************************/
 https://github.com/github/gitignore
+/*****************************************************/
+/********************* gitattributes *****************/
+/*****************************************************/
+https://github.com/alexkaratarakis/gitattributes/blob/master/.gitattributes
+// Attribute sets
+git ls-files | git check-attr -a --stdin
 # Linux
 export GIT_TRACE_PACKET=1
 export GIT_TRACE=1
