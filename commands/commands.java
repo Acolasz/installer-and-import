@@ -378,6 +378,18 @@ oc delete serviceaccount robot
 // for group
 oc adm policy add-role-to-group -h
 oc adm policy add-role-to-group <role> <group_name> --rolebinding-name='<rolebinding_name>' -n <project>
+/********************/
+/**** Deployment ****/
+// Get
+oc get deployment
+oc get deployment -o json | jq '.items[]'
+oc get deployment -o json | jq '.items[] | select(.status.reason!=null)'
+oc get deployment -o json | jq '.items[] | (.metadata.name)'
+
+// Describe
+oc describe deployment <deployment_name>
+/** Scaling **/
+oc scale deployment <deployment_name> --replicas=1
 /**********************/
 /**** Image-Stream ****/
 oc import-image <image_stream-name>:version --from=<image_from_registry> --confirm --insecure=true
@@ -416,10 +428,16 @@ spec:
 /* @see https://docs.openshift.com/container-platform/4.4/networking/openshift_sdn/enabling-multicast.html */
 oc annotate netnamespace otp-bundle netnamespace.network.openshift.io/multicast-enabled=true
 /*****************************/
+/**** Pods *******************/
+oc get pods
+oc get pods -o json | jq '.items[] | (.metadata.ownerReferences)'
+/** ReplicaSet **/
+
+/*****************************/
 /**** Remove evicted pods ****/
 /* @see https://sachsenhofer.io/how-to-remove-evicted-pods-in-kubernetes-openshift/ */
 oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Evicted")) | "oc delete pods \(.metadata.name) -n \(.metadata.namespace)"' | xargs -n 1 bash -c
-oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Running")) | xargs -n 1 bash -c
+oc get pods --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains("Running")) | xargs -n 1 bash -c'
 /*****************************/
 /**** Delete Node steps ******/
 /* @see https://www.techbeatly.com/openshift-cluster-how-to-drain-or-evacuate-a-node-for-maintenance/ */
