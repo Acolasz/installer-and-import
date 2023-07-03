@@ -413,8 +413,8 @@ spec:
 /**** CONFIGMAP ****/
 oc create configmap <configmap_name> \
     --from-file=./path/to/file/prop.properties
-oc create configmap shadow-datasources-properties \
-    --from-file=./install/installation-guide/localhost/properties_files/shadow.properties
+oc create configmap datasources-properties \
+    --from-file=./install/installation-guide/localhost/properties_files/datasources.properties
 spec:
 	template:
 		spec:
