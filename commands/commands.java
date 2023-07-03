@@ -228,6 +228,8 @@ git remote -v
 /***************************/
 /**** Update .git cache ****/
 git rm -r --cached .
+git clean -fxd
+git restore .
 git add .
 /*******************/
 /** empty objects **/
