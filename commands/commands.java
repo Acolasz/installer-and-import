@@ -130,8 +130,9 @@ mv ./sonar-scanner-${SONAR_SCANNER_VERSION}.${SONAR_SCANNER_BUILD_NUMBER}-linux 
 git config --global user.email "oo@dorsum.eu"
 git config --global user.name "Olivér"
 /*****************************************************/
-/********************* Verbose ***********************/
+/********************* gitignore *********************/
 /*****************************************************/
+https://github.com/github/gitignore
 # Linux
 export GIT_TRACE_PACKET=1
 export GIT_TRACE=1
