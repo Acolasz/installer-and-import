@@ -3,6 +3,7 @@
 ## commands
 
 ### brew package manager
+
 Install in [this site][brew_package_manager_install]
 
 ```shell
@@ -24,6 +25,7 @@ brew list
 * yq
 * helm
 * midnight-commander
+* parallel
 
 ### Casks
 
@@ -33,4 +35,5 @@ brew list
 [colima_install]:<https://github.com/abiosoft/colima#installation>
 
 [colima_docker]:<https://hub.docker.com/r/gvenzl/oracle-xe>
+
 [brew_package_manager_install]:<https://brew.sh/>

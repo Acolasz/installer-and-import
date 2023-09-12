@@ -14,3 +14,7 @@
 * Commander One
 * iTerm
 * Tunnelblick (VPN) - optional
+* karabiner (modified keyboard [karabiner.json][karabiner_json] ) - optional
+
+
+[karabiner_json]:<./karabiner.json>
