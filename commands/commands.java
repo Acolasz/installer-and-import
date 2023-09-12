@@ -708,6 +708,26 @@ wget https://archive.apache.org/dist/maven/maven-3/3.3.3/binaries/apache-maven-3
 /** jq command **/
 https://www.baeldung.com/linux/jq-command-json
 /*****************************************************/
+/********************* OSX ***************************/
+/*****************************************************/
+/******************/
+/**** terminal ****/
+/******************/
+/** Shortcut **/
+https://support.apple.com/en-us/HT201236
+/** zsh install **/
+https://sourabhbajaj.com/mac-setup/iTerm/zsh.html
+https://github.com/ohmyzsh/ohmyzsh/wiki
+/** zsh fancy feature **/
+https://medium.com/@shivam1/make-your-terminal-beautiful-and-fast-with-zsh-shell-and-powerlevel10k-6484461c6efb
+/** parallel command **/
+COMMAND + SHIFT + I
+https://medium.com/@wendymak/sending-commands-to-multiple-iterm-tabs-f18b66dc5387
+/**************/
+/**** DREW ****/
+/**************/
+/*****************************************************/
+/*****************************************************/
 /********************* BASH **************************/
 /*****************************************************/
 /*********************************/
