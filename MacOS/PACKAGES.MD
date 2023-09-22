@@ -27,7 +27,8 @@ brew list
 * midnight-commander
 * parallel
 * [qemu][qemu]
-* sysbench
+* [sysbench][sysbench]
+* libvirt
 
 ### Casks
 
@@ -41,3 +42,5 @@ brew list
 [brew_package_manager_install]:<https://brew.sh/>
 
 [qemu]:<../commands/qemu/qemu.md>
+
+[sysbench]:<../commands/sysbench/sysbench.md>
