@@ -26,6 +26,8 @@ brew list
 * helm
 * midnight-commander
 * parallel
+* [qemu][qemu]
+* sysbench
 
 ### Casks
 
@@ -37,3 +39,5 @@ brew list
 [colima_docker]:<https://hub.docker.com/r/gvenzl/oracle-xe>
 
 [brew_package_manager_install]:<https://brew.sh/>
+
+[qemu]:<../commands/qemu/qemu.md>
