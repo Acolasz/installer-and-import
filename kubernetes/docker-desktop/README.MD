@@ -17,6 +17,7 @@ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kube
 ### Create TOKEN
 
 #### First serviceaccount (SA)
+
 ```shell
 kubectl create serviceaccount cluster-admin-dashboard -n kubernetes-dashboard
 kubectl create clusterrolebinding cluster-admin-dashboard \
@@ -35,5 +36,10 @@ kubectl create token cluster-admin-dashboard -n kubernetes-dashboard
 kubectl patch deployment kubernetes-dashboard -n kubernetes-dashboard --type 'json' -p '[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--enable-skip-login"}]'
 ```
 
+# Back to the [README.MD][readme]
+
+[readme]:<../README.MD>
+
 [install-kubertnes]:<https://logz.io/blog/kubernetes-docker-mac/>
+
 [install-kubertnes-2]:<https://willschenk.com/howto/2021/k8_dashboard_on_docker_desktop/>
