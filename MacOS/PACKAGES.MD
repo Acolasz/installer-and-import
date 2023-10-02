@@ -29,6 +29,7 @@ brew list
 * [qemu][qemu]
 * [sysbench][sysbench]
 * libvirt
+* virt-manager
 
 ### Casks
 

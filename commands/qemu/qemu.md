@@ -15,7 +15,28 @@ qemu-system-x86_64 --version
 #### image
 
 ```shell
-qemu-img create -f qcow2 alpine.qcow2 20G
+qemu-img create -f qcow2 ./img/alpine.qcow2 15g
+#Formatting 'alpine.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=16106127360 lazy_refcounts=off refcount_bits=16
+qemu-img info ./img/alpine.qcow2
+
+#image: ./img/alpine.qcow2
+#file format: qcow2
+#virtual size: 15 GiB (16106127360 bytes)
+#disk size: 196 KiB
+#cluster_size: 65536
+#Format specific information:
+#    compat: 1.1
+#    compression type: zlib
+#    lazy refcounts: false
+#    refcount bits: 16
+#    corrupt: false
+#    extended l2: false
+#Child node '/file':
+#    filename: ./img/alpine.qcow2
+#    protocol type: file
+#    file length: 192 KiB (197120 bytes)
+#    disk size: 196 KiB
+    
 qemu-img create -f qcow2 <image_name> 20G
 ```
 
@@ -47,7 +68,7 @@ qemu-system-x86_64 \
 -device qemu-xhci \
 -device usb-kbd \
 -device usb-tablet \
--drive file=./alpine.qcow2,if=virtio \
+-drive file=./img/alpine.qcow2,if=virtio \
 -machine pc \
 -smp 4 \
 -net user,hostfwd=tcp::10022-:22 \
@@ -55,7 +76,27 @@ qemu-system-x86_64 \
 -cpu qemu64 \
 -accel tcg,thread=multi \
 -boot d \
--cdrom ./alpine-stand-3.18.3-x86_64.iso
+-cdrom ./iso/alpine-stand-3.18.3-x86_64.iso
+
+qemu-img info ./img/alpine.qcow2
+
+#image: ./img/alpine.qcow2
+#file format: qcow2
+#virtual size: 15 GiB (16106127360 bytes)
+#disk size: 497 MiB
+#cluster_size: 65536
+#Format specific information:
+#    compat: 1.1
+#    compression type: zlib
+#    lazy refcounts: false
+#    refcount bits: 16
+#    corrupt: false
+#    extended l2: false
+#Child node '/file':
+#    filename: ./img/alpine.qcow2
+#    protocol type: file
+#    file length: 486 MiB (510066688 bytes)
+#    disk size: 497 MiB
 ```
 
 ### Allow SSH root
@@ -96,6 +137,7 @@ ssh root@127.1 -p 10022
 * [How to run Linux on Macbook M1][qemu_alpine_to_m1] and download [alpine.iso][download_alpine_iso] file.
 * github repo with [libvirt][github_qemu_libvirt]
 * [Using QEMU to run Linux images on M1 Macbook][m1_qemu]
+* QEMU Networking [NIC][qemu_nic]
 
 # Back to the [README.MD][readme]
 
@@ -112,3 +154,5 @@ ssh root@127.1 -p 10022
 [github_qemu_libvirt]:<https://github.com/alexscheitlin/libvirt-macos-m1>
 
 [m1_qemu]:<https://www.whexy.com/posts/m1qemu>
+
+[qemu_nic]:<https://wiki.qemu.org/Documentation/Networking>
