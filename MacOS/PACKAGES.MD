@@ -45,4 +45,4 @@ brew list
 
 [sysbench_install]:<../commands/sysbench/sysbench.md>
 
-[multipass_install]:<https://multipass.run/install>
+[multipass_install]:<../commands/multipass/multipass.md>
