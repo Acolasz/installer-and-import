@@ -1,14 +1,11 @@
-# Build tools
+# Tools with manual
 
-## Install
+## commands
 
-> [Install both tools][install_java_maven]
+* [java][install_java_maven]
+* [maven][install_java_maven]
+* liquibase
+* regctl
 
-### JAVA
-
-### Maven
-
-### Liquibase
-
-[install_java_maven]:<https://www.digitalocean.com/community/tutorials/install-maven-mac-os>
+[install_java_maven]:<../commands/java/java.md>
 

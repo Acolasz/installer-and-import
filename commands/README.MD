@@ -15,8 +15,16 @@
 * sysbench ([sysbench][sysbench_cmd] cmd)
 * brew
 
-## brew 
+## brew
+
 * `brew services list`
+
+## manual tools
+
+* [java][java]
+* [maven][maven]
+* liquibase
+* regctl
 
 [ab_cmd]:<./ab/apache-bench-ab.md>
 
@@ -24,3 +32,6 @@
 
 [sysbench_cmd]:<./sysbench/sysbench.md>
 
+[java]:<./java/java.md>
+
+[maven]:<./maven/maven.md>

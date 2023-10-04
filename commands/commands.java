@@ -822,42 +822,6 @@ MY_PAT=yourPAT		# replace "yourPAT" with your actual PAT
 B64_PAT=$(printf "%s"":$MY_PAT" | base64)
 /** API list **/
 curl https://$B64_PAT:dev.azure.com/{organization}/_apis/build-release/builds
-
-/***********************************************************************/
-/********************************* MAVEN *******************************/
-/***********************************************************************/
-/********************* Lifecycle *********************/
-/*****************************************************/
-https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
-/*****************************************************/
-/** only test **/
-mvn clean test -Dtest="DummySpringbootAppJPATests"
-// with parent and own dependency module
-mvn --projects dummy-springboot-app-service --also-make clean install -Dtest="DummySpringbootAppJPATests" -DfailIfNoTests=false
-/** Skip test **/
-// Plugin maven-surefire-plugin
-mvn -U clean package -DskipTests
-/** Skip Integration test **/
-// Plugin maven-failsafe-plugin
-mvn -U clean package -DskipITs
-/** Custom settings.xml **/
-mvn -U clean package --global-settings ./path/to/location/global-settings.xml --settings ./path/to/location/local-settings.xml
-/** Deploy file to artifactory **/
-mvn deploy:deploy-file -DrepositoryId="dsp" -Durl="https://pkgs.dev.azure.com/MPZRT/dsp-devops/_packaging/dsp/maven/v1" -DgroupId="eu.dorsum.posta" -DartifactId="posta-srv-kwr-ejb" -Dversion="1.1.0" -Dclassifier="client" -Dpackaging="jar" -Dfile="./posta-srv-kwr-ejb-2.2.5-2-client.jar"
-mvn deploy:deploy-file -Dpackaging="pom" -DrepositoryId="drsm" -Durl="https://pkgs.dev.azure.com/Dorsum/Posta/_packaging/drsm/maven/v1" -DgroupId="eu.dorsum.cm" -DartifactId="azure-pipeline-mvn-parent" -Dversion="1.0.0" -Dfile="./pom.xml"
-/** Sonar **/
-mvn sonar:sonar -Dsonar.projectKey=eu.dorsum.otp.java.clavis-iq-otp:clavis-iq-otp:int -Dsonar.host.url=https://sonar.dorsum.eu -Dsonar.login=89ebc802c6592e7ba3c2b994e21473b32305d5ce
-
-/** plugin help / descriptor **/
-mvn help:describe -Dplugin=eu.dorsum.cm.java.git-changelog:git-changelog-maven-plugin
-mvn git-changelog-maven-plugin:help -Ddetail=true
-mvn eu.dorsum.cm.java.git-changelog:git-changelog-maven-plugin:help -Ddetail=true
-mvn git-changelog-maven-plugin:help -Ddetail=true -Dgoal=git-changelog
-mvn eu.dorsum.cm.java.git-changelog:git-changelog-maven-plugin:help -Ddetail=true -Dgoal=git-changelog
-
-/** effective-pom **/
-// pass properties value and write content all pom.xml
-mvn help:effective-pom
 /***********************************************************************/
 /********************************* SQL *********************************/
 /***********************************************************************/
@@ -876,35 +840,6 @@ FROM "AO_08B316_CLIENT_DETAIL" WHERE
 ("START_DATE" <= [END] AND "END_DATE" >= [START]) OR --1.
 ("END_DATE" >= [START] AND "START_DATE" <= [END]) OR --2.
 ("START_DATE" >= [START] AND "END_DATE" <= [END]) --3.
-/***********************************************************************/
-/********************************* JAD *********************************/
-/***********************************************************************/
-/** CLI **/
-http://www.javadecompilers.com/jad
-// command
-jad -o -r -sjava -dsrc ./**/*.class
-/** GUI **/
-https://github-releases.githubusercontent.com/32844456/f5daf300-272d-11ea-93dc-b7f9005f21d0?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20210818%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210818T072439Z&X-Amz-Expires=300&X-Amz-Signature=21bd02bef81dd528a548cc7f03c20a2a3c47546673cc804e6e1a51cab82ffb0f&X-Amz-SignedHeaders=host&actor_id=53154839&key_id=0&repo_id=32844456&response-content-disposition=attachment%3B%20filename%3Djd-gui-windows-1.6.6.zip&response-content-type=application%2Foctet-stream
-/***********************************************************************/
-/********************************* JAVA ********************************/
-/***********************************************************************/
-/*************/
-/** Keytool **/
-/*************/
-// List
-keytool -v -list -keystore "d:\Portable\Java\jdk1.8.0_172\jre\lib\security\cacerts"
-keytool -list -keystore "d:\Portable\Java\jdk1.8.0_172\jre\lib\security\cacerts" -alias erste.hu
-// Print
-keytool -printcert -file "d:\workspace\stash-prd\ERSTE\tmp\ersteca.cer"
-// Import
-keytool -importcert -file "d:\workspace\stash-prd\ERSTE\tmp\ersteca.cer" -alias erste.hu -keystore "d:\Portable\Java\jdk1.8.0_172\jre\lib\security\cacerts" -storepass changeit 
-// delete
-keytool -delete -alias erste.hu -keystore "d:\Portable\Java\jdk1.8.0_172\jre\lib\security\cacerts" -storepass changeit
-/***********************************/
-/** WSImport WSDL to Java Objects **/
-/***********************************/
-d:\Portable\Java\jdk1.6.0_24\bin\wsimport.exe -p eu.dorsum.erste.cwa.web.filenet.store https://_clavis_filenet_ws:12345678@ebhfat.erste.hu:476/fnapiws/StoreV1?wsdl
-d:\Portable\Java\jdk1.6.0_24\bin\wsimport.exe https://_clavis_filenet_ws:12345678@ebhfat.erste.hu:476/fnapiws/StoreV1?wsdl
 /***********************************************************************/
 /***********************************************************************/
 /********************************* WINDOWS *****************************/

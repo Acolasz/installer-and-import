@@ -14,11 +14,9 @@ Install in [this site][brew_package_manager_install]
 brew list
 ```
 
-## tools list
-
 ### Formulae
 
-* [colima][colima_install] `brew install colima`. Usage [Apple M1 (ARM64)][colima_docker]
+* [colima][colima] `brew install colima`. Usage [Apple M1 (ARM64)][colima_install]
 * kubectx
 * kubernetes-cli
 * jq
@@ -26,10 +24,11 @@ brew list
 * helm
 * midnight-commander
 * parallel
-* [qemu][qemu]
-* [sysbench][sysbench]
+* [qemu][qemu_install]
+* [sysbench][sysbench_install]
 * libvirt
 * virt-manager
+* [multipass][multipass_install]
 
 ### Casks
 
@@ -38,10 +37,12 @@ brew list
 
 [colima_install]:<https://github.com/abiosoft/colima#installation>
 
-[colima_docker]:<https://hub.docker.com/r/gvenzl/oracle-xe>
+[colima]:<../commands/colima/colima.md>
 
 [brew_package_manager_install]:<https://brew.sh/>
 
-[qemu]:<../commands/qemu/qemu.md>
+[qemu_install]:<../commands/qemu/qemu.md>
 
-[sysbench]:<../commands/sysbench/sysbench.md>
+[sysbench_install]:<../commands/sysbench/sysbench.md>
+
+[multipass_install]:<https://multipass.run/install>
