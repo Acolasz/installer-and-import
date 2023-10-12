@@ -28,7 +28,9 @@ brew list
 * [sysbench][sysbench_install]
 * libvirt
 * virt-manager
+* xorriso
 * [multipass][multipass_install]
+* gnupg (gpg)
 
 ### Casks
 

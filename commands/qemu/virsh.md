@@ -5,6 +5,9 @@
 brew services start libvirt
 ```
 
+* [Virsh Command Reference!!!][libvirt_doc]
+* [How to install KVM server on Debian 9/10 Headless Server][debian_linux_install]
+
 ## Create VM's
 
 - Download the desired Linux Server `.iso` to `./iso/`. for example: [Fedora-Workstation-Live-aarch64-38-1.6.iso][fedora38_aarch64]
@@ -47,6 +50,31 @@ qemu-img check ./img/fedora38.qcow2
 
 $ No errors were found on the image.
 $ Image end offset: 262144
+```
+
+## virt-install
+
+```shell
+# os-variant
+virt-install --osinfo list
+# added network to exist VM
+virsh attach-interface --domain debian12 --type network --source br0 --model virtio
+
+```
+
+```shell
+virt-install \
+--debug \
+--name debian12 \
+--ram 4096 \
+--disk path=./img/debian.qcow2,size=20 \
+--vcpus 4 \
+--os-variant debian12 \
+--network bridge=br0 \
+--graphics none \
+--console pty,target_type=serial \
+--location ./iso/debian-12.2.0-arm64-DVD-1.iso \
+--extra-args 'console=ttyS0,115200n8 serial'
 ```
 
 ## Start VM
@@ -108,4 +136,18 @@ virsh console alpine318
 virsh undefine fedora38 --nvram
 ```
 
+## in virsh
+
+```shell
+virsh # help
+
+virsh # net-list
+
+virsh # exit 
+```
+
 [fedora38_aarch64]:<https://ftp.plusline.net/fedora/linux/releases/38/Workstation/aarch64/iso/Fedora-Workstation-Live-aarch64-38-1.6.iso>
+
+[libvirt_doc]:<https://download.libvirt.org/virshcmdref/html/index.html>
+
+[debian_linux_install]:<https://www.cyberciti.biz/faq/install-kvm-server-debian-linux-9-headless-server/>

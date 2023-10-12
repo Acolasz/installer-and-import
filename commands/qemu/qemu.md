@@ -138,6 +138,7 @@ ssh root@127.1 -p 10022
 * github repo with [libvirt][github_qemu_libvirt]
 * [Using QEMU to run Linux images on M1 Macbook][m1_qemu]
 * QEMU Networking [NIC][qemu_nic]
+* [Running Virtual Machines with qemu-system-ARCH][running_qemu]
 
 # Back to the [README.MD][readme]
 
@@ -156,3 +157,5 @@ ssh root@127.1 -p 10022
 [m1_qemu]:<https://www.whexy.com/posts/m1qemu>
 
 [qemu_nic]:<https://wiki.qemu.org/Documentation/Networking>
+
+[running_qemu]:<https://documentation.suse.com/sles/12-SP5/html/SLES-all/cha-qemu-running.html>
