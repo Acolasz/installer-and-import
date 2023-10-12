@@ -307,28 +307,6 @@ data blocks changed from 31325947 to 62783227
 df -hT /
 Filesystem     Type  Size  Used Avail Use% Mounted on
 /dev/sda4      xfs   240G   80G  161G  34% /
-
-/*****************************************************/
-/********************* HELM **************************/
-/*****************************************************/
-helm repo add helm <url> --username <user> --password <userpassword>
-helm pull helm/<chartname>
-helm lint -f ./default-simple-service-override.yaml.yaml ./default-simple-service
-helm template -f ./default-simple-service-override.yaml.yaml ./default-simple-service
-helm package ./default-simple-service
-helm install -f myvalues.yaml -f override.yaml  myredis ./redis
-helm install wmp-srv-sarsn -f ./default-simple-service-override.yaml.yaml ./default-simple-service-1.0.0.tgz
-helm list
-helm repo update helm
-helm search repo helm
-helm show all
-helm registry login https://artifactory.dorsum.eu/artifactory/helm-manual-local/ --username oo --password AKCp8k7uYNRRWDsRniSMzBuyTkKsdcEwCkunLaoVb1gu5Vwj67oogcKnMBf24MHAxwTEL6x2f
-// artifactory plugin install and usage
-helm repo add helm-manual-local https://artifactory.dorsum.eu/artifactory/helm-manual-local/ --username oo --password AKCp8k7uYNRRWDsRniSMzBuyTkKsdcEwCkunLaoVb1gu5Vwj67oogcKnMBf24MHAxwTEL6x2f
-helm repo add helm-manual-local https://artifactory.dorsum.eu/artifactory/helm-manual-local/ --username oo --password AKCp8k7uYNRRWDsRniSMzBuyTkKsdcEwCkunLaoVb1gu5Vwj67oogcKnMBf24MHAxwTEL6x2f
-helm plugin install https://github.com/belitre/helm-push-artifactory-plugin --version 1.0.1
-helm plugin list
-helm push-artifactory java-springboot-1.0.0.tgz helm-manual-local
 /*****************************************************/
 /********************* OC ****************************/
 /*****************************************************/

@@ -21,7 +21,7 @@ brew list
 * kubernetes-cli
 * jq
 * yq
-* helm
+* [helm][helm_install]
 * midnight-commander
 * parallel
 * [qemu][qemu_install]
@@ -46,3 +46,5 @@ brew list
 [sysbench_install]:<../commands/sysbench/sysbench.md>
 
 [multipass_install]:<../commands/multipass/multipass.md>
+
+[helm_install]:<../commands/helm/helm.md>
