@@ -15,6 +15,8 @@
 * iTerm
 * Tunnelblick (VPN) - optional
 * karabiner (modified keyboard [karabiner.json][karabiner_json] ) - optional
-
+* JetBrains [ToolBox][toolbox_app]
 
 [karabiner_json]:<./karabiner.json>
+
+[toolbox_app]:<https://www.jetbrains.com/toolbox-app/>
