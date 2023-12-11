@@ -1,0 +1,69 @@
+<domain type='qemu' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+    <name>alpine</name>
+    <uuid>20422100-78DA-416D-A1C1-F3336D5C6D0E</uuid>
+    <memory unit='GiB'>2</memory>
+    <cpu>
+<!--       <model>kvm</model>-->
+       <model>qemu64</model>
+    </cpu>
+<!--    <cpu mode="host-model" check="partial" />-->
+    <vcpu>2</vcpu>
+<!--    <features>-->
+<!--        <gic version='2'/>-->
+<!--    </features>-->
+    <os>
+        <type arch='x86_64' machine='pc'>hvm</type>
+    </os>
+    <clock offset='localtime'/>
+    <devices>
+        <emulator>/opt/homebrew/bin/qemu-system-x86_64</emulator>
+        <controller type='usb' model='qemu-xhci'/>
+        <disk type='file' device='disk'>
+            <driver name='qemu' type='qcow2'/>
+            <source file='/Users/user/workspaces/github/acolasz/installer-and-import/commands/qemu/img/alpine.qcow2'/>
+            <target dev='vda' bus='virtio'/>
+            <boot order='1'/>
+        </disk>
+<!--        <disk type='file' device='disk'>-->
+<!--            <driver name='qemu' type='raw'/>-->
+<!--            <source file='/Users/user/workspaces/github/acolasz/installer-and-import/commands/qemu/iso/alpine-stand-3.18.3-x86_64.iso'/>-->
+<!--            <target dev='vdb' bus='virtio'/>-->
+<!--            <boot order='2'/>-->
+<!--        </disk>-->
+        <console type='pty'>
+            <target type='serial'/>
+        </console>
+        <serial type='pty'>
+            <source path='/dev/pts/1'/>
+            <target port='0'/>
+            <alias name='serial0'/>
+        </serial>
+        <input type='tablet' bus='usb'/>
+        <input type='keyboard' bus='usb'/>
+<!--        <graphics type='vnc' port='5900' listen='127.0.0.1'/>-->
+        <video>
+            <model type='virtio' vram='32768'/>
+        </video>
+    </devices>
+    <seclabel type='none'/>
+    <qemu:commandline>
+<!--        <qemu:arg value='-machine'/>-->
+<!--        <qemu:arg value='highmem=off'/>-->
+        <qemu:arg value='-accel'/>
+        <qemu:arg value='tcg'/>
+<!--        <qemu:arg value='-netdev'/>-->
+<!--        <qemu:arg value='user,id=n1,hostfwd=tcp::10022-:22'/>-->
+<!--        <qemu:arg value='-netdev'/>-->
+<!--        <qemu:arg value='nic'/>-->
+<!--        <qemu:arg value='-rtc'/>-->
+<!--        <qemu:arg value='base=utc,clock=host'/>-->
+<!--        <qemu:arg value='-device'/>-->
+<!--        <qemu:arg value='qemu-xhci'/>-->
+<!--        <qemu:arg value='-device'/>-->
+<!--        <qemu:arg value='virtio-net-pci,bus=pcie.0,addr=0x19'/>-->
+<!--        <qemu:arg value='-device'/>-->
+<!--        <qemu:arg value='usb-kbd'/>-->
+<!--        <qemu:arg value='-device'/>-->
+<!--        <qemu:arg value='usb-tablet'/>-->
+    </qemu:commandline>
+</domain>

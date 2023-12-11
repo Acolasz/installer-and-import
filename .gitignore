@@ -57,3 +57,7 @@ nbdist/
 
 ## VizualStudio
 .vscode/
+
+### qemu ignore
+commands/qemu/img
+commands/qemu/iso
