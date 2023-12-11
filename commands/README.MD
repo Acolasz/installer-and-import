@@ -24,7 +24,7 @@
 * [java][java]
 * [maven][maven]
 * liquibase
-* regctl
+* [regctl][regctl]
 
 [ab_cmd]:<./ab/apache-bench-ab.md>
 
@@ -35,3 +35,4 @@
 [java]:<./java/java.md>
 
 [maven]:<./maven/maven.md>
+[regctl]:<./regctl/regctl.md>

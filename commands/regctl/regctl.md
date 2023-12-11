@@ -6,7 +6,7 @@ The regctl command tool [install][regctl_install].
 Download from ***-darwin-arm64** [files][download_files]
 
 ```shell
-REGCLIENT_VERSION=0.5.2
+REGCLIENT_VERSION=0.5.3
 mkdir -p ~/portable/regclient/regclient-${REGCLIENT_VERSION}
 chmod 755 ~/portable/regclient/regclient-${REGCLIENT_VERSION}/*
 ```
@@ -29,6 +29,6 @@ regsync version
 
 [readme]:<../README.MD>
 
-[regctl_install]:<https://github.com/regclient/regclient/blob/main/docs/install.mdl>
+[regctl_install]:<https://github.com/regclient/regclient/blob/main/docs/install.md>
 
 [download_files]:<https://github.com/regclient/regclient/releases>
