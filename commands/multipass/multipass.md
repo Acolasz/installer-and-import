@@ -8,11 +8,19 @@ The Multipass command tool [install][multipass_install]
 
 ## Commands
 
+### General cmd
+
+```shell
+multipass find
+multipass info <image_name>
+```
+
 ### Enable ssh
 
 ```shell
 multipass list
-multipass launch -n testvm --cloud-init cloud-init.yaml
+multipass launch --name <image_name> --cloud-init cloud-init.yaml
+multipass launch --name <image_name> --cpus 2 --disk 15G --memory 4G --mount <local-path>:<instance-path>
 ```
 
 # Related articles

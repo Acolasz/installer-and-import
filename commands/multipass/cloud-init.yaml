@@ -4,3 +4,6 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_authorized_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDFLOEi/657Wkos5zojvXZlJBGrEe5WEs2k3guJJrTmK+xDJpB18giTUZxPmoG2BBBibWR7bPM64TA27cJVrr5WqJhnKguJXV/W3w6JQSxhXaOx+0fRNwo5vkeesbGcqiBnlmuz5EzZaQVi6L9BL6Xgo54KwjskU532sVKYNHL8+vmcZpQ78LYcRN45Mh9tn2braq48pq6SdaCGwPKS9NjdAbiJns/0pOxuorYbj8SRz2+XNkTPc+xRjW6jl2nvYsEW97bTNAH0/2pCzTxz6VACGqhZUEn35NGNPaPzkPosUdHXXZjZ5BgjPAD+RKlShsKzO2123plS6bpvxQVySHQ5b1bigPuyzjCdUJWoFyzeBeiMFe55iBgnaA99lKOGdWUNqLn2t8Yo0EBdb96HK3s8zqGtlkHwMZVKvHClFq1tkDyepNQ0BA0zk64o3EJ3PiyLWwJvPndl48UaKYfPAByyCRo88BzWxWyw7lq+79rYQlI6ZGnQtqG2Y4JTyHZbvfE= vmuser
+bootcmd:
+  - printf "[Resolve]\nDNS=8.8.8.8" > /etc/systemd/resolved.conf
+  - [systemctl, restart, systemd-resolved]
