@@ -517,6 +517,9 @@ https://j2live.ttl255.com/
 /***********************************************************************/
 /********************************* UNIX ********************************/
 /***********************************************************************/
+/** Variable in variable **/
+#      val1=$(echo "${element}_SERVICES" | tr '[:lower:]' '[:upper:]')
+#      echo ${!val1}
 /** pacakge update **/
 apt --only-upgrade install git
 apt --only-upgrade install git-man
@@ -529,6 +532,8 @@ reboot
 uptime
 /* SSH */
 ssh-keygen -b 2048 -t rsa -C johndoe@kukutyin.hu
+echo kukutyin-00{1..3}.kukutyin.hu | xargs -n1 \
+		| xargs -I% sshpass -p Almafa_123 ssh-copy-id -f -i ~/.ssh/id-rsa olasz@%
 /* copy command */
 // copy to two machine between
 scp -r /opt/keycloak sysadmin@192.168.15.21:/opt/
