@@ -31,6 +31,23 @@ brew list
 * xorriso
 * [multipass][multipass_install]
 * gnupg (gpg)
+* [etcdctl][etcdctl_install]
+* [kustomize][kustomize_install]
+* [helmfile][helmfile_install]
+* [yamllint][yamllint_install]
+* pwgen
+  * `brew install pwgen`
+* sshpass
+  * `brew install esolitos/ipa/sshpass`
+* telnet
+  * `brew install telnet`
+* [python@3.11][python]
+* arkede
+  * `curl -sLS https://get.arkade.dev | sudo sh`
+* direnv
+  * `brew install direnv`
+* jid
+  * `brew install jid`
 
 ### Casks
 
@@ -50,3 +67,13 @@ brew list
 [multipass_install]:<../commands/multipass/multipass.md>
 
 [helm_install]:<../commands/helm/helm.md>
+
+[etcdctl_install]:<../commands/etcdctl/etcdctl.md>
+
+[kustomize_install]:<../commands/kustomize/kustomize.md>
+
+[helmfile_install]:<../commands/helmfile/helmfile.md>
+
+[yamllint_install]:<../commands/yaml-json/yaml-json.md>
+
+[python]:<../Python/python.md>
