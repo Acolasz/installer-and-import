@@ -1,0 +1,10 @@
+---
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx-demo
+spec:
+  service_type: nodeport
+  no_log: false
+  hostname: awx-demo.kukutyin.hu
+  postgres_configuration_secret: awx-demo-postgres-configuration
