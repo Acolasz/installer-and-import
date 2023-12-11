@@ -11,6 +11,8 @@ brew install colima
 ## Instance operation
 
 ```shell
+colima --help
+colima list
 colima start --arch x86_64 --memory 4
 ```
 
