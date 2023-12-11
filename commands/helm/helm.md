@@ -77,10 +77,27 @@ helm unistall -n $CHART_NAMESPACE $CHART_NAME
 # get, list
 helm list
 helm get all $CHART_NAME
+helm get values $CHART_NAME
 ```
+
+# Post renderer
+
+Helm and Kustomize together [helm ... --post-render][post-render]
+
+# Related article
+
+* helm charts:
+    * [bitnami charts][bitnami_charts]
+    * [cetic charts][cetic_charts]
 
 # Back to the [README.MD][readme]
 
 [readme]:<../README.MD>
 
 [helm_install]:<https://helm.sh/docs/intro/install/>
+
+[cetic_charts]:<https://github.com/cetic/helm-charts>
+
+[bitnami_charts]:<https://charts.bitnami.com/bitnami>
+
+[post-render]:<https://github.com/thomastaylor312/advanced-helm-demos/tree/master/post-render>
