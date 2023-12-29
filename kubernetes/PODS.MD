@@ -28,6 +28,18 @@ kubectl describe pods/<pod_name>
 
 ```shell
 kubectl logs pods/<pod_name> <container_name>
+kubectl logs pods/<pod_name> <container_name> -n <namespace>
 
 kubectl logs pods/service-pods service-1
+kubectl logs pods/service-pods service-1 -n <namespace>
+```
+
+## Pod exec
+
+```shell
+kubectl exec -it pods/<pod_name> -- bash
+kubectl exec -it pods/<pod_name> -n <namespace> -- bash
+
+kubectl exec -it pods/service-pods --container service-1 -- bash
+kubectl exec -it pods/service-pods --container service-1 -n <namespace> -- bash
 ```

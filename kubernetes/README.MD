@@ -9,6 +9,7 @@
 ```shell
 kubectl run ubuntu-tst --image ubuntu:22.04
 kubectl run ubuntu-tst -it --image ubuntu -- bash
+kubectl run tmp-shell --rm -i --tty --image nicolaka/netshootls -- bash
 ```
 
 ## Events
@@ -60,6 +61,10 @@ k create role <role_name> --resource svc,deployments --verb list,get
 k create rolebinding <rolebindig_name> --role view --group system:serviceaccounts:<namespace>
 ```
 
+# kubectl plugins
+
+> [kubectl plugins][kubectl_plugins]
+
 # Operators and Kubernetes tools
 
 ## Docker desktop
@@ -72,6 +77,7 @@ install [Kubernetes dashboard][kube_dashboard] on browser
 
 * helm charts [helm][helm]
 * **Advanced**: Workflow in kubernetes - [What happens when you create a Pod in Kubernetes?][create_pod_in_kubernetes]
+* CNCF [Cloud Native Interactive Landscape][cncf]
 
 # Back to the [README.MD][readme]
 
@@ -88,3 +94,7 @@ install [Kubernetes dashboard][kube_dashboard] on browser
 [kube_dashboard]:<./kubernetes/docker-desktop/README.MD>
 
 [create_pod_in_kubernetes]:<https://itnext.io/what-happens-when-you-create-a-pod-in-kubernetes-6b789b6db8a8>
+
+[kubectl_plugins]:<./KUBECTL_PLUGINS.MD>
+
+[cncf]:<https://landscape.cncf.io/>
