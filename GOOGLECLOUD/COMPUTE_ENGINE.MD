@@ -98,17 +98,19 @@ gcloud compute instance-templates describe ${INSTANCE_TEMPLATE_NAME} \
 1. [Create a VM from an instance template][create_vm_from_instance_template]
    ```shell
    # Create
-   VM_NAME=instance-1
+   VM_NAME=k3s-master-1
    INSTANCE_TEMPLATE_NAME=instance-temp-e2-small-ew3-stand-1
-   PROJECT_ID=kktyn-dev-1
+   PROJECT_ID=kktyn-dev-2
    REGION=europe-west3
    ZONE=${REGION}-c
    ENABLE_OS_LOGIN=TRUE
+   TAGS="k3s,k3s-master"
    gcloud compute instances create ${VM_NAME} \
    --source-instance-template projects/${PROJECT_ID}/regions/${REGION}/instanceTemplates/${INSTANCE_TEMPLATE_NAME} \
    --project=${PROJECT_ID} \
    --zone=${ZONE} \
-   --metadata enable-oslogin=${ENABLE_OS_LOGIN}
+   --metadata enable-oslogin=${ENABLE_OS_LOGIN} \
+   --tags=${TAGS}
    ```
 
 1. [Create a VM instance from a public image][create_vm_from_image]
@@ -132,13 +134,135 @@ gcloud compute instance-templates describe ${INSTANCE_TEMPLATE_NAME} \
    --metadata enable-oslogin=${ENABLE_OS_LOGIN}
    ```
 
-1. [Create a VM instance from a public image][create_vm_from_image]
+1. [Delete a VM instance from a public image][create_vm_from_image]
    ```shell
    # Detele
    VM_NAME=instance-1
    gcloud compute instances delete ${VM_NAME} \
    --quiet
+   ## Zone
+   VM_NAME=instance-1
+   ZONE=europe-west3-c
+   gcloud compute instances delete ${VM_NAME} \
+   --zone=${ZONE} \
+   --quiet
    ```
+
+## List/Describe VM instance
+
+```shell
+# List
+gcloud compute instances list
+## Format
+gcloud compute instances list --format="value(networkInterfaces[].accessConfigs[0].natIP)"
+gcloud compute instances list --format="table(
+  name:label=VM_Name,
+  networkInterfaces[].accessConfigs[0].natIP:label=ExternalIP,
+  tags[].items[].notnull().list():label=Tags
+)"
+## Filter
+gcloud compute instances list \
+--filter=tags.items=k3s-master \
+--format="get(networkInterfaces[0].accessConfigs.natIP)"
+
+# Describe
+ZONE=europe-west3-c
+VM_NAME=instance-1 
+gcloud compute instances describe ${VM_NAME} \
+--zone=${ZONE}
+```
+
+## Start/Stop instance
+
+```shell
+# Start
+VM_NAME=k3s-master-1
+ZONE=europe-west3-c
+gcloud compute instances start ${VM_NAME} \
+--zone=${ZONE}
+# Multi start
+gcloud compute instances start $(gcloud compute instances list --filter=tags.items=k3s --format="get(name)") \
+--zone=${ZONE}
+
+# Stop
+VM_NAME=k3s-master-1
+ZONE=europe-west3-c
+gcloud compute instances stop ${VM_NAME} \
+--zone=${ZONE}
+# Multi stop
+gcloud compute instances stop $(gcloud compute instances list --filter=tags.items=k3s --format="get(name)") \
+--zone=${ZONE}
+```
+
+## Start/Stop instances with schedule instance
+
+### Create/Delete schedule instance
+
+```shell
+# Create
+SCHEDULE_NAME=daily-stop-k3s-vms2
+SCHEDULE_DESCRIPTION='Daily stop VMs 21:59 and start 08:29'
+REGION=europe-west3
+STOP_OPERATION_SCHEDULE='30 22 * * *'
+START_OPERATION_SCHEDULE='29 8 * * *'
+TIME_ZONE='Europe/Budapest'
+INITIATION_DATE='2024-01-03T23:59:00'
+gcloud compute resource-policies create instance-schedule ${SCHEDULE_NAME} \
+--description=${SCHEDULE_DESCRIPTION} \
+--region=${REGION} \
+--vm-stop-schedule=${STOP_OPERATION_SCHEDULE} \
+--vm-start-schedule=${START_OPERATION_SCHEDULE} \
+--timezone=${TIME_ZONE} \
+--initiation-date=${INITIATION_DATE}
+
+# Delete
+## if is already being used by instance, then from the instance have to remove it.
+SCHEDULE_NAME=daily-stop-k3s
+REGION=europe-west3
+gcloud compute resource-policies delete ${SCHEDULE_NAME} \
+--region=${REGION}
+```
+
+### List/describe schedule instance
+
+```shell
+# List
+gcloud compute resource-policies list
+
+# Describe
+SCHEDULE_NAME=daily-stop-k3s
+REGION=europe-west3
+gcloud compute resource-policies describe ${SCHEDULE_NAME} \
+--region=${REGION}
+```
+
+## Update (Add/Remove) instances with schedule instance
+
+```shell
+# Add resource-policy
+VM_NAME=k3s-master-1
+SCHEDULE_NAME=daily-stop-k3s-vms
+gcloud compute instances add-resource-policies ${VM_NAME} \
+--resource-policies=${SCHEDULE_NAME}
+
+# Remove resource-policy
+VM_NAME=k3s-worker-2
+SCHEDULE_NAME=daily-stop-k3s
+gcloud compute instances remove-resource-policies ${VM_NAME} \
+--resource-policies=${SCHEDULE_NAME}
+```
+
+# Unmanaged instance group
+
+```shell
+# List
+gcloud compute instance-groups unmanaged list
+# Describe
+VM_GRUOP_NAME=instance-group-1
+ZONE=europe-west3-c
+gcloud compute instance-groups unmanaged describe ${VM_GRUOP_NAME} \
+--zone=${ZONE}
+```
 
 # Connect local machine
 
@@ -157,11 +281,13 @@ gcloud compute instance-templates describe ${INSTANCE_TEMPLATE_NAME} \
     1. Read **ExternalIP** address (natIP)
         ```shell
         gcloud compute instances list
+        ```
+        ```shell
         gcloud compute instances list --format="value(networkInterfaces[].accessConfigs[0].natIP)"
         ```
     1. connect ssh from local machine
         ```shell
-        ssh -i ~/.ssh/olaszkukutyin ocsko_oliver13_gmail_com@34.107.78.241
+        ssh -i ~/.ssh/olaszkukutyin ocsko_oliver13_gmail_com@34.159.169.111
         ```
 
 # Related articles
