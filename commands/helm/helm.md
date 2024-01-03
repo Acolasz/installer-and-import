@@ -118,15 +118,41 @@ helm plugin install "name/repo"
 https://github.com/helm-unittest/helm-unittest
 ```
 
+# Helm Hooks
+
+[Hooks:][helm_hooks]
+
+* **pre-install**
+* **post-install**
+* **pre-upgrade**
+* **post-upgrade**
+* **test**
+
+## Implements:
+
+```yaml
+metadata:
+  name: "{{ .Release.Name }}"
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+```
+
 # Post renderer
 
 Helm and Kustomize together [helm ... --post-render][post-render]
 
 # Related article
 
+* Helm hook - [Options available for Health Checks with Helm Charts][helm_hooks]
 * helm charts:
     * [bitnami charts][bitnami_charts]
     * [cetic charts][cetic_charts]
+    * [emberstack charts][emberstack_charts]
+    * [prometheus community charts][prometheus_community_charts]
+    * [elastic.co charts][elastic_charts]
+    * [jetstack.io][jetstack_charts]
 
 # Back to the [README.MD][readme]
 
@@ -134,12 +160,22 @@ Helm and Kustomize together [helm ... --post-render][post-render]
 
 [helm_install]:<https://helm.sh/docs/intro/install/>
 
-[cetic_charts]:<https://github.com/cetic/helm-charts>
+[helm_hooks]:<https://chrisharwell94.medium.com/options-available-for-health-checks-with-helm-charts-b139f26f70aa>
 
-[bitnami_charts]:<https://charts.bitnami.com/bitnami>
-
-[post-render]:<https://github.com/thomastaylor312/advanced-helm-demos/tree/master/post-render>
+[post_render]:<https://github.com/thomastaylor312/advanced-helm-demos/tree/master/post-render>
 
 [helm_diff]:<https://github.com/databus23/helm-diff>
 
 [unittest]:<https://github.com/helm-unittest/helm-unittest>
+
+[cetic_charts]:<https://github.com/cetic/helm-charts>
+
+[bitnami_charts]:<https://charts.bitnami.com/bitnami>
+
+[emberstack_charts]:<https://github.com/emberstack/helm-charts>
+
+[prometheus_community_charts]:<https://github.com/prometheus-community/helm-charts/tree/main/charts>
+
+[elastic_charts]:<https://helm.elastic.co>
+
+[jetstack_charts]:<https://charts.jetstack.io>
