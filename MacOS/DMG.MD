@@ -16,6 +16,7 @@
 * Tunnelblick (VPN) - optional
 * karabiner (modified keyboard [karabiner.json][karabiner_json] ) - optional
 * JetBrains [ToolBox][toolbox_app]
+* LibreOffice
 
 [karabiner_json]:<./karabiner.json>
 

@@ -48,6 +48,11 @@ brew list
   * `brew install direnv`
 * jid
   * `brew install jid`
+* [iperf3][iperf3] - measure bandwith
+  * `brew install iperf3`
+* k3sup
+  * `brew install k3sup`
+  * [k3s usage][k3s]
 
 ### Casks
 
@@ -77,3 +82,7 @@ brew list
 [yamllint_install]:<../commands/yaml-json/yaml-json.md>
 
 [python]:<../Python/python.md>
+
+[iperf3]:<https://www.techtarget.com/searchnetworking/tip/How-to-use-iPerf-to-measure-throughput>
+
+[k3s]:<../kubernetes/k3s/k3s.md>
