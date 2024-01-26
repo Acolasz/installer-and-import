@@ -128,6 +128,13 @@ ACCOUNT_USER=ocsko_oliver13_gmail_com
 k3sup install --ip ${PRIMARY_SERVER_IP} --context k3s \
 --ssh-key ${SSH_KEY_PRIVATE} \
 --user ${ACCOUNT_USER}
+
+PRIMARY_SERVER_IP=$(gcloud compute instances list --filter=tags.items=k3s-master --format="get(networkInterfaces[0].accessConfigs.natIP)")
+SSH_KEY_PRIVATE=/Users/user/.ssh/olaszkukutyin
+ACCOUNT_USER=ocsko_oliver13_gmail_com
+k3sup install --ip ${PRIMARY_SERVER_IP} --context k3s \
+--ssh-key ${SSH_KEY_PRIVATE} \
+--user ${ACCOUNT_USER}
 ```
 
 ### worker node
