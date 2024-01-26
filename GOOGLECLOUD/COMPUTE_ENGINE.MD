@@ -51,23 +51,55 @@ BOOT_DISK_SIZE=10
 BOOT_DISK_TYPE=pd-standard
 REGION=europe-west3
 gcloud compute instance-templates create ${INSTANCE_TEMPLATE_NAME} \
-    --machine-type=${MACHINE_TYPE} \
-    --image-family=${IMAGE_FAMILY} \
-    --image-project=${IMAGE_PROJECT} \
-    --boot-disk-size=${BOOT_DISK_SIZE} \
-    --boot-disk-type=${BOOT_DISK_TYPE} \
-    --instance-template-region=${REGION} \
-    --quiet
+--machine-type=${MACHINE_TYPE} \
+--image-family=${IMAGE_FAMILY} \
+--image-project=${IMAGE_PROJECT} \
+--boot-disk-size=${BOOT_DISK_SIZE} \
+--boot-disk-type=${BOOT_DISK_TYPE} \
+--instance-template-region=${REGION} \
+--quiet
+# e2-medium
+INSTANCE_TEMPLATE_NAME=instance-temp-e2-medium-ew3-stand-30gb
+MACHINE_TYPE=e2-medium
+IMAGE_FAMILY=debian-11
+IMAGE_PROJECT=debian-cloud
+BOOT_DISK_SIZE=30
+BOOT_DISK_TYPE=pd-standard
+REGION=europe-west3
+gcloud compute instance-templates create ${INSTANCE_TEMPLATE_NAME} \
+--machine-type=${MACHINE_TYPE} \
+--image-family=${IMAGE_FAMILY} \
+--image-project=${IMAGE_PROJECT} \
+--boot-disk-size=${BOOT_DISK_SIZE} \
+--boot-disk-type=${BOOT_DISK_TYPE} \
+--instance-template-region=${REGION} \
+--quiet
+# e2-medium other region
+INSTANCE_TEMPLATE_NAME=instance-temp-e2-medium-ew2-stand-30gb
+MACHINE_TYPE=e2-medium
+IMAGE_FAMILY=debian-11
+IMAGE_PROJECT=debian-cloud
+BOOT_DISK_SIZE=30
+BOOT_DISK_TYPE=pd-standard
+REGION=europe-west2
+gcloud compute instance-templates create ${INSTANCE_TEMPLATE_NAME} \
+--machine-type=${MACHINE_TYPE} \
+--image-family=${IMAGE_FAMILY} \
+--image-project=${IMAGE_PROJECT} \
+--boot-disk-size=${BOOT_DISK_SIZE} \
+--boot-disk-type=${BOOT_DISK_TYPE} \
+--instance-template-region=${REGION} \
+--quiet
 
 # Delete template
 
 ## Global
-NSTANCE_TEMPLATE_NAME=instance-temp-e2-small-ew3-stand-1
+INSTANCE_TEMPLATE_NAME=instance-temp-e2-small-ew3-stand-2
 gcloud compute instance-templates delete ${INSTANCE_TEMPLATE_NAME} \
 --quiet
 
 ## Region
-INSTANCE_TEMPLATE_NAME=instance-temp-e2-small-ew3-stand-1
+INSTANCE_TEMPLATE_NAME=instance-temp-e2-small-ew3-stand-2
 REGION=europe-west3
 gcloud compute instance-templates delete ${INSTANCE_TEMPLATE_NAME} \
 --region=${REGION} \
@@ -87,7 +119,7 @@ INSTANCE_TEMPLATE_NAME=instance-temp-e2-small-ew3-stand-1
 gcloud compute instance-templates describe ${INSTANCE_TEMPLATE_NAME}
 
 ## Region
-INSTANCE_TEMPLATE_NAME=instance-temp-e2-small-ew3-stand-1
+INSTANCE_TEMPLATE_NAME=instance-temp-e2-medium-ew3-stand-30gb
 REGION=europe-west3
 gcloud compute instance-templates describe ${INSTANCE_TEMPLATE_NAME} \
 --region=${REGION}
@@ -110,6 +142,22 @@ gcloud compute instance-templates describe ${INSTANCE_TEMPLATE_NAME} \
    --project=${PROJECT_ID} \
    --zone=${ZONE} \
    --metadata enable-oslogin=${ENABLE_OS_LOGIN} \
+   --tags=${TAGS}
+   # Create startup-script
+   VM_NAME=k3s-infra-2
+   INSTANCE_TEMPLATE_NAME=instance-temp-e2-medium-ew3-stand-30gb
+   PROJECT_ID=kktyn-dev-2
+   REGION=europe-west3
+   ZONE=${REGION}-c
+   ENABLE_OS_LOGIN=TRUE
+   STARTUP_SCRIPT=./gce/startup-script.sh
+   TAGS="k3s,k3s-infra"
+   gcloud compute instances create ${VM_NAME} \
+   --source-instance-template projects/${PROJECT_ID}/regions/${REGION}/instanceTemplates/${INSTANCE_TEMPLATE_NAME} \
+   --project=${PROJECT_ID} \
+   --zone=${ZONE} \
+   --metadata enable-oslogin=${ENABLE_OS_LOGIN} \
+   --metadata-from-file=startup-script=${STARTUP_SCRIPT} \
    --tags=${TAGS}
    ```
 
@@ -181,6 +229,7 @@ ZONE=europe-west3-c
 gcloud compute instances start ${VM_NAME} \
 --zone=${ZONE}
 # Multi start
+ZONE=europe-west3-c
 gcloud compute instances start $(gcloud compute instances list --filter=tags.items=k3s --format="get(name)") \
 --zone=${ZONE}
 
@@ -190,6 +239,7 @@ ZONE=europe-west3-c
 gcloud compute instances stop ${VM_NAME} \
 --zone=${ZONE}
 # Multi stop
+ZONE=europe-west3-c
 gcloud compute instances stop $(gcloud compute instances list --filter=tags.items=k3s --format="get(name)") \
 --zone=${ZONE}
 ```
@@ -217,7 +267,7 @@ gcloud compute resource-policies create instance-schedule ${SCHEDULE_NAME} \
 
 # Delete
 ## if is already being used by instance, then from the instance have to remove it.
-SCHEDULE_NAME=daily-stop-k3s
+SCHEDULE_NAME=always-stop-k3s-vms
 REGION=europe-west3
 gcloud compute resource-policies delete ${SCHEDULE_NAME} \
 --region=${REGION}
@@ -236,7 +286,9 @@ gcloud compute resource-policies describe ${SCHEDULE_NAME} \
 --region=${REGION}
 ```
 
-## Update (Add/Remove) instances with schedule instance
+## Update (Add/Remove) instances 
+
+### with schedule instance
 
 ```shell
 # Add resource-policy
@@ -246,10 +298,90 @@ gcloud compute instances add-resource-policies ${VM_NAME} \
 --resource-policies=${SCHEDULE_NAME}
 
 # Remove resource-policy
-VM_NAME=k3s-worker-2
-SCHEDULE_NAME=daily-stop-k3s
+VM_NAME=k3s-infra-1
+SCHEDULE_NAME=always-stop-k3s-vms
+REGION=europe-west3
+ZONE=${REGION}-c
 gcloud compute instances remove-resource-policies ${VM_NAME} \
---resource-policies=${SCHEDULE_NAME}
+--resource-policies=${SCHEDULE_NAME} \
+--zone=${ZONE}
+```
+
+### with network interface (accessConfig)
+
+```shell
+# Delete access-config
+VM_NAME=k3s-master-1
+REGION=europe-west3
+ZONE=${REGION}-c
+ACCESS_CONFIG_NAME="External NAT"
+gcloud compute instances delete-access-config ${VM_NAME} \
+--access-config-name=${ACCESS_CONFIG_NAME} \
+--zone=${ZONE}
+
+# Add access-config
+VM_NAME=k3s-infra-1
+REGION=europe-west3
+ZONE=${REGION}-c
+IP_ADDRESS=34.159.176.157
+gcloud compute instances add-access-config ${VM_NAME} \
+--address=${IP_ADDRESS} \
+--zone=${ZONE}
+
+VM_NAME=k3s-master-1
+REGION=europe-west3
+ZONE=${REGION}-c
+IP_ADDRESS=$(gcloud compute addresses describe ${VM_NAME} --region=${REGION} --format="get(address)")
+gcloud compute instances add-access-config ${VM_NAME} \
+--address=${IP_ADDRESS} \
+--zone=${ZONE}
+```
+
+# IP Address
+
+## Create/Delete IP Address
+
+```shell
+# Delete
+VM_ADDRESS_NAME_1=external-static-ip	
+VM_ADDRESS_NAME_2=external-static-ip
+VM_ADDRESS_NAMES="${VM_ADDRESS_NAME_1},${VM_ADDRESS_NAME_2}"
+REGION=europe-west3
+gcloud compute addresses delete ${VM_ADDRESS_NAMES} \
+--project=${PROJECT_ID} \
+--region=${REGION} \
+--quiet
+
+# Create
+VM_ADDRESS_NAME=k3s-master-1
+REGION=europe-west3
+ZONE=${REGION}-c
+gcloud compute addresses create ${VM_ADDRESS_NAME} \
+--project=${PROJECT_ID} \
+--region=${REGION}
+```
+
+## List/Describe 
+
+```shell
+# List
+REGION_EW2=europe-west2
+REGION_EW3=europe-west3
+REGIONS="${REGION_EW2},${REGION_EW3}"
+gcloud compute addresses list \
+--regions=${REGIONS}
+
+# Describe
+VM_ADDRESS_NAME=nfs-server-1
+REGION_EW2=europe-west2
+gcloud compute addresses describe ${VM_ADDRESS_NAME} \
+--region=${REGION_EW2} 
+## Formatter
+VM_ADDRESS_NAME=nfs-server-1
+REGION_EW2=europe-west2
+gcloud compute addresses describe ${VM_ADDRESS_NAME} \
+--region=${REGION_EW2} \
+--format="get(address)"
 ```
 
 # Unmanaged instance group
@@ -300,6 +432,7 @@ gcloud compute instance-groups unmanaged describe ${VM_GRUOP_NAME} \
     * [gcloud][standard_ssh_gcloud]
     * [OpenSSH][standard_ssh_openssh]
         * [How To SSH into your VM][standard_ssh_openssh_video]
+* [NFS Filestore on GCP for free][nfs_server]
 
 # Back to the [README.MD][readme]
 
@@ -324,3 +457,5 @@ gcloud compute instance-groups unmanaged describe ${VM_GRUOP_NAME} \
 [vpc_network]:<./VPC_NETWORK.MD>
 
 [os_login]:<./OS_LOGIN.MD>
+
+[nfs_server]:<https://medium.com/@ngoodger_7766/nfs-filestore-on-gcp-for-free-859593e18bdf>
