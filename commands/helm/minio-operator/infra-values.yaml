@@ -1,0 +1,33 @@
+operator:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/infra
+                operator: In
+                values:
+                  - infra
+  tolerations:
+    - key: "role"
+      operator: "Equal"
+      value: "infra"
+      effect: "NoSchedule"
+
+console:
+  enabled: true
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/infra
+                operator: In
+                values:
+                  - infra
+  tolerations:
+    - key: "role"
+      operator: "Equal"
+      value: "infra"
+      effect: "NoSchedule"
+

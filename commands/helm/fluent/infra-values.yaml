@@ -1,0 +1,148 @@
+nameOverride: "fluent-bit"
+fullnameOverride: "fluent-bit"
+
+kind: DaemonSet
+
+image:
+  repository: cr.fluentbit.io/fluent/fluent-bit
+  # Overrides the image tag whose default is {{ .Chart.AppVersion }}
+  # Set to "-" to not use the default value
+  tag: 2.2.1-debug
+  digest:
+  pullPolicy: Always
+
+# nem kell hálózati tesztelő pod
+testFramework:
+  enabled: false
+
+tolerations:
+  - key: "node-role.kubernetes.io/infra"
+    operator: "Equal"
+    value: "infra"
+    effect: "NoSchedule"
+
+affinity: {}
+
+# config-ok ezeket használják
+logLevel: info
+flush: 1
+metricsPort: 2020
+
+## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file
+config:
+  service: |
+    [SERVICE]
+        Daemon Off
+        Flush {{ .Values.flush }}
+        Log_Level {{ .Values.logLevel }}
+        Parsers_File /fluent-bit/etc/parsers.conf
+        Parsers_File /fluent-bit/etc/conf/custom_parsers.conf
+        HTTP_Server On
+        HTTP_Listen 0.0.0.0
+        HTTP_Port {{ .Values.metricsPort }}
+        Health_Check On
+
+  ## https://docs.fluentbit.io/manual/pipeline/inputs
+  inputs: |
+    [INPUT]
+        Name                    tail
+        Tag                     kube.*
+        Path                    /var/log/containers/*.log
+        Mem_Buf_Limit           5MB
+        Refresh_Interval        30
+        Key                     log
+        multiline.parser        docker, cri
+        DB                      /var/log/flb_kube.db
+        Skip_Long_Lines         Off
+        Exclude_Path            /var/log/containers/*istio*.log
+        Buffer_Max_Size         5mb
+
+  ## https://docs.fluentbit.io/manual/pipeline/filters
+  filters: |
+    [FILTER]
+        Name record_modifier
+        Match *
+        Record version 1.1
+        Record host ${WORKER_HOSTNAME}
+        Remove_key annotations
+
+    [FILTER]
+        Name         parser
+        Parser       docker
+        Match        *
+        Key_Name     log
+        Reserve_Data On
+        Preserve_Key On
+
+    [FILTER]
+        Name modify
+        Match *
+        Rename level severity
+        Rename level level_app
+
+    [FILTER]
+        Name                    kubernetes
+        Match                   kube.*
+        Kube_URL                https://kubernetes.default.svc:443
+        Merge_Log_Key           log
+        Merge_Log               Off
+        Keep_Log                Off
+        Annotations             Off
+        Labels                  On
+
+  ## https://docs.fluentbit.io/manual/pipeline/outputs
+  outputs: |
+    [OUTPUT]
+        Name                    gelf
+        Match                   kube.*
+        Host                    log.icellmobilsoft.hu
+        Port                    8001
+        Mode                    tcp
+        Gelf_Short_Message_Key  log
+        Gelf_Host_Key           ${WORKER_HOSTNAME}
+
+  # fluent-bit pod stdout kimenetére rakás
+  #    [OUTPUT]
+  #        Name                    stdout
+  #        Match                   *
+
+  ## https://docs.fluentbit.io/manual/pipeline/parsers
+  customParsers: |
+    [PARSER]
+        Name docker_no_time
+        Format json
+        Time_Keep Off
+        Time_Key time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L
+
+  # This allows adding more files with arbitary filenames to /fluent-bit/etc/conf by providing key/value pairs.
+  # The key becomes the filename, the value becomes the file content.
+  extraFiles: {}
+
+daemonSetVolumes:
+  - name: varlog
+    hostPath:
+      path: /var/log
+  - name: varlibdockercontainers
+    hostPath:
+      path: /var/data/docker/containers
+  - name: etcmachineid
+    hostPath:
+      path: /etc/machine-id
+      type: File
+
+daemonSetVolumeMounts:
+  - name: varlog
+    mountPath: /var/log
+  - name: varlibdockercontainers
+    mountPath: /var/data/docker/containers
+    readOnly: true
+  - name: etcmachineid
+    mountPath: /etc/machine-id
+    readOnly: true
+
+env:
+  - name: WORKER_HOSTNAME
+    valueFrom:
+      fieldRef:
+        fieldPath: spec.nodeName

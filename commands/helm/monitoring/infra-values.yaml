@@ -1,0 +1,345 @@
+crds:
+  enabled: true
+defaultRules:
+  create: true
+  rules:
+    alertmanager: true
+    etcd: true
+    configReloaders: true
+    general: true
+    k8sContainerCpuUsageSecondsTotal: true
+    k8sContainerMemoryCache: true
+    k8sContainerMemoryRss: true
+    k8sContainerMemorySwap: true
+    k8sContainerResource: true
+    k8sContainerMemoryWorkingSetBytes: true
+    k8sPodOwner: true
+    kubeApiserverAvailability: true
+    kubeApiserverBurnrate: true
+    kubeApiserverHistogram: true
+    kubeApiserverSlos: true
+    kubeControllerManager: true
+    kubelet: true
+    kubeProxy: true
+    kubePrometheusGeneral: true
+    kubePrometheusNodeRecording: true
+    kubernetesApps: true
+    kubernetesResources: true
+    kubernetesStorage: true
+    kubernetesSystem: true
+    kubeSchedulerAlerting: true
+    kubeSchedulerRecording: true
+    kubeStateMetrics: true
+    network: true
+    node: true
+    nodeExporterAlerting: true
+    nodeExporterRecording: true
+    prometheus: true
+    prometheusOperator: true
+    windows: true
+
+alertmanager:
+  enabled: true
+  serviceAccount:
+    create: true
+  service:
+    port: 9093
+    targetPort: 9093
+    type: ClusterIP
+
+  serviceMonitor:
+    interval: ""
+    selfMonitor: true
+
+  alertmanagerSpec:
+    replicas: 1
+    retention: 120h
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn-ha
+          accessModes: [ "ReadWriteOnce" ]
+          resources:
+            requests:
+              storage: 200Mi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 256Mi
+#    affinity:
+#      nodeAffinity:
+#        requiredDuringSchedulingIgnoredDuringExecution:
+#          nodeSelectorTerms:
+#            - matchExpressions:
+#                - key: node-role.kubernetes.io/infra
+#                  operator: In
+#                  values:
+#                    - infra
+#    tolerations:
+#      - key: "role"
+#        operator: "Equal"
+#        value: "infra"
+#        effect: "NoSchedule"
+
+grafana:
+  enabled: true
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      labelValue: "1"
+      searchNamespace: ALL
+    datasources:
+      enabled: true
+      defaultDatasourceEnabled: true
+      isDefaultDatasource: true
+      uid: prometheus
+      httpMethod: POST
+      label: grafana_datasource
+      labelValue: "1"
+      alertmanager:
+        enabled: true
+        uid: alertmanager
+        handleGrafanaManagedAlerts: false
+        implementation: prometheus
+  service:
+    portName: http-web
+  persistence:
+    enabled: true
+    type: pvc
+    storageClassName: "longhorn"
+    accessModes:
+      - ReadWriteOnce
+    size: 400Mi
+  serviceMonitor:
+    enabled: true
+    path: "/metrics"
+#  affinity:
+#    nodeAffinity:
+#      requiredDuringSchedulingIgnoredDuringExecution:
+#        nodeSelectorTerms:
+#          - matchExpressions:
+#              - key: node-role.kubernetes.io/infra
+#                operator: In
+#                values:
+#                  - infra
+#  tolerations:
+#    - key: "role"
+#      operator: "Equal"
+#      value: "infra"
+#      effect: "NoSchedule"
+
+kubernetesServiceMonitors:
+  enabled: true
+kubeApiServer:
+  enabled: true
+kubelet:
+  enabled: true
+  namespace: kube-system
+kubeControllerManager:
+  enabled: true
+  service:
+    enabled: true
+  serviceMonitor:
+    enabled: true
+coreDns:
+  enabled: true
+  service:
+    enabled: true
+  serviceMonitor:
+    enabled: true
+kubeEtcd:
+  enabled: true
+  service:
+    enabled: true
+  serviceMonitor:
+    enabled: true
+kubeScheduler:
+  enabled: true
+  service:
+    enabled: true
+  serviceMonitor:
+    enabled: true
+kubeProxy:
+  enabled: true
+  service:
+    enabled: true
+  serviceMonitor:
+    enabled: true
+kubeStateMetrics:
+  enabled: true
+kube-state-metrics:
+  rbac:
+    create: true
+  releaseLabel: true
+  prometheus:
+    monitor:
+      enabled: true
+nodeExporter:
+  enabled: true
+  operatingSystems:
+    linux:
+      enabled: true
+    darwin:
+      enabled: true
+prometheus-node-exporter:
+  releaseLabel: true
+  service:
+    portName: http-metrics
+  prometheus:
+    monitor:
+      enabled: true
+prometheusOperator:
+  enabled: true
+  admissionWebhooks:
+    enabled: true
+    deployment:
+      enabled: false
+      service:
+        type: ClusterIP
+      livenessProbe:
+        enabled: true
+        failureThreshold: 3
+        initialDelaySeconds: 30
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      readinessProbe:
+        enabled: true
+        failureThreshold: 3
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      resources:
+        limits:
+          cpu: 200m
+          memory: 200Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+#      tolerations:
+#        - key: "role"
+#          operator: "Equal"
+#          value: "infra"
+#          effect: "NoSchedule"
+#      affinity:
+#        nodeAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            nodeSelectorTerms:
+#              - matchExpressions:
+#                  - key: node-role.kubernetes.io/infra
+#                    operator: In
+#                    values:
+#                      - infra
+    patch:
+      enabled: true
+      resources:
+        limits:
+          cpu: 200m
+          memory: 200Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+#      affinity:
+#        nodeAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            nodeSelectorTerms:
+#              - matchExpressions:
+#                  - key: node-role.kubernetes.io/infra
+#                    operator: In
+#                    values:
+#                      - infra
+#      tolerations:
+#        - key: "role"
+#          operator: "Equal"
+#          value: "infra"
+#          effect: "NoSchedule"
+    certManager:
+      enabled: false
+      rootCert:
+        duration: ""  # default to be 5y
+      admissionCert:
+        duration: ""  # default to be 1y
+  serviceAccount:
+    create: true
+  service:
+    type: ClusterIP
+  kubeletService:
+    enabled: true
+  serviceMonitor:
+    selfMonitor: true
+  resources:
+    limits:
+      cpu: 200m
+      memory: 200Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+  env:
+    GOGC: "30"
+#  tolerations:
+#    - key: "role"
+#      operator: "Equal"
+#      value: "infra"
+#      effect: "NoSchedule"
+#  affinity:
+#    nodeAffinity:
+#      requiredDuringSchedulingIgnoredDuringExecution:
+#        nodeSelectorTerms:
+#          - matchExpressions:
+#              - key: node-role.kubernetes.io/infra
+#                operator: In
+#                values:
+#                  - infra
+  prometheusConfigReloader:
+    enableProbe: false
+    resources:
+      requests:
+        cpu: 200m
+        memory: 50Mi
+      limits:
+        cpu: 200m
+        memory: 50Mi
+prometheus:
+  enabled: true
+  serviceAccount:
+    create: true
+  service:
+    port: 9090
+    targetPort: 9090
+    type: ClusterIP
+  serviceMonitor:
+    selfMonitor: true
+  prometheusSpec:
+#    tolerations:
+#      - key: "role"
+#        operator: "Equal"
+#        value: "infra"
+#        effect: "NoSchedule"
+    retention: 4d
+#    retentionSize: "500MB"
+    replicas: 1
+#    affinity:
+#      nodeAffinity:
+#        requiredDuringSchedulingIgnoredDuringExecution:
+#          nodeSelectorTerms:
+#            - matchExpressions:
+#                - key: node-role.kubernetes.io/infra
+#                  operator: In
+#                  values:
+#                    - infra
+    resources: {}
+    # requests:
+    #   memory: 400Mi
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "longhorn-semmi-ha"
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 500Mi
+    portName: "http-web"

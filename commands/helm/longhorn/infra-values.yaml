@@ -1,0 +1,144 @@
+persistence:
+  defaultClass: false
+  defaultFsType: ext4
+  defaultClassReplicaCount: 1
+  defaultDataLocality: best-effort
+  reclaimPolicy: Retain
+  migratable: true
+
+csi:
+  kubeletRootDir: ~
+  attacherReplicaCount: ~
+  provisionerReplicaCount: ~
+  resizerReplicaCount: ~
+  snapshotterReplicaCount: ~
+
+defaultSettings:
+  backupTarget: "nfs://34.147.225.121:/opt/nfs"
+  backupTargetCredentialSecret: ~
+  allowRecurringJobWhileVolumeDetached: ~
+  createDefaultDiskLabeledNodes: true
+  defaultDataPath: /data-persistent/longhorn
+  defaultDataLocality: best-effort
+  replicaSoftAntiAffinity: ~
+  replicaAutoBalance: best-effort
+  storageOverProvisioningPercentage: 150
+  storageMinimalAvailablePercentage: 5
+  storageReservedPercentageForDefaultDisk: ~
+  upgradeChecker: false
+  defaultReplicaCount: 2
+  defaultLonghornStaticStorageClass: ~
+  backupstorePollInterval: ~
+  failedBackupTTL: ~
+  restoreVolumeRecurringJobs: ~
+  recurringSuccessfulJobsHistoryLimit: ~
+  recurringFailedJobsHistoryLimit: ~
+  supportBundleFailedHistoryLimit: ~
+  taintToleration: ~
+  systemManagedComponentsNodeSelector: ~
+  priorityClass: high-priority
+  autoSalvage: ~
+  autoDeletePodWhenVolumeDetachedUnexpectedly: ~
+  disableSchedulingOnCordonedNode: ~
+  replicaZoneSoftAntiAffinity: ~
+  nodeDownPodDeletionPolicy: "delete-both-statefulset-and-deployment-pod"
+  nodeDrainPolicy: ~
+  replicaReplenishmentWaitInterval: ~
+  concurrentReplicaRebuildPerNodeLimit: ~
+  concurrentVolumeBackupRestorePerNodeLimit: ~
+  disableRevisionCounter: ~
+  systemManagedPodsImagePullPolicy: ~
+  allowVolumeCreationWithDegradedAvailability: ~
+  autoCleanupSystemGeneratedSnapshot: ~
+  concurrentAutomaticEngineUpgradePerNodeLimit: ~
+  backingImageCleanupWaitInterval: ~
+  backingImageRecoveryWaitInterval: ~
+  guaranteedInstanceManagerCPU: ~
+  kubernetesClusterAutoscalerEnabled: ~
+  orphanAutoDeletion: ~
+  storageNetwork: ~
+  deletingConfirmationFlag: true
+  engineReplicaTimeout: ~
+  snapshotDataIntegrity: ~
+  snapshotDataIntegrityImmediateCheckAfterSnapshotCreation: ~
+  snapshotDataIntegrityCronjob: ~
+  removeSnapshotsDuringFilesystemTrim: ~
+  fastReplicaRebuildEnabled: ~
+  replicaFileSyncHttpClientTimeout: ~
+  logLevel: ~
+  backupCompressionMethod: ~
+  backupConcurrentLimit: ~
+  restoreConcurrentLimit: ~
+  v2DataEngine: ~
+  offlineReplicaRebuilding: ~
+
+privateRegistry:
+  createSecret: ~
+  registryUrl: ~
+  registryUser: ~
+  registryPasswd: ~
+  registrySecret: ~
+
+#longhornManager:
+#  tolerations:
+#    - key: "infra"
+#      operator: "Exists"
+#      effect: "NoSchedule"
+#  nodeSelector:
+#    node-role.kubernetes.io/worker: worker
+#    node-role.kubernetes.io/infra: infra
+#  affinity:
+#    nodeAffinity:
+#      requiredDuringSchedulingIgnoredDuringExecution:
+#        nodeSelectorTerms:
+#          - matchExpressions:
+#              - key: node-role.kubernetes.io/infra
+#                operator: In
+#                values:
+#                  - infra
+#          - matchExpressions:
+#              - key: node-role.kubernetes.io/worker
+#                operator: In
+#                values:
+#                  - worker
+#longhornDriver:
+#  tolerations:
+#    - key: "infra"
+#      operator: "Exists"
+#      effect: "NoSchedule"
+#  nodeSelector:
+#    node-role.kubernetes.io/worker: worker
+#    node-role.kubernetes.io/infra: infra
+#  affinity:
+#    nodeAffinity:
+#      requiredDuringSchedulingIgnoredDuringExecution:
+#        nodeSelectorTerms:
+#          - matchExpressions:
+#              - key: node-role.kubernetes.io/infra
+#                operator: In
+#                values:
+#                  - infra
+
+longhornUI:
+  replicas: 1
+#  tolerations:
+#    - key: "infra"
+#      operator: "Exists"
+#      effect: "NoSchedule"
+#  nodeSelector:
+#    node-role.kubernetes.io/worker: worker
+#    node-role.kubernetes.io/infra: infra
+#  affinity:
+#    nodeAffinity:
+#      requiredDuringSchedulingIgnoredDuringExecution:
+#        nodeSelectorTerms:
+#          - matchExpressions:
+#              - key: node-role.kubernetes.io/infra
+#                operator: In
+#                values:
+#                  - infra
+#          - matchExpressions:
+#              - key: node-role.kubernetes.io/worker
+#                operator: In
+#                values:
+#                  - worker

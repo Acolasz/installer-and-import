@@ -1,0 +1,85 @@
+nameOverride: "postgres"
+fullnameOverride: "postgres"
+architecture: standalone
+containerPorts:
+  postgresql: 5432
+postgresqlDataDir: /bitnami/postgresql/data
+
+primary:
+  name: primary
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  startupProbe:
+    enabled: false
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 15
+    successThreshold: 1
+  resources:
+    limits: {}
+    requests:
+      memory: 256Mi
+      cpu: 250m
+  affinity: {}
+  nodeSelector: {}
+  tolerations: []
+  service:
+    type: ClusterIP
+    ports:
+      postgresql: 5432
+  persistence:
+    enabled: true
+    mountPath: /bitnami/postgresql
+    storageClass: "longhorn-semmi-ha"
+    accessModes:
+      - ReadWriteOnce
+    size: 800Mi
+
+metrics:
+  enabled: true
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  startupProbe:
+    enabled: false
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    timeoutSeconds: 1
+    failureThreshold: 15
+    successThreshold: 1
+  containerPorts:
+    metrics: 9187
+  resources:
+    limits: {}
+    requests: {}
+  service:
+    ports:
+      metrics: 9187
+  serviceMonitor:
+    enabled: true
+  prometheusRule:
+    enabled: true

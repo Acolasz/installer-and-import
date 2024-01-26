@@ -35,10 +35,11 @@ helm search repo --regexp ${REPO_NAME}/*
 
 helm pull ${REPO_NAME}/${CHART_NAME}
 helm pull ${REPO_NAME}/${CHART_NAME} --version 12.8.2
+helm pull --untar bitnami/redis --version 17.3.9
 helm pull --untar --untardir ${CHART_NAME}-12.8.2 ${REPO_NAME}/${CHART_NAME} --version 12.8.2
 
 # tar -xzvf ./${CHART_NAME}-12.8.2.tar.gz -C ./${CHART_NAME}
-
+helm pull --untar hugo-helm/dookug-document-service --version 1.0.2
 
 helm show all ${REPO_NAME}/${CHART_NAME}
 

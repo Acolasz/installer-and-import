@@ -1,0 +1,44 @@
+replicaCount: 1
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+  portName: http
+networkPolicy:
+  enabled: false
+env:
+  variables: []
+  # - name: PGADMIN_LISTEN_ADDRESS
+  #   value: "0.0.0.0"
+  # - name: PGADMIN_LISTEN_PORT
+  #   value: "8080"
+persistentVolume:
+  enabled: true
+  annotations: {}
+  accessModes:
+    - ReadWriteOnce
+  size: 2Gi
+  storageClass: "longhorn-semmi-ha"
+#livenessProbe:
+#  initialDelaySeconds: 30
+#  periodSeconds: 60
+#  timeoutSeconds: 15
+#  successThreshold: 1
+#  failureThreshold: 3
+#readinessProbe:
+#  initialDelaySeconds: 30
+#  periodSeconds: 60
+#  timeoutSeconds: 15
+#  successThreshold: 1
+#  failureThreshold: 3
+#containerPorts:
+#  http: 80
+#resources:
+#  limits:
+#    cpu: 100m
+#    memory: 128Mi
+#  requests:
+#    cpu: 100m
+#    memory: 128Mi
+tolerations: []
+affinity: {}

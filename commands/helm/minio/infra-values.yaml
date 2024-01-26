@@ -1,0 +1,81 @@
+mode: standalone
+
+extraEnvVars:
+  - name: MINIO_CONSOLE_PORT_NUMBER
+    value: "8080"
+  - name: MINIO_API_PORT_NUMBER
+    value: "9000"
+
+containerPorts:
+  api: 9000
+  console: 8080
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: node-role.kubernetes.io/infra
+              operator: In
+              values:
+                - infra
+
+tolerations:
+  - key: "role"
+    operator: "Equal"
+    value: "infra"
+    effect: "NoSchedule"
+
+resources:
+   limits:
+      cpu: 250m
+      memory: 256Mi
+   requests:
+      cpu: 250m
+      memory: 256Mi
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 5
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 1
+  successThreshold: 1
+  failureThreshold: 5
+
+startupProbe:
+  enabled: false
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 60
+
+service:
+  type: ClusterIP
+  ports:
+    api: 9000
+    console: 80
+
+persistence:
+  enabled: true
+  storageClass: longhorn
+  size: 1Gi
+  accessModes:
+    - ReadWriteOnce
+
+metrics:
+  prometheusAuthType: public
+
+  serviceMonitor:
+    enabled: ture
+
+  prometheusRule:
+    enabled: true
