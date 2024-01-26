@@ -16,6 +16,8 @@
 * [etcdctl][etcdctl]
 * helm
 * helmfile
+* redis-cli
+* minio cli (mc)
 
 ## brew
 
