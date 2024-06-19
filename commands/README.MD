@@ -11,6 +11,7 @@
     * Bower
 * GIT
 * Apache Bench ([ab][ab_cmd] cmd) - faster network traffic testing
+* [oha cli][oha] - load/performance/http testing
 * QEMU ([qemu][qemu_cmd] cmd)
 * sysbench ([sysbench][sysbench_cmd] cmd)
 * [etcdctl][etcdctl]
@@ -43,3 +44,5 @@
 [etcdctl]:<./etcdctl/etcdctl.md>
 
 [regctl]:<./regctl/regctl.md>
+
+[oha]:<./oha/oha.md>

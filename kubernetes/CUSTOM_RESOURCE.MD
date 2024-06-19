@@ -17,7 +17,19 @@ kubectl api-resources --api-group=cert-manager.io
 
 ```shell
 kubectl describe crd certificaterequests
-kubectl describe crd certificaterequests.cert-manager.io
+```
+
+### Delete
+
+```shell
+kubectl patch certificaterequests/cert-manager.io -p '{"metadata":{"finalizers":[]}}' --type=merge
 ```
 
 ## Custom resource
+
+### Get/Describe Custom Resource
+
+```shell
+kubectl get certificaterequests --all-namespaces
+kubectl describe certificaterequests --all-namespaces
+```

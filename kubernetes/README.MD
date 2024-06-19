@@ -12,6 +12,10 @@ kubectl run ubuntu-tst -it --image ubuntu -- bash
 kubectl run tmp-shell --rm -i --tty --image nicolaka/netshootls -- bash
 ```
 
+## Namespace
+
+[Usage Namespace][namespace]
+
 ## Events
 
 [Usage Events][events]
@@ -28,6 +32,10 @@ kubectl run tmp-shell --rm -i --tty --image nicolaka/netshootls -- bash
 
 [Usage Annotate][annotate]
 
+## RBAC
+
+[Usage RBAC][rbac]
+
 # Resources
 
 ```shell
@@ -43,22 +51,22 @@ kubectl get endpoints
 ## External kubeconfig
 
 ```shell
-k config set-cluster k8z --server https://külső-IP-cím --insecure-skip-tls-verify
-k config set-credentials k8z --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token )
-k config set-context k8z --cluster k8z --user k8z --namespace $NS
-k config get-contexts
-k config view
-k config view --minify
-k config view --minify --flatten
+kubectl config set-cluster k8z --server https://külső-IP-cím --insecure-skip-tls-verify
+kubectl config set-credentials k8z --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token )
+kubectl config set-context k8z --cluster k8z --user k8z --namespace $NS
+kubectl config get-contexts
+kubectl config view
+kubectl config view --minify
+kubectl config view --minify --flatten
 ```
 
 ## RBAC
 
 ```shell
-k create rolebinding list --clusterrole view --group system:serviceaccounts:<namespace>
-k create role <role_name> --resource svc,deployments --verb list,get
-#k create role svclister --resource svc --verb list
-k create rolebinding <rolebindig_name> --role view --group system:serviceaccounts:<namespace>
+kubectl create rolebinding list --clusterrole view --group system:serviceaccounts:<namespace>
+kubectl create role <role_name> --resource svc,deployments --verb list,get
+#kubectl create role svclister --resource svc --verb list
+kubectl create rolebinding <rolebindig_name> --role view --group system:serviceaccounts:<namespace>
 ```
 
 # kubectl plugins
@@ -83,6 +91,8 @@ install [Kubernetes dashboard][kube_dashboard] on browser
 
 [readme]:<../README.MD>
 
+[namespace]:<./NAMESPACE.MD>
+
 [events]:<./EVENTS.MD>
 
 [pods]:<./PODS.MD>
@@ -90,6 +100,8 @@ install [Kubernetes dashboard][kube_dashboard] on browser
 [secrets]:<./SECRETS.MD>
 
 [annotate]:<./ANNOTATE.MD>
+
+[rbac]:<./RBAC.MD>
 
 [kube_dashboard]:<./kubernetes/docker-desktop/README.MD>
 

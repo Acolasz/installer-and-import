@@ -50,8 +50,14 @@ kubectl get secrets/prometheus-grafana --template='{{index .data "admin-password
 kubectl get secrets/db-user-pass --template='{{ range $key, $value := .data }}{{ printf "%s: %s\n" $key ($value | base64decode) }}{{ end }}'
 ```
 
-Related article:
+# Related article:
 
 * [kubectl create configMap][kubectl_create_configmap]
+* [K8S ConfigMap by Helm limitation][kubectl_helm_setup]
+* [Using Helm To Include All Files From A Directory In-line][kubectl_helm_include_all_files]
 
 [kubectl_create_configmap]:<https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_create_configmap/>
+
+[kubectl_helm_setup]:<https://www.linkedin.com/pulse/k8s-configmap-helm-limitation-sarris-overbosch/>
+
+[kubectl_helm_include_all_files]:<https://tratnayake.dev/helm-include-all-files-from-directory-in-line>

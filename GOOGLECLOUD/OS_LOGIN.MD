@@ -4,7 +4,7 @@
 
 ```shell
 # Describe
-PROJECT_ID=kktyn-dev-1
+PROJECT_ID=kktyn-dev-2
 gcloud compute os-login describe-profile \
 --project=${PROJECT_ID} \
 --format='yaml(posixAccounts[].accountId)'
@@ -27,7 +27,7 @@ faa658fb8ac083636aed5b2c5feca00fa93e9bd2b283c64e217c839715c72caa
 220be6c8d62b1283c9c3ecffde7b5f783ed3258892191897264910671302a0c3
 
 # Describe
-FINGERPRINT=220be6c8d62b1283c9c3ecffde7b5f783ed3258892191897264910671302a0c3
+FINGERPRINT=faa658fb8ac083636aed5b2c5feca00fa93e9bd2b283c64e217c839715c72caa
 gcloud compute os-login ssh-keys describe --key=${FINGERPRINT}
 
 # Add
@@ -42,10 +42,14 @@ FINGERPRINT=faa658fb8ac083636aed5b2c5feca00fa93e9bd2b283c64e217c839715c72caa
 gcloud compute os-login ssh-keys remove --key=${FINGERPRINT}
 ```
 
+```shell
+sh -i ~/.ssh/olaszkukutyin ocsko_oliver13_gmail_com@
+```
+
 # Related articles
 
-* Google cloud - [Cloud OS Login API][create_instance_template]
-* Google cloud - [gcloud compute os-login][cmd_os_login]
+* Google cloud - [Cloud OS Login API][os_login_api]
+* Google cloud - [gcloud compute os-login][os_login_cmd]
 
 # Back to the [README.MD][readme]
 

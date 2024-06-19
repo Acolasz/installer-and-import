@@ -44,10 +44,10 @@ helm pull --untar hugo-helm/dookug-document-service --version 1.0.2
 helm show all ${REPO_NAME}/${CHART_NAME}
 
 # registry
-helm registry login https://artifactory.com/artifactory/helm-manual-local/ --username oo --password AKCp8k7uYNRRWDsRniSMzBuyTkKsdcEwCkunLaoVb1gu5Vwj67oogcKnMBf24MHAxwTEL6x2f
+helm registry login https://artifactory.com/artifactory/helm-manual-local/ --username oo --password <token>
 // artifactory plugin install and usage
-helm repo add helm-manual-local https://artifactory.com/artifactory/helm-manual-local/ --username oo --password AKCp8k7uYNRRWDsRniSMzBuyTkKsdcEwCkunLaoVb1gu5Vwj67oogcKnMBf24MHAxwTEL6x2f
-helm repo add helm-manual-local https://artifactory.com/artifactory/helm-manual-local/ --username oo --password AKCp8k7uYNRRWDsRniSMzBuyTkKsdcEwCkunLaoVb1gu5Vwj67oogcKnMBf24MHAxwTEL6x2f
+helm repo add helm-manual-local https://artifactory.com/artifactory/helm-manual-local/ --username oo --password <token>
+helm repo add helm-manual-local https://artifactory.com/artifactory/helm-manual-local/ --username oo --password <token>
 # plugin
 helm plugin install https://github.com/belitre/helm-push-artifactory-plugin --version 1.0.1
 helm plugin list
@@ -86,7 +86,7 @@ helm upgrade --install --create-namespace -n ${CHART_NAMESPACE} ${CHART_NAME} re
 helm upgrade --install -n ${CHART_NAMESPACE} $CHART_NAME repo/${CHART_NAME} -f ./override-values.yaml --version ${CHART_VERSION}
 
 # uninstall
-helm unistall -n ${CHART_NAMESPACE} ${CHART_NAME}
+helm unisntall -n ${CHART_NAMESPACE} ${CHART_NAME}
 
 # get, list
 helm list
@@ -100,6 +100,12 @@ helm get values ${CHART_NAME}
 CHART_NAME=
 CHART_NAMESPACE=
 helm rollback ${CHART_NAME} <revision_number> -n ${CHART_NAMESPACE}
+```
+
+# History
+
+```shell
+helm history -n <namespace> <release_name>
 ```
 
 ## Plugins

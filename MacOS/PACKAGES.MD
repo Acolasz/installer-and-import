@@ -41,7 +41,8 @@ brew list
   * `brew install esolitos/ipa/sshpass`
 * telnet
   * `brew install telnet`
-* [python@3.11][python]
+* [python@3.12][python]
+  * `brew install python-tk`
 * arkede
   * `curl -sLS https://get.arkade.dev | sudo sh`
 * direnv
@@ -53,6 +54,13 @@ brew list
 * k3sup
   * `brew install k3sup`
   * [k3s usage][k3s]
+* k9s
+  * `brew install k9s`
+* wget
+  * `brew install wget`
+* go-task
+  * `brew install go-task`
+  * [Task][go_task]
 
 ### Casks
 
@@ -86,3 +94,5 @@ brew list
 [iperf3]:<https://www.techtarget.com/searchnetworking/tip/How-to-use-iPerf-to-measure-throughput>
 
 [k3s]:<../kubernetes/k3s/k3s.md>
+
+[go_task]:<https://taskfile.dev/usage/>

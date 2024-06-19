@@ -1,0 +1,12 @@
+apiVersion: longhorn.io/v1beta1
+kind: RecurringJob
+metadata:
+  name: backup-semmi-ha-group
+  namespace: longhorn-system
+spec:
+  cron: "0 */11 * * *"
+  task: "backup"
+  groups:
+    - s-ha-backup
+  retain: 1
+  concurrency: 2

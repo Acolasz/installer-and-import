@@ -90,6 +90,21 @@ gcloud compute instance-templates create ${INSTANCE_TEMPLATE_NAME} \
 --boot-disk-type=${BOOT_DISK_TYPE} \
 --instance-template-region=${REGION} \
 --quiet
+INSTANCE_TEMPLATE_NAME=instance-temp-e2-small-ew3-stand-10gb
+MACHINE_TYPE=e2-medium
+IMAGE_FAMILY=debian-11
+IMAGE_PROJECT=debian-cloud
+BOOT_DISK_SIZE=30
+BOOT_DISK_TYPE=pd-standard
+REGION=europe-west1
+gcloud compute instance-templates create ${INSTANCE_TEMPLATE_NAME} \
+--machine-type=${MACHINE_TYPE} \
+--image-family=${IMAGE_FAMILY} \
+--image-project=${IMAGE_PROJECT} \
+--boot-disk-size=${BOOT_DISK_SIZE} \
+--boot-disk-type=${BOOT_DISK_TYPE} \
+--instance-template-region=${REGION} \
+--quiet
 
 # Delete template
 
@@ -344,9 +359,10 @@ gcloud compute instances add-access-config ${VM_NAME} \
 ```shell
 # Delete
 VM_ADDRESS_NAME_1=external-static-ip	
-VM_ADDRESS_NAME_2=external-static-ip
-VM_ADDRESS_NAMES="${VM_ADDRESS_NAME_1},${VM_ADDRESS_NAME_2}"
+VM_ADDRESS_NAME_2=k3s-master-1
+VM_ADDRESS_NAMES="${VM_ADDRESS_NAME_2}"
 REGION=europe-west3
+PROJECT_ID=kktyn-dev-2
 gcloud compute addresses delete ${VM_ADDRESS_NAMES} \
 --project=${PROJECT_ID} \
 --region=${REGION} \
@@ -356,6 +372,7 @@ gcloud compute addresses delete ${VM_ADDRESS_NAMES} \
 VM_ADDRESS_NAME=k3s-master-1
 REGION=europe-west3
 ZONE=${REGION}-c
+PROJECT_ID=kktyn-dev-2
 gcloud compute addresses create ${VM_ADDRESS_NAME} \
 --project=${PROJECT_ID} \
 --region=${REGION}

@@ -1,0 +1,89 @@
+canIpForward: false
+cpuPlatform: Intel Broadwell
+creationTimestamp: '2024-05-22T00:05:26.702-07:00'
+deletionProtection: false
+disks:
+- architecture: X86_64
+  autoDelete: true
+  boot: true
+  deviceName: persistent-disk-0
+  diskSizeGb: '10'
+  guestOsFeatures:
+  - type: UEFI_COMPATIBLE
+  - type: VIRTIO_SCSI_MULTIQUEUE
+  - type: GVNIC
+  - type: SEV_CAPABLE
+  index: 0
+  interface: SCSI
+  kind: compute#attachedDisk
+  licenses:
+  - https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-11-bullseye
+  mode: READ_WRITE
+  source: https://www.googleapis.com/compute/v1/projects/kktyn-dev-2/zones/europe-west3-a/disks/k3s-master-1
+  type: PERSISTENT
+fingerprint: SMXzmC1YdnI=
+id: '8923681028906690522'
+kind: compute#instance
+labelFingerprint: 42WmSpB8rSM=
+lastStartTimestamp: '2024-05-22T00:05:33.396-07:00'
+machineType: https://www.googleapis.com/compute/v1/projects/kktyn-dev-2/zones/europe-west3-a/machineTypes/e2-small
+metadata:
+  fingerprint: -YbXUOIPzAU=
+  items:
+  - key: enable-oslogin
+    value: 'TRUE'
+  - key: startup-script
+    value: |
+      #!/usr/bin/env bash
+
+      apt-get update
+      apt-get install -yq python3.6
+
+      exit 0
+  kind: compute#metadata
+name: k3s-master-1
+networkInterfaces:
+- accessConfigs:
+  - kind: compute#accessConfig
+    name: external-nat
+    natIP: 34.159.104.117
+    networkTier: PREMIUM
+    type: ONE_TO_ONE_NAT
+  fingerprint: C++/ve+/ve+/vWZjK3I=
+  kind: compute#networkInterface
+  name: nic0
+  network: https://www.googleapis.com/compute/v1/projects/kktyn-dev-2/global/networks/default
+  networkIP: 10.156.15.206
+  stackType: IPV4_ONLY
+  subnetwork: https://www.googleapis.com/compute/v1/projects/kktyn-dev-2/regions/europe-west3/subnetworks/default
+satisfiesPzi: true
+scheduling:
+  automaticRestart: true
+  onHostMaintenance: MIGRATE
+  preemptible: false
+  provisioningModel: STANDARD
+selfLink: https://www.googleapis.com/compute/v1/projects/kktyn-dev-2/zones/europe-west3-a/instances/k3s-master-1
+serviceAccounts:
+- email: 1037197631166-compute@developer.gserviceaccount.com
+  scopes:
+  - https://www.googleapis.com/auth/devstorage.read_only
+  - https://www.googleapis.com/auth/logging.write
+  - https://www.googleapis.com/auth/monitoring.write
+  - https://www.googleapis.com/auth/pubsub
+  - https://www.googleapis.com/auth/service.management.readonly
+  - https://www.googleapis.com/auth/servicecontrol
+  - https://www.googleapis.com/auth/trace.append
+shieldedInstanceConfig:
+  enableIntegrityMonitoring: true
+  enableSecureBoot: false
+  enableVtpm: true
+shieldedInstanceIntegrityPolicy:
+  updateAutoLearnPolicy: true
+startRestricted: false
+status: RUNNING
+tags:
+  fingerprint: hw28xhxIKTw=
+  items:
+  - k3s
+  - k3s-master
+zone: https://www.googleapis.com/compute/v1/projects/kktyn-dev-2/zones/europe-west3-a

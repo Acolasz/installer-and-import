@@ -1,0 +1,15 @@
+env:
+  dev:
+    - name: hubphq-hugo-dswarm-d001
+    - name: hubphq-hugo-dswarm-d002
+    - name: hubphq-hugo-dswarm-d003
+  fit:
+    - name: hubphq-hugo-wf10-d001
+    - name: hubphq-hugo-wf10-d002
+    - name: hubphq-hugo-wf10-f001
+      ip: 10.10.87.4
+    - name: hubphq-hugo-wf10-f002
+      ip: 10.10.87.4
+  jenkins:
+    - name: hubphq-jenkins-master-d001
+      ip: hubphq-jenkins-master-d001

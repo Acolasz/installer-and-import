@@ -43,7 +43,7 @@ primary:
   persistence:
     enabled: true
     mountPath: /bitnami/postgresql
-    storageClass: "longhorn-semmi-ha"
+    storageClass: "longhorn-ha-group"
     accessModes:
       - ReadWriteOnce
     size: 800Mi

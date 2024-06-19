@@ -1,6 +1,7 @@
 # Helm charts
 
 * reflector [emberstack/kubernetes-reflector][reflector]
+* metrics-server [metrics-server/metrics-server][metrics_server]
 * longhorn
     * [prerequisite][longhorn_prerequisite]
     * [helm install][longhorn_install]
@@ -10,13 +11,20 @@
         * [cloud controller manager][longhorn_controller_manager]
         * Launch Longhorn with multiple disks
             * [launch longhorn multi disk][longhorn_launch_longhorn]
-    * store resoulution
+    * store resolution
         * [Lesson learned on deploying Minio with CIFS backend.][longhorn_flexvolume]
+    * longhorn [monitoring][longhorn_monitoring]
 * kube prometheus stack [prometheus-community/kube-prometheus-stack][kube_prometheus_stack]
     * prometheus-operator
     * prometheus-service
     * allertmanager-service
     * grafana
+        * [Grafana dashboards official][grafana_dashboards]
+    * Related article:
+        * [Prometheus’ performance and cardinality in practice][prometheus_performance_in_practice]
+        * [How relabeling in Prometheus works][prometheus_relabeling]
+* fluent-bit [fluent/fluent-bit][fluent_bit]
+    * mount PV/PVC sample: [Persistent storage for container logging using Fluent Bit and Amazon EFS][fluent_bit_pv_pvc]
 * elastic-operator [elastic/elasticsearch][elastic_operator]
 * cert-manager [jetstack/cert-manager][cert_manager]
     * describe [install][cert_manager_install]
@@ -32,6 +40,15 @@
 * postgresql/pgadmin4
     * install [PostgreSQL][postgresql]
     * install [pgAdmin 4][pgadmin4]
+* sonarqube
+* awx-operator
+    * [awx-operator][awx_operator]
+    * [How to Install Ansible AWX on Kubernetes Cluster][awx_install]
+* gitlab-runner
+    * [kubernetes executor][gitlab_runner_kubernetes]
+* etcd
+* nfs-subdir-external-provisioner [nfs-subdir-external-provisioner/nfs-subdir-external-provisioner][nfs_provisioner]
+    * [How to Setup Dynamic NFS Provisioning in a Kubernetes Cluster][nfs_provisioner_sample]
 
 # Install
 
@@ -48,6 +65,22 @@ helm upgrade --install reflector \
 emberstack/reflector --version 7.1.216 \
 --create-namespace \
 --namespace ${NS}
+```
+
+## metrics-server
+
+```shell
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+helm repo update
+helm search repo metrics-server/metrics-server
+helm show values metrics-server/metrics-server --version 3.11.0
+
+NS=metrics-server
+helm upgrade --install metrics-server \
+metrics-server/metrics-server --version 3.11.0 \
+--create-namespace \
+--namespace ${NS} \
+-f ./metrics-server/default-values.yaml
 ```
 
 ## Longhorn
@@ -76,6 +109,14 @@ longhorn/longhorn --version ${LONGHORN_VERSION} \
 --namespace ${NS} \
 -f ./longhorn/default-values.yaml
 
+LONGHORN_VERSION=1.5.3
+NS=longhorn-system
+helm diff upgrade \
+longhorn longhorn/longhorn \
+--namespace ${NS} \
+--version ${LONGHORN_VERSION} \
+-f ./longhorn/default-values.yaml
+
 # DaemonSet
 kubectl get ds -n longhorn-system
 longhorn-manager           3 3 3 3 3
@@ -94,8 +135,34 @@ csi-snapshotter            3/3 3 3
 csi-attacher               3/3 3 3
 csi-provisioner            3/3 3 3
 
-kubectl apply -f ./longhorn/storageclasses/sc-s-ha.yaml
-kubectl apply -f ./longhorn/storageclasses/sc-ha.yaml
+kubectl apply -f ./longhorn/storageclasses/
+kubectl apply -f ./longhorn/rc/
+```
+
+## Longhorn monitoring
+
+```shell
+helm repo add someblackmagic https://someblackmagic.github.io/helm-charts/
+helm repo update
+helm search repo someblackmagic/longhorn-monitoring
+helm show values someblackmagic/longhorn-monitoring --version 1.3.0
+
+helm template \
+someblackmagic/longhorn-monitoring --version 1.0.0 \
+-f ./longhorn/monitoring/monitoring-default-values.yaml
+
+NS=longhorn-system
+helm upgrade --install longhorn-monitoring \
+someblackmagic/longhorn-monitoring --version 1.0.0 \
+--create-namespace \
+--namespace ${NS} \
+-f ./longhorn/monitoring/monitoring-default-values.yaml
+
+helm upgrade --install longhorn-monitoring \
+someblackmagic/longhorn-monitoring --version 1.3.0 \
+--create-namespace \
+--namespace ${NS} \
+-f ./longhorn/monitoring/monitoring-default-values.yaml
 ```
 
 ## kube prometheus stack
@@ -111,10 +178,16 @@ helm upgrade --install prometheus \
 prometheus-community/kube-prometheus-stack --version 55.5.1 \
 --create-namespace \
 --namespace ${NS} \
---set grafana.adminPassword=$(pwgen -s 20 1) \
+--set grafana.adminPassword=BQ5AnZgsdPmP0NsfKYD7 \
 -f ./monitoring/default-values.yaml
 
 kubectl get secrets/prometheus-grafana --template='{{index .data "admin-password"}}' -n monitoring | base64 -D
+
+NS=monitoring
+helm diff upgrade prometheus \
+prometheus-community/kube-prometheus-stack --version 55.5.1 \
+--namespace ${NS} \
+-f ./monitoring/default-values.yaml
 ```
 
 ## Fluent-bit
@@ -123,11 +196,11 @@ kubectl get secrets/prometheus-grafana --template='{{index .data "admin-password
 helm repo add fluent https://fluent.github.io/helm-charts
 helm repo update
 helm search repo fluent/fluent-bit
-helm show values fluent/fluent-bit --version 0.42.0
+helm show values fluent/fluent-bit --version 0.46.10
 
 NS=fluent-bit
 helm upgrade --install fluent-bit \
-fluent/fluent-bit --version 0.42.0 \
+fluent/fluent-bit --version 0.46.10 \
 --create-namespace \
 --namespace ${NS} \
 -f ./fluent/infra-values.yaml
@@ -261,16 +334,16 @@ helm repo update
 helm search repo bitnami/minio
 helm show values bitnami/minio --version 13.2.0
 
-NS=minio-release
+NS=minio
 MINIO_ACCESSKEY=admin
-MINIO_SECRETKEY=minio1234
-helm upgrade --install minio-release \
+MINIO_SECRETKEY=admin
+helm upgrade --install minio \
 bitnami/minio --version 13.2.0 \
 --create-namespace \
 --namespace ${NS} \
 --set auth.rootUser=${MINIO_ACCESSKEY} \
 --set auth.rootPassword=${MINIO_SECRETKEY} \
--f ./minio/infra-values.yaml
+-f ./minio/default-values.yaml
 ```
 
 * Backup
@@ -300,8 +373,8 @@ helm repo update
 helm search repo bitnami/postgresql
 helm show values bitnami/postgresql --version 13.4.1
 
-NS=postgresql
-helm upgrade --install postgresql \
+NS=postgres
+helm upgrade --install postgres \
 bitnami/postgresql --version 13.4.1 \
 --create-namespace \
 --namespace ${NS} \
@@ -331,6 +404,55 @@ runix/pgadmin4 --version 1.23.1 \
 -f ./postgresql/default-pgadmin-values.yaml
 ```
 
+## SonarQube
+
+```shell
+helm repo add sonarqube https://SonarSource.github.io/helm-chart-sonarqube
+helm repo update
+helm search repo sonarqube/sonarqube
+helm show values sonarqube/sonarqube --version 10.3.0+2009
+
+NS=sonarqube
+helm upgrade --install sonarqube \
+sonarqube/sonarqube --version 10.3.0+2009 \
+--create-namespace \
+--namespace ${NS} \
+-f ./sonarqube/default-values.yaml
+```
+
+## awx-operator
+
+```shell
+helm repo add awx-operator https://ansible.github.io/awx-operator/
+helm repo update
+helm search repo awx-operator
+helm show values awx-operator/awx-operator --version 2.10.0
+
+NS=awx-operator
+helm upgrade --install awx-operator \
+awx-operator/awx-operator --version 2.10.0 \
+--create-namespace \
+--namespace ${NS}
+```
+
+## Dynamic nfs-provisioning in a kubernetes
+
+```shell
+helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner
+helm repo update
+helm search repo nfs-subdir-external-provisioner
+helm show values nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --version 4.0.18
+
+NS=nfs-provisioner
+helm upgrade --install nfs-provisioner \
+nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --version 4.0.18 \
+--create-namespace \
+--namespace ${NS} \
+--set nfs.server=<NFS_server_IP_address> \
+--set nfs.path=<nfs_server_dir> \
+--set storageClass.onDelete=true
+```
+
 # Usage
 
 ## reflector
@@ -343,9 +465,45 @@ kubectl annotate secret/service-password reflector.v1.k8s.emberstack.com/reflect
 kubectl get secrets -n <TARGET_NAMESPACE_1>
 ```
 
+## gitlab-runner
+
+```shell
+helm repo add gitlab https://charts.gitlab.io
+helm search repo gitlab
+helm search repo gitlab/gitlab-runner
+helm show values gitlab/gitlab-runner --version 0.54.0
+
+NS=gitlab-runner
+helm upgrade --install runner-hugo-testing \
+gitlab/gitlab-runner --version 0.54.0 \
+--create-namespace \
+--namespace ${NS} \
+-f ./gitlab-runner/default-values.yaml
+```
+
+## etcd
+
+```shell
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm search repo bitnami/etcd
+helm show values bitnami/etcd --version 8.8.3
+```
+
 [reflector]:<https://github.com/emberstack/kubernetes-reflector>
 
+[metrics_server]:<https://artifacthub.io/packages/helm/metrics-server/metrics-server>
+
 [kube_prometheus_stack]:<https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack>
+
+[grafana_dashboards]:<https://grafana.com/grafana/dashboards/>
+
+[prometheus_performance_in_practice]:<https://medium.com/@dotdc/prometheus-performance-and-cardinality-in-practice-74d5d9cd6230>
+
+[prometheus_relabeling]:<https://grafana.com/blog/2022/03/21/how-relabeling-in-prometheus-works/>
+
+[fluent_bit]:<https://artifacthub.io/packages/helm/fluent/fluent-bit>
+
+[fluent_bit_pv_pvc]:<https://aws.amazon.com/blogs/storage/persistent-storage-for-container-logging-using-fluent-bit-and-amazon-efs/>
 
 [elastic_operator]:<https://artifacthub.io/packages/helm/elastic/elasticsearch>
 
@@ -373,6 +531,18 @@ kubectl get secrets -n <TARGET_NAMESPACE_1>
 
 [longhorn_flexvolume]:<https://maulana.id/soft-dev/2021--05--07--10--lesson-learned-on-deploying-minio-with-cifs-backend-part-1/>
 
+[longhorn_monitoring]:<https://artifacthub.io/packages/helm/someblackmagic/longhorn-monitoring>
+
 [postgresql]:<https://artifacthub.io/packages/helm/bitnami/postgresql>
 
 [pgadmin4]:<https://artifacthub.io/packages/helm/runix/pgadmin4>
+
+[awx_operator]:<https://ansible.github.io/awx-operator/>
+
+[awx_install]:<https://www.linuxtechi.com/install-ansible-awx-on-kubernetes-cluster/#google_vignette>
+
+[gitlab_runner_kubernetes]:<https://docs.gitlab.com/runner/executors/kubernetes/>
+
+[nfs_provisioner]:<https://artifacthub.io/packages/helm/nfs-subdir-external-provisioner/nfs-subdir-external-provisioner>
+
+[nfs_provisioner_sample]:<https://hbayraktar.medium.com/how-to-setup-dynamic-nfs-provisioning-in-a-kubernetes-cluster-cbf433b7de29>

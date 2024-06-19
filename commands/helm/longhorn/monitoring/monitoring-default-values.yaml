@@ -1,0 +1,16 @@
+serviceMonitor:
+  namespace: longhorn-system
+  labels:
+    release: prometheus
+
+prometheus:
+  enabled: true
+  rule:
+    namespace: monitoring
+    additionalLabels:
+      release: prometheus
+
+grafana:
+  enabled: true
+  defaultLabel: true
+  namespace: monitoring

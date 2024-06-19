@@ -1,0 +1,73 @@
+canIpForward: false
+cpuPlatform: Intel Broadwell
+creationTimestamp: '2024-05-22T00:47:07.062-07:00'
+deletionProtection: false
+disks:
+- architecture: X86_64
+  autoDelete: true
+  boot: true
+  deviceName: persistent-disk-0
+  diskSizeGb: '30'
+  guestOsFeatures:
+  - type: UEFI_COMPATIBLE
+  - type: VIRTIO_SCSI_MULTIQUEUE
+  - type: GVNIC
+  - type: SEV_CAPABLE
+  index: 0
+  interface: SCSI
+  kind: compute#attachedDisk
+  licenses:
+  - https://www.googleapis.com/compute/v1/projects/debian-cloud/global/licenses/debian-11-bullseye
+  mode: READ_WRITE
+  source: https://www.googleapis.com/compute/v1/projects/kktyn-dev-2/zones/europe-west3-b/disks/disk-k3s-master-1-pd-standard-30gb
+  type: PERSISTENT
+fingerprint: sVgp5ewowlM=
+id: '6274365885849279509'
+kind: compute#instance
+labelFingerprint: 42WmSpB8rSM=
+lastStartTimestamp: '2024-05-22T00:47:13.462-07:00'
+machineType: https://www.googleapis.com/compute/v1/projects/kktyn-dev-2/zones/europe-west3-b/machineTypes/e2-standard-4
+metadata:
+  fingerprint: wO8DaYjdL1o=
+  items:
+  - key: startup-script
+    value: ../files/startup-script.sh
+  - key: enable-oslogin
+    value: 'true'
+  kind: compute#metadata
+name: k3s-master-1
+networkInterfaces:
+- accessConfigs:
+  - kind: compute#accessConfig
+    name: external-nat
+    natIP: 34.159.104.117
+    networkTier: PREMIUM
+    type: ONE_TO_ONE_NAT
+  fingerprint: 5e_6OkgJGMs=
+  kind: compute#networkInterface
+  name: nic0
+  network: https://www.googleapis.com/compute/v1/projects/kktyn-dev-2/global/networks/default
+  networkIP: 10.156.15.208
+  stackType: IPV4_ONLY
+  subnetwork: https://www.googleapis.com/compute/v1/projects/kktyn-dev-2/regions/europe-west3/subnetworks/default
+satisfiesPzi: true
+scheduling:
+  automaticRestart: true
+  onHostMaintenance: MIGRATE
+  preemptible: false
+  provisioningModel: STANDARD
+selfLink: https://www.googleapis.com/compute/v1/projects/kktyn-dev-2/zones/europe-west3-b/instances/k3s-master-1
+shieldedInstanceConfig:
+  enableIntegrityMonitoring: true
+  enableSecureBoot: false
+  enableVtpm: true
+shieldedInstanceIntegrityPolicy:
+  updateAutoLearnPolicy: true
+startRestricted: false
+status: RUNNING
+tags:
+  fingerprint: hw28xhxIKTw=
+  items:
+  - k3s
+  - k3s-master
+zone: https://www.googleapis.com/compute/v1/projects/kktyn-dev-2/zones/europe-west3-b

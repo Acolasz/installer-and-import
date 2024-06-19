@@ -1,0 +1,64 @@
+deploymentType: "Deployment"
+replicaCount: 1
+affinity: {}
+tolerations: []
+nodeSelector: {}
+readinessProbe:
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  failureThreshold: 6
+  timeoutSeconds: 1
+livenessProbe:
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  failureThreshold: 6
+  timeoutSeconds: 1
+startupProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  failureThreshold: 24
+  timeoutSeconds: 1
+
+prometheusExporter:
+  enabled: true
+  version: "0.17.2"
+  noCheckCertificate: false
+  webBeanPort: 8000
+  ceBeanPort: 8001
+  config:
+    rules:
+      - pattern: ".*"
+prometheusMonitoring:
+  podMonitor:
+    enabled: true
+    namespace: "monitoring"
+    interval: 30s
+
+# plugins:
+#  install:
+#    - "https://github.com/AmadeusITGroup/sonar-stash/releases/download/1.3.0/sonar-stash-plugin-1.3.0.jar"
+#    - "https://github.com/SonarSource/sonar-ldap/releases/download/2.2-RC3/sonar-ldap-plugin-2.2.0.601.jar"
+#
+plugins:
+  install: []
+jvmOpts: "-Djava.net.preferIPv4Stack=true"
+resources:
+  limits:
+    cpu: 800m
+    memory: 4Gi
+  requests:
+    cpu: 400m
+    memory: 2Gi
+persistence:
+  enabled: true
+  storageClass: "longhorn-ha-group"
+  accessMode: ReadWriteOnce
+  size: 5Gi
+jdbcOverwrite:
+  enable: true
+  jdbcUrl: "jdbc:postgresql://postgres.postgres:5432/longhorn?socketTimeout=1500"
+  jdbcUsername: "longhorn"
+  jdbcPassword: "longhorn"
+postgresql:
+  enabled: false
+sonarqubeFolder: /opt/sonarqube

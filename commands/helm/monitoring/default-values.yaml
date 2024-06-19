@@ -55,7 +55,7 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: longhorn-ha
+          storageClassName: longhorn-semmi-ha
           accessModes: [ "ReadWriteOnce" ]
           resources:
             requests:
@@ -93,7 +93,7 @@ grafana:
   persistence:
     enabled: true
     type: pvc
-    storageClassName: "longhorn"
+    storageClassName: "longhorn-ha-group"
     accessModes:
       - ReadWriteOnce
     size: 400Mi
@@ -245,13 +245,14 @@ prometheus:
   serviceMonitor:
     selfMonitor: true
   prometheusSpec:
-    retention: 4d
+    retention: 1d
+    retentionSize: 111MB
     replicas: 1
     resources: {}
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: "longhorn-semmi-ha"
+          storageClassName: "longhorn-semmi-ha-group"
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:

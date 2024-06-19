@@ -7,8 +7,15 @@
 ```shell
 # List
 docker service ls
+```
+
+```shell
+docker service ps <service_name>
+```
+
+```shell
+# Log
 docker service logs <service_name> --since 15m
-docker service logs eets_efccontextdata --since 15m
 ```
 
 ```shell
@@ -18,8 +25,15 @@ docker service update --force <service_name>
 
 ```shell
 # Scaling
-docker service update --replicas=0 eets_efccontextdata
-docker service update --replicas=1 eets_efccontextdata
-docker service scale eets_efccontextdata=0
-docker service scale eets_efccontextdata=1
+docker service update --replicas=0 <service_name>
+docker service update --replicas=1 <service_name>
+docker service scale <service_name>=0
+docker service scale <service_name>=1
+```
+
+# Applog
+
+
+```shell
+less /applogs/<service_name>/<service_name>.log
 ```

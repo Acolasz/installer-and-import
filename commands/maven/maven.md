@@ -7,7 +7,9 @@
 ## pom.xml
 
 ### effective-pom
+
 > pass properties value and write content all pom.xml
+
 ```shell 
 mvn help:effective-pom
 ```
@@ -34,7 +36,9 @@ mvn -U clean package -DskipITs
 ```
 
 ### deploy phase
-####  deploy-file goal
+
+#### deploy-file goal
+
 ```shell
 mvn deploy:deploy-file -DrepositoryId="kukutyin" -Durl="https://artifactory.org/artifactory/mvn-release-local" -DgroupId="hu.kukutyin.sample" -DartifactId="dummy-springboot-app-service" -Dversion="1.0.0" -Dclassifier="client" -Dpackaging="jar" -Dfile="./dummy-springboot-app-service-1.0.0.jar"
 
@@ -44,6 +48,7 @@ mvn deploy:deploy-file -DrepositoryId="kukutyin" -Durl="https://artifactory.org/
 ## Custom phase / Custom maven plugin
 
 ### Help (own maven plugin)
+
 ```shell
 /** plugin help / descriptor **/
 mvn help:describe -Dplugin=hu.kukutyin.sample:kukutyin-maven-plugin
@@ -53,8 +58,11 @@ mvn hu.kukutyin.sample:kukutyin-maven-plugin:help -Ddetail=true -Dgoal=kukutyin
 ```
 
 ### Sonar (product)
+
 ```shell
-mvn sonar:sonar -Dsonar.projectKey=hu.kukutyin.sample:dummy-springboot-app-service -Dsonar.host.url=https://sonar.kukutyin.hu -Dsonar.login=89ebc802c6592e7ba3c2b994e21473b32305d5ce
+mvn sonar:sonar -Dsonar.projectKey=hu.kukutyin.sample:dummy-springboot-app-service -Dsonar.host.url=http://localhost:56988/ -Dsonar.login=squ_36b11c4ed4ff36dea3fd703a6f7e2e3c1430503c
+
+mvn sonar:sonar -Dsonar.host.url=http://localhost:56988/ -Dsonar.login=squ_36b11c4ed4ff36dea3fd703a6f7e2e3c1430503c
 ```
 
 ### Configuration

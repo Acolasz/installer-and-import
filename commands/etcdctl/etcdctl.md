@@ -6,7 +6,7 @@
 
 ```shell
 ADVERTISE_URL="https://192.168.105.2:2379"
-ETCDCTL_API=3 etcdctl --endpoints $ADVERTISE_URL \
+ETCDCTL_API=3 etcdctl --endpoints ${ADVERTISE_URL} \
 --cacert /var/lib/minikube/certs/etcd/ca.crt \
 --cert /var/lib/minikube/certs/etcd/server.crt \
 --key /var/lib/minikube/certs/etcd/server.key \

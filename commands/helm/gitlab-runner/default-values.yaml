@@ -1,0 +1,68 @@
+checkInterval: 30
+concurrent: 10
+gitlabUrl: https://gitlab.k8s.icellmobilsoft.hu/
+imagePullPolicy: IfNotPresent
+metrics:
+  enabled: true
+  port: 9252
+  portName: metrics
+  serviceMonitor:
+    enabled: true
+rbac:
+  clusterWideAccess: true
+  rules:
+    - apiGroups:
+        - ""
+        - apps
+        - networking.k8s.io
+  serviceAccountName: hugo-gitlab-runner-sa
+replicas: 1
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+runnerRegistrationToken: RCq4KqB8qprRU8eX6iJlgdDZDMV8oDhZvsy2exRcDXzAkSZU5KwqqbV4JOyHmj1y
+runners:
+  cache:
+    secretName: gitlab-minio-user
+  config: |
+    [[runners]]
+      [runners.kubernetes]
+        namespace = "{{.Release.Namespace}}"
+        image = "debian:11.3-slim"
+        service_account = "hugo-gitlab-runner-sa"
+        privileged = true
+        cpu_request = "1"
+        cpu_limit = "2"
+        memory_request = "2Gi"
+        memory_limit = "4Gi"
+        helper_memory_request = "256Mi"
+        [[runners.kubernetes.volumes.empty_dir]]
+          name = "docker-certs"
+          mount_path = "/certs/client"
+          medium = "Memory"
+      [runners.cache]
+        Type = "s3"
+        Path = "gitlab-runner"
+        Shared = true
+        [runners.cache.s3]
+          ServerAddress = "https://minio-api.k8s.icellmobilsoft.hu"
+          BucketName = "runner-cache"
+          BucketLocation = "eu-west-1"
+          Insecure = true
+  locked: false
+  name: runner-hugo-testing
+  protected: false
+  runUntagged: false
+  secret: gitlab-runner-gitlab-runner-secret-testing
+  tags: hugo-testing
+service:
+  enabled: true
+  type: ClusterIP
+sessionServer:
+  enabled: false
+terminationGracePeriodSeconds: 3600
+unregisterRunner: true

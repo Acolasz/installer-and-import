@@ -123,120 +123,7 @@ SONAR_SCANNER_BUILD_NUMBER=2856
 curl https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}.${SONAR_SCANNER_BUILD_NUMBER}-linux.zip \
 -o sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip
 unzip ./sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip -d /opt/
-mv ./sonar-scanner-${SONAR_SCANNER_VERSION}.${SONAR_SCANNER_BUILD_NUMBER}-linux /opt/sonar-scanner-${SONAR_SCANNER_VERSION} 
-/***********************************************************************/
-/********************************* GIT *********************************/
-/***********************************************************************/
-git config --global user.email "oo@dorsum.eu"
-git config --global user.name "Olivér"
-/*****************************************************/
-/********************* gitignore *********************/
-/*****************************************************/
-https://github.com/github/gitignore
-/*****************************************************/
-/********************* gitattributes *****************/
-/*****************************************************/
-https://github.com/alexkaratarakis/gitattributes/blob/master/.gitattributes
-// Attribute sets
-git ls-files | git check-attr -a --stdin
-/*****************************************************/
-/********************* Environment Variable **********/
-/*****************************************************/
-https://git-scm.com/book/en/v2/Git-Internals-Environment-Variables
-/**********************/
-/**** Committing ******/
-GIT_AUTHOR_NAME is the human-readable name in the “author” field.
-GIT_AUTHOR_EMAIL is the email for the “author” field.
-GIT_AUTHOR_DATE is the timestamp used for the “author” field.
-GIT_COMMITTER_NAME sets the human name for the “committer” field.
-/**********************/
-/**** Verbose *********/
-# Linux
-export GIT_TRACE_PACKET=1
-export GIT_TRACE=1
-export GIT_CURL_VERBOSE=1
-/*****************************************************/
-/********************* Push **************************/
-/*****************************************************/
-// error: RPC failed; HTTP 500 curl 22 The requested URL returned error: 500
-// send-pack: unexpected disconnect while reading sideband packet
-// Writing objects: 100% (50/50), 77.67 MiB | 25.22 MiB/s, done.
-// Total 50 (delta 7), reused 0 (delta 0), pack-reused 0
-// fatal: the remote end hung up unexpectedly
-git config --global http.postBuffer 500M
-git config --global http.maxRequestBuffer 100M
-/*****************************************************/
-/********************* Copy **************************/
-/*****************************************************/
-git checkout <otherbranch> <path/to/file>
-/*****************************************************/
-/********************* SUBMODULE *********************/
-/*****************************************************/
-// Change branch
-git submodule add --name installation-guide -b release/20.10.01 https://stash.dorsum.eu/scm/otp/clavis-nxt-installation-guide-otp.git ./install/clavis-nxt-installation-guide-otp/
-git submodule init
-// Submodule remote refresh
-git submodule update --init
-// if there are nested submodules:
-git submodule update --init --recursive
-// pull all changes for the submodules
-git submodule update --remote
-/* submodule remove */
-delete .gitmodules file
-delete  submodul section from .git/config file
-git add .gitmodules
-git rm --cached .git/modules/installation-guide/
-rm -rf .git/modules/installation-guide/
-git submodule deinit ./install/clavis-nxt-installation-guide-otp/
-git rm ./install/clavis-nxt-installation-guide-otp/
-// remote commit !!
-git commit -m "Removed submodule "
-rm -rf .git/modules/installation-guide/
-/*****************************************************/
-/********************* RESET *************************/
-/*****************************************************/
-// Discard
-git reset --hard HEAD~1
-// before last commit
-git reset --soft HEAD~1
-git reset --mixed HEAD~1
-git reset --hard HEAD~1
-/*****************************************************/
-/********************* COMMIT ************************/
-/*****************************************************/
-/*****************************/
-/**** Merge revert commit ****/
-// álljunk, amibe mergeltük ágra,
-// -m 1|2 flaghez trartozó számok a revertálni kívánt commit őseit jelenti
-// válasszuk az 1-est és felugró ablak után ENTER és lépjünk ki
-// Létrejött Revert commit-ot ellenőrizzük, hogy a megfelelő változtatások vannak e benne
-// majd push
-git revert <commit_hash> -m 1
-
-/**********************/
-/**** Empty commit ****/
-git commit --allow-empty -m "test empty commit" && git push -u origin <branch>
-/***************************/
-/**** Windows credetial ****/
-// remove: 
-// - passwd file ins sourcetre
-// - windows credentials bitbucket.dorsum.eu
-git config --global credential.helperselector.selected wincred
-/*********************/
-/**** Remote list ****/
-git remote -v
-/***************************/
-/**** Update .git cache ****/
-git rm -r --cached .
-git clean -fxd
-git restore .
-git add .
-/*******************/
-/** empty objects **/
-https://stackoverflow.com/questions/11706215/how-can-i-fix-the-git-error-object-file-is-empty
-git fsck --full
-rm .git/objects/8b/61d0135d3195966b443f6c73fb68466264c68e
-git update-ref HEAD 9f0abf890b113a287e10d56b66dbab66adc1662d
+mv ./sonar-scanner-${SONAR_SCANNER_VERSION}.${SONAR_SCANNER_BUILD_NUMBER}-linux /opt/sonar-scanner-${SONAR_SCANNER_VERSION}
 /***********************************************************************/
 /********************************* OPENSHIFT ***************************/
 /***********************************************************************/
@@ -533,7 +420,7 @@ uptime
 /* SSH */
 ssh-keygen -b 2048 -t rsa -C johndoe@kukutyin.hu
 echo kukutyin-00{1..3}.kukutyin.hu | xargs -n1 \
-		| xargs -I% sshpass -p Almafa_123 ssh-copy-id -f -i ~/.ssh/id-rsa olasz@%
+		| xargs -I% sshpass -p <password> ssh-copy-id -f -i ~/.ssh/id-rsa olasz@%
 /* copy command */
 // copy to two machine between
 scp -r /opt/keycloak sysadmin@192.168.15.21:/opt/
@@ -541,6 +428,11 @@ scp -r /opt/keycloak sysadmin@192.168.15.21:/opt/
 cp -R /opt/jenkins-prd/* /opt/jenkins-tst/
 // better copy with folders and hidden files
 cp -rT /opt/jenkins-prd /opt/jenkins-tst
+/* rsync */
+rsync -a ~/TRASH/icellmobilsoft.hu.pem ansible@hubphq-hugo-k8s-cp-d001:~/
+mv /home/ansible/icellmobilsoft.hu.pem /etc/pki/ca-trust/source/anchors/
+update-ca-trust
+systemctl restart containerd
 /* copy command */
 // change file/folder owner and group
 chown -R <user> /path/to/
@@ -576,35 +468,14 @@ tar zxvf myImages-14-09-12.tgz file1 file2 file3 dir1 --strip 1 -C /path/to/dir/
 tar zxvf ./jdk-7u80-linux-x64.tar.gz --strip 1 -C /opt/oracle-7u80-jdk/ 
 tar -xzvf ./pgsql.tar.gz -C /opt/oo
 tar -xvf myImages-14-09-12.tar.gz -C /path/to/dir/
+jar xvf jarfile.jar
 // List tar.gz content
 tar -ztvf projects.tar.gz
+jar tvf jarfile.jar
 /** zip - unzip with .zip file **/
 sudo apt-get install -y unzip zip
 // Uncompress .zip Archive File
 unzip file.zip -d destination_folder
-/** service parancsok **/
-/** 
- * https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units 
- */
-// service-ek listája
-systemctl list-units --type=service
-/** service **/
-journalctl -xe
-journalctl -u jenkins.service
-journalctl --unit jenkins --since  "2016-10-30 18:17:16"
-// service fájl
-/etc/systemd/system/docker.service
-// reload service update
-systemctl daemon-reload
-// service parancsok
-systemctl status docker.service
-systemctl stop docker.service
-systemctl start docker.service
-// check status
-systemctl is-active application.service
-systemctl is-enabled application.service
-// show service content
-systemctl cat atd.service
 /** user crontab **/
 https://www.geeksforgeeks.org/crontab-in-linux-with-examples/
 crontab -l
@@ -640,6 +511,13 @@ du -shc /var
 //du -shc /var/* 
 du -h --max-depth=1 /var
 du -b --max-depth=1 /var
+// System logical volume group - logical volume
+lvextend -r -L +2G /dev/system/var
+systemctl status mlocate-updatedb.service
+// rsyslog
+// https://serverfault.com/questions/692309/what-is-the-difference-between-syslog-rsyslog-and-syslog-ng
+systemctl restart rsyslog
+lsof -w | grep -i deleted
 /** futó processeket **/
 ps -ef
 ps auxww
@@ -676,18 +554,6 @@ sysctl -w vm.max_map_count=262144
 /etc/sysctl.conf
 /** facl **/
 setfacl -m u:postgres:rwx /var/log/postgresql/
-/** CURL **/
-curl --insecure -i -d "clientIdentifierType=CIT_1004&brand=5000&IMPgIndx=1&IMPgRcCnt=500&clientId=22052&clientId=22345"  http://erstelnx:7001/ihs-adapter/restapi/clientlist/search
-curl -X GET "http://dit19mpc014.dorsum.intra:9090/actuator" -H "Authorization: Basic X2NsYXZpc19wYl93czpfY2xhdmlzX3BiX3dz"
-curl -X POST http://erstelnx:7001/ihs-adapter/restapi/investmentaccountdetails/search?investmentAccountNumberType=IAIT_1&clientIdentifierType=CIT_1004&brand=5000&IMPgRcCnt=5&IMPgIndx=1
-curl -o file.html http://erstelnx:7001/ihs-adapter/file.html
-/** WGET **/
-wget --no-cookies --no-check-certificate --header="X-JFrog-Art-Api: ${ARTIFACTORY_TOKEN}" https://artifactory.dorsum.eu/artifactory/docker-installer/oracle/jdk/jdk-${JAVA_VERSION}-linux-x64.tar.gz -O jdk-${JAVA_VERSION}-linux-x64.tar.gz
-wget --header="X-JFrog-Art-Api: AKCp5fUDpkASSHdmtosbg8id1s7fnrLtqVq22J3BT1fBu58P3gF3ayfqYe53PqESr7WsZgvFg" http://artifactory-nxt.dorsum.eu/artifactory/devops-installer/oracle/jdk/jdk-8u261-linux-x64.tar.gz
-wget --header="Authorization: Basic X2NsYXZpc19wYl93czpfY2xhdmlzX3BiX3dz" http://artifactory-nxt.dorsum.eu/artifactory/devops-installer/oracle/jdk/jdk-8u261-linux-x64.tar.gz
-wget -O- --header="Authorization: Basic <base64_encode>" --header='Accept: application/json' http://10.120.10.195:9000/api/cluster?pretty=true
-wget --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz?AuthParam=1626267242_9b298a76a4b214b888f121c3d85d98a3 -O jdk-7u80-linux-x64.tar.gz 
-wget https://archive.apache.org/dist/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz -O apache-maven-3.3.3-bin.tar.gz 
 /** jq command **/
 https://www.baeldung.com/linux/jq-command-json
 /*****************************************************/
@@ -727,51 +593,7 @@ machine api.heroku.com
   password 39820363-ab1d-4cea-b076-2d1fe20dd608
 machine git.heroku.com
   login ocsko.oliver13@gmail.com
-  password 39820363-ab1d-4cea-b076-2d1fe20dd608 
-/***********************************************************************/
-/********************************* DOCKER ******************************/
-/***********************************************************************/
-/********************* Docker local registry *********/
-/*****************************************************/
-// with docker container
-https://docs.docker.com/registry/deploying/
-/********************* Docker daemon *****************/
-/*****************************************************/
-nohup bash -c "sudo dockerd 2>&1 &"
-/********************* Commands **********************/
-/*****************************************************/
-/** Format **/
-docker ps --format "{{.ID}} {{.Ports}} {{.Status}} {{.Names}}"
-docker images --format="{{.ID}}"
-/** system **/
-docker system prune --force
-docker rmi $(docker images --format="{{.ID}}")
-/********************* Linux-on **********************/
-/*****************************************************/
-// probléma:
-a docker image készítésekor nem tudunk leszedni linux-os package-ket vagy letölteni csomagolt fájlokat
-// ip feloldás
-saját linux-unkon az /etc/resolv.conf fájlt kell felülírni
-/********************* Image Run *********************/
-/*****************************************************/
-/** PsAdmin **/
-docker run --rm -p 7444:80 -e PGADMIN_DEFAULT_EMAIL=acolasz@postgres.local -e PGADMIN_DEFAULT_PASSWORD=acolasz --name pgadmin-1 -d dpage/pgadmin4
-/********************* Image to/from tar *********************/
-/*************************************************************/
-// https://docs.docker.com/engine/reference/commandline/load/
-docker load --input fedora.tar
-docker load < busybox.tar.gz
-// https://docs.docker.com/engine/reference/commandline/save/
-docker save busybox > busybox.tar
-docker save --output busybox.tar busybox
-/********************* Image Tag *********************/
-/*****************************************************/
-sudo docker pull artifactory-nxt.dorsum.eu/docker/path:latest
-sudo docker tag artifactory-nxt.dorsum.eu/docker/path:latest nexus-registry.dorsum.eu/docker-public/path:latest	
-sudo docker push nexus-registry.dorsum.eu/docker-public/path:latest
-/*********************  Remote docker deamon setup ***/
-/*****************************************************/
-echo "export DOCKER_HOST=tcp://10.120.10.210:2375" >> ~/.bashrc && source ~/.bashrc
+  password 39820363-ab1d-4cea-b076-2d1fe20dd608
 /***********************************************************************/
 /********************************* HEROKU ******************************/
 /***********************************************************************/

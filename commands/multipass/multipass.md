@@ -21,6 +21,7 @@ multipass info <image_name>
 multipass list
 multipass launch --name <image_name> --cloud-init cloud-init.yaml
 multipass launch --name <image_name> --cpus 2 --disk 15G --memory 4G --mount <local-path>:<instance-path>
+multipass launch --name robot --cloud-init cloud-init.yaml --cpus 2 --disk 15G --memory 4G --mount $HOME/workspaces/gitlab/common/devops/dockerfiles/robot-framework:/home/docker
 ```
 
 # Related articles
