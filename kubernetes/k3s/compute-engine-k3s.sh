@@ -256,7 +256,7 @@ gcloud compute instances add-resource-policies ${VM_NAME} \
 gcloud compute instances list
 
 PRIMARY_SERVER_IP=$(gcloud compute instances list --filter=tags.items=k3s-master --format="get(networkInterfaces[0].accessConfigs.natIP)")
-SSH_KEY_PRIVATE=/Users/user/.ssh/olaszkukutyin
+SSH_KEY_PRIVATE=/Users/oliver.ocsko/.ssh/olaszkukutyin
 ACCOUNT_USER=ocsko_oliver13_gmail_com
 k3sup install --ip ${PRIMARY_SERVER_IP} --context k3s \
 --ssh-key ${SSH_KEY_PRIVATE} \
@@ -266,7 +266,7 @@ REGION=europe-west3
 ZONE=${REGION}-c
 AGENT_SERVER_IP=$(gcloud compute instances describe k3s-infra-1 --zone=${ZONE} --format="get(networkInterfaces[0].accessConfigs.natIP)")
 PRIMARY_SERVER_IP=$(gcloud compute instances list --filter=tags.items=k3s-master --format="get(networkInterfaces[0].accessConfigs.natIP)")
-SSH_KEY_PRIVATE=/Users/user/.ssh/olaszkukutyin
+SSH_KEY_PRIVATE=/Users/oliver.ocsko/.ssh/olaszkukutyin
 ACCOUNT_USER=ocsko_oliver13_gmail_com
 k3sup join --ip ${AGENT_SERVER_IP} \
 --server-ip ${PRIMARY_SERVER_IP} \
@@ -277,7 +277,7 @@ REGION=europe-west3
 ZONE=${REGION}-c
 AGENT_SERVER_IP=$(gcloud compute instances describe k3s-infra-2 --zone=${ZONE} --format="get(networkInterfaces[0].accessConfigs.natIP)")
 PRIMARY_SERVER_IP=$(gcloud compute instances list --filter=tags.items=k3s-master --format="get(networkInterfaces[0].accessConfigs.natIP)")
-SSH_KEY_PRIVATE=/Users/user/.ssh/olaszkukutyin
+SSH_KEY_PRIVATE=/Users/oliver.ocsko/.ssh/olaszkukutyin
 ACCOUNT_USER=ocsko_oliver13_gmail_com
 k3sup join --ip ${AGENT_SERVER_IP} \
 --server-ip ${PRIMARY_SERVER_IP} \
@@ -288,7 +288,7 @@ REGION=europe-west3
 ZONE=${REGION}-c
 AGENT_SERVER_IP=$(gcloud compute instances describe k3s-worker-1 --zone=${ZONE} --format="get(networkInterfaces[0].accessConfigs.natIP)")
 PRIMARY_SERVER_IP=$(gcloud compute instances list --filter=tags.items=k3s-master --format="get(networkInterfaces[0].accessConfigs.natIP)")
-SSH_KEY_PRIVATE=/Users/user/.ssh/olaszkukutyin
+SSH_KEY_PRIVATE=/Users/oliver.ocsko/.ssh/olaszkukutyin
 ACCOUNT_USER=ocsko_oliver13_gmail_com
 k3sup join --ip ${AGENT_SERVER_IP} \
 --server-ip ${PRIMARY_SERVER_IP} \
