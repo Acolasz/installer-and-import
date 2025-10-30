@@ -5,6 +5,25 @@
 ##
 
 ```shell
+#!/bin/bash
+
+export ETCDCTL_API=3
+
+export ETCDCTL="etcdctl --endpoints=http://localhost:2379"
+
+\$ETCDCTL get --prefix "" | while true; do
+    read KEY
+    if [ -z "\$KEY" ]; then
+        break
+    fi
+    read VALUE
+    echo -n  "\$KEY"
+    echo -ne "\t"
+    echo     "\$VALUE"
+done | sort -t= -k1,1.0
+```
+
+```shell
 ADVERTISE_URL="https://192.168.105.2:2379"
 ETCDCTL_API=3 etcdctl --endpoints ${ADVERTISE_URL} \
 --cacert /var/lib/minikube/certs/etcd/ca.crt \
