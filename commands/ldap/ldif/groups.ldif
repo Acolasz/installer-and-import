@@ -1,0 +1,6 @@
+version: 1
+
+dn: ou=ADMIN,dc=kktyn,dc=hu
+objectClass: organizationalUnit
+ou: ADMIN
+description: ADMIN Department
