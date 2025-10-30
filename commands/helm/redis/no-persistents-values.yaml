@@ -1,0 +1,57 @@
+architecture: standalone
+auth:
+  existingSecret: redis-password
+  existingSecretPasswordKey: password
+cluster:
+  enabled: false
+commonConfiguration: |-
+  # https://raw.githubusercontent.com/redis/redis/7.0/redis.conf
+  save ""
+  appendonly no
+  appendfsync everysec
+  auto-aof-rewrite-percentage 100
+  auto-aof-rewrite-min-size 64mb
+  aof-load-truncated yes
+  aof-rewrite-incremental-fsync yes
+global:
+  imageRegistry: ""
+master:
+  persistence:
+    enabled: false
+    size: 1Gi
+    storageClass: SC
+  podAnnotations:
+    prometheus.io/scrape: true
+  resources:
+    limits:
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 512Mi
+  extraFlags:
+    - "--maxmemory 500mb"
+    - "--maxmemory-policy allkeys-lru"
+metrics:
+  enabled: true
+  serviceMonitor:
+    additionalLabels:
+      release: prometheus
+    enabled: true
+    metricRelabelings:
+      - action: replace
+        replacement: redis-auth
+        targetLabel: instance
+replica:
+  persistence:
+    enabled: false
+    size: 1Gi
+    storageClass: SC
+  podAnnotations:
+    prometheus.io/scrape: true
+  replicaCount: 3
+sentinel:
+  enabled: false
+  persistence:
+    enabled: true
+    size: 1Gi
+    storageClass: SC

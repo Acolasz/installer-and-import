@@ -1,0 +1,47 @@
+image:
+  repository: patrikx3/p3x-redis-ui
+  tag: latest
+  pullPolicy: Always
+
+license:
+
+replicas: 1
+
+resources: {}
+  # requests:
+  #   cpu: 100m
+  #   memory: 100M
+  # limits:
+#   cpu: 200m
+#   memory: 200M
+
+connections:
+  - name: daas-cache-kryon-dev.ptdwzp.0001.euc1.cache.amazonaws.com
+    host: daas-cache-kryon-dev.ptdwzp.0001.euc1.cache.amazonaws.com
+    port: 6379
+    id: 1
+    password:
+    azure: false
+    cluster: false
+    awsElastiCache: true
+
+service:
+  type: ClusterIP
+#  nodePort: 30200 If type is NodePort
+
+ingress:
+  enabled: true
+  service:
+    port: 7843
+  annotations: {}
+  path: /
+  hosts:
+    - cache.example.com
+  className: nginx-pd-release
+  tls:
+    - hosts:
+        - "cache.example.com"
+      secretName: example.com-tls
+
+
+nodeSelector: {}

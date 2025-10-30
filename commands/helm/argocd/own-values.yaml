@@ -1,0 +1,983 @@
+nameOverride: argocd
+fullnameOverride: ""
+namespaceOverride: ""
+kubeVersionOverride: ""
+apiVersionOverrides: {}
+
+createAggregateRoles: false
+createClusterRoles: true
+
+crds:
+  install: true
+  keep: true
+global:
+  domain: argocd.kukutyin.hu
+  runtimeClassName: ""
+  additionalLabels: {}
+  # app: argo-cd
+  # -- Number of old deployment ReplicaSets to retain. The rest will be garbage collected.
+  revisionHistoryLimit: 5
+  image:
+    repository: quay.io/argoproj/argocd
+    tag: ""
+    imagePullPolicy: IfNotPresent
+  imagePullSecrets: []
+  logging:
+    format: json
+    level: info
+  statefulsetAnnotations: {}
+  deploymentAnnotations: {}
+  podAnnotations: {}
+  podLabels: {}
+  addPrometheusAnnotations: true
+  hostAliases: []
+  # - ip: 10.20.30.40
+  #   hostnames:
+  #   - git.myhostname
+  dualStack:
+    ipFamilyPolicy: ""
+    ipFamilies: []
+  networkPolicy:
+    create: false
+    defaultDenyIngress: false
+  nodeSelector: {}
+  tolerations: []
+  affinity:
+    podAntiAffinity: soft
+    nodeAffinity:
+      type: hard
+      matchExpressions: []
+        # - key: topology.kubernetes.io/zone
+        #   operator: In
+        #   values:
+      #    - antarctica-east1
+      #    - antarctica-west1
+  topologySpreadConstraints: []
+  env: []
+  certificateAnnotations: {}
+configs:
+  ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cm.yaml
+  cm:
+    create: true
+    application.instanceLabelKey: argocd.argoproj.io/instance
+    server.rbac.log.enforce.enable: false
+    exec.enabled: false
+    admin.enabled: true
+    timeout.reconciliation: 180s
+    timeout.hard.reconciliation: 0s
+    statusbadge.enabled: false
+    # Dex configuration
+    # dex.config: |
+    #   connectors:
+    #     # GitHub example
+    #     - type: github
+    #       id: github
+    #       name: GitHub
+    #       config:
+    #         clientID: aabbccddeeff00112233
+    #         clientSecret: $dex.github.clientSecret # Alternatively $<some_K8S_secret>:dex.github.clientSecret
+    #         orgs:
+    #         - name: your-github-org
+
+    # OIDC configuration as an alternative to dex (optional).
+    # oidc.config: |
+    #   name: AzureAD
+    #   issuer: https://login.microsoftonline.com/TENANT_ID/v2.0
+    #   clientID: CLIENT_ID
+    #   clientSecret: $oidc.azuread.clientSecret
+    #   rootCA: |
+    #     -----BEGIN CERTIFICATE-----
+    #     ... encoded certificate data here ...
+    #     -----END CERTIFICATE-----
+    #   requestedIDTokenClaims:
+    #     groups:
+    #       essential: true
+    #   requestedScopes:
+    #     - openid
+    #     - profile
+    #     - email
+
+    # Extension Configuration
+    ## Ref: https://argo-cd.readthedocs.io/en/latest/developer-guide/extensions/proxy-extensions/
+    # extension.config: |
+    #   extensions:
+    #   - name: httpbin
+    #     backend:
+    #       connectionTimeout: 2s
+    #       keepAlive: 15s
+    #       idleConnectionTimeout: 60s
+    #       maxIdleConnections: 30
+    #       services:
+    #       - url: http://httpbin.org
+    #         headers:
+    #         - name: some-header
+    #           value: '$some.argocd.secret.key'
+    #         cluster:
+    #           name: some-cluster
+    #           server: https://some-cluster
+
+  ## Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/argocd-cmd-params-cm.yaml
+  params:
+    create: true
+    otlp.address: ''
+    controller.status.processors: 20
+    controller.operation.processors: 10
+    controller.self.heal.timeout.seconds: 5
+    controller.repo.server.timeout.seconds: 60
+    server.insecure: false
+    server.basehref: /
+    server.rootpath: ''
+    server.staticassets: /shared/app
+    server.disable.auth: false
+    server.enable.gzip: true
+    server.enable.proxy.extension: false
+    server.x.frame.options: sameorigin
+    reposerver.parallelism.limit: 0
+    # -- Modify how application is synced between the generator and the cluster. One of: `sync`, `create-only`, `create-update`, `create-delete`
+    applicationsetcontroller.policy: sync
+    applicationsetcontroller.enable.progressive.syncs: true
+    applicationsetcontroller.namespaces: ""
+    application.namespaces: "argocd-config"
+    controller.ignore.normalizer.jq.timeout: "1s"
+  rbac:
+    create: true
+    policy.default: ''
+    policy.csv: ''
+    # Policy rules are in the form:
+    #  p, subject, resource, action, object, effect
+    # Role definitions and bindings are in the form:
+    #  g, subject, inherited-subject
+    # policy.csv: |
+    #   p, role:org-admin, applications, *, */*, allow
+    #   p, role:org-admin, clusters, get, *, allow
+    #   p, role:org-admin, repositories, *, *, allow
+    #   p, role:org-admin, logs, get, *, allow
+    #   p, role:org-admin, exec, create, */*, allow
+    #   g, your-github-org:your-team, role:org-admin
+    # -- OIDC scopes to examine during rbac enforcement (in addition to `sub` scope).
+    # The scope value can be a string, or a list of strings.
+    scopes: "[groups]"
+    policy.matchMode: "glob"
+  # GnuPG public keys for commit verification
+  ## Ref: https://argo-cd.readthedocs.io/en/stable/user-guide/gpg-verification/
+  gpg:
+    ## Note: Public keys should be exported with `gpg --export --armor <KEY>`
+    keys: {}
+      # 4AEE18F83AFDEB23: |
+      #   -----BEGIN PGP PUBLIC KEY BLOCK-----
+    #   ...
+    #   -----END PGP PUBLIC KEY BLOCK-----
+  ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#ssh-known-host-public-keys
+  ssh:
+    create: true
+    # @default -- See [values.yaml]
+    knownHosts: |
+      gitlab.hu ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMyAO1tT2z0/7O0QLJU2GBpBks28pBczDz7bcWklonMg
+    #    knownHosts: |
+    #      gitlab.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFSMqzJeV9rUzU4kWitGjeR4PWSa29SPqJ1fVkhtj3Hw9xjLVXVYrU9QlYWrOLXBpQ6KWjbjTDTdDkoohFzgbEY=
+    #      gitlab.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvt6CM6tdG4SLp1Btn/nOeHHE5UOzRdf
+    #      gitlab.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCsj2bNKTBSpIYDEGk9KxsGh3mySTRgMtXL583qmBpzeQ+jqCMRgBqB98u3z++J1sKlXHWfM9dyhSevkMwSbhoR8XIq/U0tCNyokEi/ueaBMCvbcTHhO7FcwzY92WK4Yt0aGROY5qX2UKSeOvuP4D6TPqKF1onrSzH9bx9XUf2lEdWT/ia1NEKjunUqu1xOB/StKDHMoX4/OKyIzuS0q/T1zOATthvasJFoPrAjkohTyaDUz2LN5JoH839hViyEG82yB+MjcFV5MU3N1l1QL3cVUCh93xSaua1N85qivl+siMkPGbO5xR/En4iEY6K2XPASUEMaieWVNTRCtJ4S8H+9
+    extraHosts: ''
+  # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#repositories-using-self-signed-tls-certificates-or-are-signed-by-custom-ca
+  tls:
+    annotations: {}
+    certificates: {}
+      # server.example.com: |
+      #   -----BEGIN CERTIFICATE-----
+    #   ...
+    #   -----END CERTIFICATE-----
+
+  # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/config-management-plugins/
+  cmp:
+    create: false
+    plugins: {}
+      # --- First plugin
+      # my-plugin:
+      #   init:
+      #     command: [sh]
+      #     args: [-c, 'echo "Initializing..."']
+      #   generate:
+      #     command: [sh, -c]
+      #     args:
+      #       - |
+      #         echo "{\"kind\": \"ConfigMap\", \"apiVersion\": \"v1\", \"metadata\": { \"name\": \"$ARGOCD_APP_NAME\", \"namespace\": \"$ARGOCD_APP_NAMESPACE\", \"annotations\": {\"Foo\": \"$ARGOCD_ENV_FOO\", \"KubeVersion\": \"$KUBE_VERSION\", \"KubeApiVersion\": \"$KUBE_API_VERSIONS\",\"Bar\": \"baz\"}}}"
+      #   discover:
+      #     fileName: "./subdir/s*.yaml"
+      #     find:
+      #       glob: "**/Chart.yaml"
+    #       command: [sh, -c, find . -name env.yaml]
+  # -- Provide one or multiple [external cluster credentials]
+  ## Ref:
+  ## - https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#clusters
+  ## - https://argo-cd.readthedocs.io/en/stable/operator-manual/security/#external-cluster-credentials
+  ## - https://argo-cd.readthedocs.io/en/stable/user-guide/projects/#project-scoped-repositories-and-clusters
+  clusterCredentials:
+    hugo-cluster:
+      server: https://kubernetes.default.svc
+      labels: {}
+      annotations: {}
+      config:
+        tlsClientConfig:
+          insecure: false
+  ## Creates a secret for each key/value specified below to create repository credentials
+  credentialTemplates:
+  #    kukutyin-nexus-auth:
+  #      url: https://nexus.kukutyin.hu
+  #      password:
+  #      username:
+  #    kukutyin-gitlab-ssh:
+  #      url: git@gitlab.hu:kukutyin/devops/
+  #      sshPrivateKey: |
+  #        -----BEGIN OPENSSH PRIVATE KEY-----
+  #        -----END OPENSSH PRIVATE KEY-----
+  credentialTemplatesAnnotations: {}
+  repositories:
+    hugo-helm:
+      url: https://nexus.kukutyin.hu/repository/helm
+      name: hugo-helm
+      type: helm
+    hugo-deploy:
+      name: hugo-deploy
+      type: git
+      url: git@gitlab.kukutyin.hu:kukutyin/devops/deploy.git
+  # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#sensitive-data-and-sso-client-secrets
+  secret:
+    createSecret: true
+    githubSecret: ""
+    gitlabSecret: ""
+    bitbucketServerSecret: ""
+    bitbucketUUID: ""
+    gogsSecret: ""
+    azureDevops:
+      username: ""
+      password: ""
+    ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#sensitive-data-and-sso-client-secrets
+    extra: {}
+    # LDAP_PASSWORD: "mypassword"
+    ## `htpasswd -nbBC 10 "" $ARGO_PWD | tr -d ':\n' | sed 's/$2y/$2a/'`
+    argocdServerAdminPassword: "$2a$10$EBXmuAd20CUaBKcIYFD9W.YlxQuKDIGl032NQPFrmpbKy3JBUb1LG"
+    # -- Admin password modification time. Eg. `"2006-01-02T15:04:05Z"`
+    # @default -- `""` (defaults to current time)
+    argocdServerAdminPasswordMtime: ""
+  ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/custom-styles/
+  styles: ""
+  # styles: |
+  #  .sidebar {
+  #    background: linear-gradient(to bottom, #999, #777, #333, #222, #111);
+  #  }
+# -- Array of extra K8s manifests to deploy
+extraObjects:
+  - apiVersion: networking.istio.io/v1alpha3
+    kind: VirtualService
+    metadata:
+      name: argocd
+      namespace: argocd
+    spec:
+      gateways:
+        - istio-system/default-gateway
+      hosts:
+        - argocd.hugo-k8s.icellmobilsoft.hu
+      http:
+        - headers:
+            request:
+              set:
+                x-forwarded-proto: https
+          match:
+            - uri:
+                prefix: /
+          route:
+            - destination:
+                host: argocd-server
+                port:
+                  number: 80
+
+controller:
+  name: application-controller
+  replicas: 1
+  dynamicClusterDistribution: false
+  runtimeClassName: ""
+  # Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/dynamic-cluster-distribution/#working-of-dynamic-distribution
+  heartbeatTime: 10
+  revisionHistoryLimit: 5
+  image:
+    repository: ""
+    tag: ""
+    imagePullPolicy: ""
+  imagePullSecrets: []
+  extraArgs: []
+  env: []
+  envFrom: []
+  # - configMapRef:
+  #     name: config-map-name
+  # - secretRef:
+  #     name: secret-name
+  extraContainers: []
+  initContainers: []
+  #  - name: download-tools
+  #    image: alpine:3
+  #    command: [sh, -c]
+  #    args:
+  #      - wget -qO kubelogin.zip https://github.com/Azure/kubelogin/releases/download/v0.0.25/kubelogin-linux-amd64.zip &&
+  #        unzip kubelogin.zip && mv bin/linux_amd64/kubelogin /custom-tools/
+  #    volumeMounts:
+  #      - mountPath: /custom-tools
+  #        name: custom-tools
+  volumeMounts: []
+  volumes: []
+  emptyDir:
+    sizeLimit: ""
+    # sizeLimit: "1Gi"
+  statefulsetAnnotations: {}
+  deploymentAnnotations: {}
+  resources: {}
+  #  limits:
+  #    cpu: 500m
+  #    memory: 512Mi
+  #  requests:
+  #    cpu: 250m
+  #    memory: 256Mi
+  containerPorts:
+    metrics: 8082
+  hostNetwork: false
+  tolerations: []
+  affinity: {}
+  topologySpreadConstraints: []
+  automountServiceAccountToken: true
+  serviceAccount:
+    create: true
+    name: argocd-application-controller
+    automountServiceAccountToken: true
+  metrics:
+    enabled: true
+    scrapeTimeout: ""
+    applicationLabels:
+      enabled: false
+    service:
+      type: ClusterIP
+      annotations:
+        prometheus.io/path: "/metrics"
+      clusterIP: ""
+      servicePort: 8082
+      portName: http-metrics
+    serviceMonitor:
+      enabled: true
+      interval: 30s
+      honorLabels: false
+      scheme: ""
+      namespace: "" # "monitoring"
+    rules:
+      enabled: false
+      namespace: "" # "monitoring"
+      selector: {}
+      additionalLabels: {}
+      spec: []
+      # - alert: ArgoAppMissing
+      #   expr: |
+      #     absent(argocd_app_info) == 1
+      #   for: 15m
+      #   labels:
+      #     severity: critical
+      #   annotations:
+      #     summary: "[Argo CD] No reported applications"
+      #     description: >
+      #       Argo CD has not reported any applications data for the past 15 minutes which
+      #       means that it must be down or not functioning properly.  This needs to be
+      #       resolved for this cloud to continue to maintain state.
+      # - alert: ArgoAppNotSynced
+      #   expr: |
+      #     argocd_app_info{sync_status!="Synced"} == 1
+      #   for: 12h
+      #   labels:
+      #     severity: warning
+      #   annotations:
+      #     summary: "[{{`{{$labels.name}}`}}] Application not synchronized"
+      #     description: >
+      #       The application [{{`{{$labels.name}}`}} has not been synchronized for over
+      #       12 hours which means that the state of this cloud has drifted away from the
+      #       state inside Git.
+  clusterRoleRules:
+    enabled: false
+    rules: []
+## Dex
+dex:
+  enabled: true
+  name: dex-server
+  extraArgs: []
+  runtimeClassName: ""
+  metrics:
+    enabled: true
+    service:
+      annotations:
+        prometheus.io/path: "/metrics"
+      portName: http-metrics
+    serviceMonitor:
+      enabled: true
+      interval: 30s
+      honorLabels: false
+      scheme: ""
+      namespace: "" # "monitoring"
+  image:
+    repository: ghcr.io/dexidp/dex
+    tag: v2.41.1
+    imagePullPolicy: ""
+  imagePullSecrets: []
+  initImage:
+    repository: ""
+    tag: ""
+    imagePullPolicy: ""
+    resources: {}
+    #  requests:
+    #    cpu: 5m
+    #    memory: 96Mi
+    #  limits:
+    #    cpu: 10m
+    #    memory: 144Mi
+  env: []
+  envFrom: []
+  # - configMapRef:
+  #     name: config-map-name
+  # - secretRef:
+  #     name: secret-name
+  extraContainers: []
+  initContainers: []
+  volumeMounts: []
+  volumes: []
+  emptyDir:
+    sizeLimit: ""
+    # sizeLimit: "1Gi"
+  resources: {}
+  #  limits:
+  #    cpu: 50m
+  #    memory: 64Mi
+  #  requests:
+  #    cpu: 10m
+  #    memory: 32Mi
+  containerPorts:
+    http: 5556
+    grpc: 5557
+    metrics: 5558
+  automountServiceAccountToken: true
+  serviceAccount:
+    create: true
+    name: argocd-dex-server
+    automountServiceAccountToken: true
+  servicePortHttp: 5556
+  servicePortHttpName: http
+  servicePortGrpc: 5557
+  servicePortGrpcName: grpc
+  servicePortMetrics: 5558
+  tolerations: []
+  affinity: {}
+  topologySpreadConstraints: []
+    # - maxSkew: 1
+  #   topologyKey: topology.kubernetes.io/zone
+  #   whenUnsatisfiable: DoNotSchedule
+  deploymentStrategy: {}
+    # type: RollingUpdate
+    # rollingUpdate:
+  #   maxSurge: 25%
+  #   maxUnavailable: 25%
+  logFormat: "json"
+  logLevel: "info"
+redis:
+  enabled: true
+  name: redis
+  image:
+    repository: public.ecr.aws/docker/library/redis
+    tag: 7.4.1-alpine
+    imagePullPolicy: ""
+  exporter:
+    enabled: false
+  imagePullSecrets: []
+  extraArgs: []
+  # - --bind
+  # - "0.0.0.0"
+  # -- Environment variables to pass to the Redis server
+  env: []
+  # -- envFrom to pass to the Redis server
+  # @default -- `[]` (See [values.yaml])
+  envFrom: []
+  # - configMapRef:
+  #     name: config-map-name
+  # - secretRef:
+  #     name: secret-name
+  readinessProbe:
+    enabled: false
+  livenessProbe:
+    enabled: false
+  extraContainers: []
+  initContainers: []
+  volumeMounts: []
+  volumes: []
+  deploymentAnnotations: {}
+  resources: {}
+  #  limits:
+  #    cpu: 200m
+  #    memory: 128Mi
+  #  requests:
+  #    cpu: 100m
+  #    memory: 64Mi
+  containerPorts:
+    redis: 6379
+    metrics: 9121
+  dnsPolicy: "ClusterFirst"
+  servicePort: 6379
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  serviceAccount:
+    create: false
+  metrics:
+    enabled: true
+    service:
+      type: ClusterIP
+      annotations:
+        prometheus.io/path: "/metrics"
+      clusterIP: None
+      servicePort: 9121
+      portName: http-metrics
+    serviceMonitor:
+      enabled: true
+redisSecretInit:
+  enabled: false
+server:
+  name: server
+  replicas: 1
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 50
+    targetMemoryUtilizationPercentage: 50
+    behavior: {}
+      # scaleDown:
+      #  stabilizationWindowSeconds: 300
+      #  policies:
+      #   - type: Pods
+      #     value: 1
+      #     periodSeconds: 180
+      # scaleUp:
+      #   stabilizationWindowSeconds: 300
+      #   policies:
+      #   - type: Pods
+    #     value: 2
+    #     periodSeconds: 60
+    # -- Configures custom HPA metrics for the Argo CD server
+    # Ref: https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+    metrics: []
+  image:
+    repository: "" # defaults to global.image.repository
+    tag: "" # defaults to global.image.tag
+    imagePullPolicy: "" # IfNotPresent
+  imagePullSecrets: []
+  extraArgs: []
+  env: []
+  envFrom: []
+  # - configMapRef:
+  #     name: config-map-name
+  # - secretRef:
+  #     name: secret-name
+  ## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/#the-extensions-resource
+  extensions:
+    enabled: false
+    image:
+      repository: "quay.io/argoprojlabs/argocd-extension-installer"
+      tag: "v0.0.8"
+      imagePullPolicy: ""
+    ## Ref: https://github.com/argoproj-labs/argocd-extension-metrics#install-ui-extension
+    extensionList: []
+    #  - name: extension-metrics
+    #    env:
+    #      - name: EXTENSION_URL
+    #        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension.tar.gz
+    #      - name: EXTENSION_CHECKSUM_URL
+    #        value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.0/extension_checksums.txt
+    resources: {}
+    #  limits:
+    #    cpu: 50m
+    #    memory: 128Mi
+    #  requests:
+    #    cpu: 10m
+    #    memory: 64Mi
+  resources: {}
+  #  limits:
+  #    cpu: 100m
+  #    memory: 128Mi
+  #  requests:
+  #    cpu: 50m
+  #    memory: 64Mi
+  containerPorts:
+    server: 8080
+    metrics: 8083
+  hostNetwork: false
+  tolerations: []
+  affinity: {}
+  topologySpreadConstraints: []
+    # - maxSkew: 1
+  #   topologyKey: topology.kubernetes.io/zone
+  #   whenUnsatisfiable: DoNotSchedule
+  deploymentStrategy: {}
+    # type: RollingUpdate
+    # rollingUpdate:
+  #   maxSurge: 25%
+  #   maxUnavailable: 25%
+  certificate:
+    enabled: false
+    domain: ""
+    additionalHosts: []
+    duration: ""
+    renewBefore: ""
+    issuer:
+      group: ""
+      kind: ""
+      name: ""
+    privateKey:
+      rotationPolicy: Never
+      encoding: PKCS1
+      algorithm: RSA
+      size: 2048
+    ### Ref: https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.KeyUsage
+    usages: []
+  certificateSecret:
+    enabled: false
+    key: ''
+    crt: ''
+  service:
+    type: ClusterIP
+    # -- Server service http port for NodePort service type (only if `server.service.type` is set to "NodePort")
+    nodePortHttp: 30080
+    nodePortHttps: 30443
+    servicePortHttp: 80
+    servicePortHttps: 443
+    servicePortHttpName: http
+    servicePortHttpsName: https
+    servicePortHttpsAppProtocol: ""
+    loadBalancerClass: ""
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    externalIPs: []
+    externalTrafficPolicy: Cluster
+    sessionAffinity: None
+  metrics:
+    enabled: true
+    service:
+      type: ClusterIP
+      clusterIP: ""
+      annotations:
+        prometheus.io/path: "/metrics"
+      servicePort: 8083
+      portName: http-metrics
+    serviceMonitor:
+      enabled: true
+      interval: 30s
+      scrapeTimeout: ""
+      honorLabels: false
+      scheme: ""
+      namespace: ""  # monitoring
+  automountServiceAccountToken: true
+  serviceAccount:
+    create: true
+    name: argocd-server
+    annotations: {}
+    labels: {}
+    automountServiceAccountToken: true
+  clusterRoleRules:
+    enabled: false
+    rules: []
+repoServer:
+  name: repo-server
+  replicas: 1
+  image:
+    repository: ""
+    tag: ""
+    imagePullPolicy: ""
+  imagePullSecrets: []
+  extraArgs: []
+  env: []
+  envFrom: []
+  # - configMapRef:
+  #     name: config-map-name
+  # - secretRef:
+  #     name: secret-name
+  extraContainers: []
+    # - name: cmp-my-plugin
+    #   command:
+    #     - "/var/run/argocd/argocd-cmp-server"
+    #   image: busybox
+    #   securityContext:
+    #     runAsNonRoot: true
+    #     runAsUser: 999
+    #   volumeMounts:
+    #     - mountPath: /var/run/argocd
+    #       name: var-files
+    #     - mountPath: /home/argocd/cmp-server/plugins
+    #       name: plugins
+    #     # Remove this volumeMount if you've chosen to bake the config file into the sidecar image.
+    #     - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+    #       subPath: my-plugin.yaml
+    #       name: argocd-cmp-cm
+    #     # Starting with v2.4, do NOT mount the same tmp volume as the repo-server container. The filesystem separation helps
+    #     # mitigate path traversal attacks.
+    #     - mountPath: /tmp
+  #       name: cmp-tmp
+  existingVolumes: {}
+  #  gpgKeyring:
+  #    persistentVolumeClaim:
+  #      claimName: pvc-argocd-repo-server-keyring
+  #  helmWorkingDir:
+  #    persistentVolumeClaim:
+  #      claimName: pvc-argocd-repo-server-workdir
+  #  tmp:
+  #    persistentVolumeClaim:
+  #      claimName: pvc-argocd-repo-server-tmp
+  #  varFiles:
+  #    persistentVolumeClaim:
+  #      claimName: pvc-argocd-repo-server-varfiles
+  #  plugins:
+  #    persistentVolumeClaim:
+  #      claimName: pvc-argocd-repo-server-plugins
+  useEphemeralHelmWorkingDir: true
+  resources: {}
+  #  limits:
+  #    cpu: 50m
+  #    memory: 128Mi
+  #  requests:
+  #    cpu: 10m
+  #    memory: 64Mi
+  containerPorts:
+    server: 8081
+    metrics: 8084
+  tolerations: []
+  affinity: {}
+  service:
+    port: 8081
+    portName: tcp-repo-server
+  metrics:
+    enabled: true
+    service:
+      type: ClusterIP
+      annotations:
+        prometheus.io/path: "/metrics"
+      clusterIP: ""
+      servicePort: 8084
+      portName: http-metrics
+    serviceMonitor:
+      enabled: true
+  clusterRoleRules:
+    enabled: false
+    rules: []
+  automountServiceAccountToken: true
+  serviceAccount:
+    create: true
+    name: "" # "argocd-repo-server"
+    automountServiceAccountToken: true
+applicationSet:
+  name: applicationset-controller
+  replicas: 1
+  image:
+    repository: ""
+    tag: ""
+    imagePullPolicy: ""
+  imagePullSecrets: []
+  extraArgs: []
+  extraEnv: []
+  extraEnvFrom: []
+  metrics:
+    enabled: true
+    service:
+      type: ClusterIP
+      clusterIP: ""
+      annotations:
+        prometheus.io/path: "/metrics"
+      servicePort: 8080
+      portName: http-metrics
+    serviceMonitor:
+      enabled: true
+  service:
+    type: ClusterIP
+    port: 7000
+    portName: http-webhook
+  automountServiceAccountToken: true
+  serviceAccount:
+    create: true
+  deploymentAnnotations: {}
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  containerPorts:
+    metrics: 8080
+    probe: 8081
+    webhook: 7000
+  tolerations: []
+  affinity: {}
+notifications:
+  enabled: true
+  name: notifications-controller
+  argocdUrl: ""
+  image:
+    repository: ""
+    tag: ""
+    imagePullPolicy: ""
+  imagePullSecrets: []
+  logFormat: "json"
+  logLevel: "info"
+  extraArgs: []
+  extraEnv: []
+  extraEnvFrom: []
+  extraContainers: []
+  secret:
+    create: false
+    name: "argocd-notifications-secret"
+    #    items:
+    #      space-webhook-url: "https://chat.googleapis.com/v1/spaces/AAAA/messages?key=AIza-HI&token=ToKeN"
+    # For more information: https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/services/email/
+  metrics:
+    enabled: true
+    port: 9001
+    service:
+      annotations:
+        prometheus.io/path: "/metrics"
+      type: ClusterIP
+      clusterIP: ""
+      portName: http-metrics
+    serviceMonitor:
+      enabled: true
+  ## For more information: https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/services/overview/
+  notifiers:
+    service.googlechat: |
+      webhooks:
+        spaceName: $space-webhook-url
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  containerPorts:
+    metrics: 9001
+  tolerations: []
+  affinity: {}
+  deploymentStrategy:
+    type: Recreate
+  automountServiceAccountToken: true
+  serviceAccount:
+    create: true
+    name: argocd-notifications-controller
+  cm:
+    create: true
+  clusterRoleRules:
+    rules: []
+  subscriptions:
+  # # subscription for on-sync-status-unknown trigger notifications
+  #    - recipients:
+  #      - slack:test2
+  #      - email:test@gmail.com
+  #      triggers:
+  #      - on-sync-status-unknown
+  # # subscription restricted to applications with matching labels only
+  # - recipients:
+  #   - slack:test3
+  #   selector: test=true
+  #   triggers:
+  #   - on-sync-status-unknown
+  templates:
+    template.app-created: |
+      message: Application {{.app.metadata.name}} has been created.
+
+    #      googlechat:
+    #        threadKey: {{ .app.metadata.name }}
+
+    template.app-deleted: |
+      message: Application {{.app.metadata.name}} has been deleted.
+
+    #      googlechat:
+    #        threadKey: {{ .app.metadata.name }}
+    template.app-deployed: |
+      message: New version of an application {{.app.metadata.name}} is up and running.
+
+    #      googlechat:
+    #        threadKey: {{ .app.metadata.name }}
+    template.app-sync-succeeded: |
+      message: Application {{.app.metadata.name}} has been successfully synced.
+
+    #      googlechat:
+    #        threadKey: {{ .app.metadata.name }}
+    template.app-health-degraded: |
+      message: Application {{.app.metadata.name}} has degraded.
+
+    #      googlechat:
+    #        threadKey: {{ .app.metadata.name }}
+    template.app-sync-failed: |
+      message: Failed to sync application {{.app.metadata.name}}.
+
+    #      googlechat:
+    #        threadKey: {{ .app.metadata.name }}
+    template.app-sync-running: |
+      message: Start syncing application {{.app.metadata.name}}.
+
+    #      googlechat:
+    #        threadKey: {{ .app.metadata.name }}
+    template.app-sync-status-unknown: |
+      message: Application {{.app.metadata.name}} sync status is 'Unknown'.
+
+  #      googlechat:
+  #        threadKey: {{ .app.metadata.name }}
+
+  triggers:
+    trigger.on-created: |
+      - description: Application is created.
+        oncePer: app.metadata.name
+        send:
+          - app-created
+        when: "true"
+    trigger.on-deleted: |
+      - description: Application is deleted.
+        oncePer: app.metadata.name
+        send:
+        - app-deleted
+        when: app.metadata.deletionTimestamp != nil
+    trigger.on-deployed: |
+      - description: Application is synced and healthy. Triggered once per commit.
+        oncePer: app.status.operationState?.syncResult?.revision
+        send:
+        - app-deployed
+        when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded']
+          and app.status.health.status == 'Healthy'
+    trigger.on-health-degraded: |
+      - description: Application has degraded
+        send:
+        - app-health-degraded
+        when: app.status.health.status == 'Degraded'
+    trigger.on-sync-failed: |
+      - description: Application syncing has failed
+        send:
+        - app-sync-failed
+        when: app.status.operationState != nil and app.status.operationState.phase in ['Error', 'Failed']
+    trigger.on-sync-running: |
+      - description: Application is being synced
+        send:
+        - app-sync-running
+        when: app.status.operationState != nil and app.status.operationState.phase in ['Running']
+    trigger.on-sync-status-unknown: |
+      - description: Application status is 'Unknown'
+        send:
+        - app-sync-status-unknown
+        when: app.status.sync.status == 'Unknown'
+    trigger.on-sync-succeeded: |
+      - description: Application syncing has succeeded
+        send:
+        - app-sync-succeeded
+        when: app.status.operationState != nil and app.status.operationState.phase in ['Succeeded']
+
+#    hiányzik a pod törlődik
+#    trigger.on-pod-deleted: |
+#      - description: Application unhealth
+#        send:
+#        - xxxxxxx
+#        when: xxx=!MISSING
+

@@ -1,0 +1,62 @@
+##################################################################################
+### Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/ ###
+##################################################################################
+
+########################################
+### apiVersion: argoproj.io/v1alpha1 ###
+### kind: Application                ###
+########################################
+# https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/application.yaml
+applications: {}
+########################################
+### apiVersion: argoproj.io/v1alpha1 ###
+### kind: AppProject                 ###
+########################################
+# Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/project.yaml
+projects:
+  infra:
+    namespace: argocd
+    #    permitOnlyProjectScopedClusters: false
+    #    finalizers:
+    #    - resources-finalizer.argocd.argoproj.io
+    description: "infra project"
+    sourceRepos:
+      - git@gitlab.kukutyin.hu:devops/deploy.git
+      - https://nexus.kukutyin.hu/repository/helm
+    destinations:
+      - name: kukutyincluster
+        namespace: infra-*
+        server: https://kubernetes.default.svc
+    sourceNamespaces:
+      - argocd-config
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: Namespace
+  dev:
+    namespace: argocd
+    #    permitOnlyProjectScopedClusters: false
+    #    finalizers:
+    #    - resources-finalizer.argocd.argoproj.io
+    description: "dev project"
+    sourceRepos:
+      - git@gitlab.kukutyin.hu:devops/deploy.git
+      - https://nexus.kukutyin.hu/repository/helm
+    destinations:
+      - name: kukutyincluster
+        namespace: dev-*
+        server: https://kubernetes.default.svc
+    sourceNamespaces:
+      - argocd-config
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: Namespace
+
+########################################
+### apiVersion: argoproj.io/v1alpha1 ###
+### kind: ApplicationSet             ###
+########################################
+# Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/applicationset.yaml
+applicationsets: {}
+## Ref: https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/
+itemTemplates: []
+extensions: {}

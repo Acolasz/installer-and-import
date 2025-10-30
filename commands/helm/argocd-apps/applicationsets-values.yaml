@@ -1,0 +1,173 @@
+##################################################################################
+### Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/ ###
+##################################################################################
+
+########################################
+### apiVersion: argoproj.io/v1alpha1 ###
+### kind: Application                ###
+########################################
+# https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/application.yaml
+applications: {}
+########################################
+### apiVersion: argoproj.io/v1alpha1 ###
+### kind: AppProject                 ###
+########################################
+# Ref: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/project.yaml
+projects:
+########################################
+### apiVersion: argoproj.io/v1alpha1 ###
+### kind: ApplicationSet             ###
+########################################
+applicationsets:
+#  infra-apps:
+#    namespace: argocd
+##    additionalLabels: {}
+##    additionalAnnotations: {}
+##    finalizers:
+##    - resources-finalizer.argocd.argoproj.io
+#    goTemplate: true
+#    goTemplateOptions: [ "missingkey=error" ]
+#    generators:
+##    - clusters: {}
+#    - git:
+#        repoURL: git@gitlab.kukutyin.hu:devops/deploy.git
+#        revision: main
+#        directories:
+#        - path: modules/apps/configs/infra/*
+#        - path: modules/apps/configs/dev/*
+#          exclude: true
+#        - path: modules/apps/configs/uat/*
+#          exclude: true
+#        - path: modules/apps/configs/prd/*
+#          exclude: true
+##        values:
+##          moduleName: "{{ index .path.segments 1 }}"
+##          serviceName: "{{ index .path.segments 3 }}"
+##          env: "{{ index .path.segments 4 }}"
+##        - list:
+##            elementsYaml: "{{ .resources | toJson }}"
+#    template:
+#      metadata:
+#        name: "{{ index .path.segments 4 }}"
+#        namespace: argocd-config
+#      spec:
+#        project: "kukutyin-{{ index .path.segments 3 }}"
+#        sources:
+#        - chart: "{{ index .path.segments 4 }}"
+#          repoURL: https://nexus.kukutyin.hu/repository/helm
+#          targetRevision: 1.4.2
+#          helm:
+#            valueFiles:
+#            - "$deployValues/environments/ALL.yaml"
+#            - "$deployValues/environments/{{ index .path.segments 3 }}.yaml"
+#            - "$deployValues/modules/{{ index .path.segments 1 }}/environments/{{ index .path.segments 3 }}/environment.yaml"
+#            - "$deployValues/modules/{{ index .path.segments 1 }}/configs/{{ index .path.segments 3 }}/{{ index .path.segments 4 }}/service.yaml"
+#            ignoreMissingValueFiles: false
+#        - ref: deployValues
+#          repoURL: git@gitlab.kukutyin.hu:devops/deploy.git
+#          targetRevision: main
+#        destination:
+#          namespace: "{{ index .path.segments 3 }}-{{ index .path.segments 1 }}"
+#          server: https://kubernetes.default.svc
+#        syncPolicy:
+#          automated:
+#            prune: false
+#            selfHeal: false
+#          syncOptions:
+#            - CreateNamespace=true
+#            - ApplyOutOfSyncOnly=false
+#        revisionHistoryLimit: 5
+#        info:
+#          - name: url
+#            value: https://argoproj.github.io/
+#    syncPolicy:
+##      applicationsSync: sync
+##      applicationsSync: create-only
+##      applicationsSync: create-update
+##      applicationsSync: create-delete
+#
+#      # Set Application finalizer
+#      preserveResourcesOnDeletion: false
+
+itemTemplates:
+  - items:
+      - name: infra-apps
+        generators:
+          - git:
+              repoURL: git@gitlab.kukutyin.hu:devops/deploy.git
+              revision: main
+              directories:
+                - path: modules/apps/configs/infra/*
+                - path: modules/apps/configs/dev/*
+                  exclude: true
+                - path: modules/apps/configs/uat/*
+                  exclude: true
+                - path: modules/apps/configs/prd/*
+                  exclude: true
+      - name: dev-apps
+        generators:
+          - git:
+              repoURL: git@gitlab.kukutyin.hu:devops/deploy.git
+              revision: main
+              directories:
+                - path: modules/apps/configs/infra/*
+                  exclude: true
+                - path: modules/apps/configs/dev/*
+                - path: modules/apps/configs/uat/*
+                  exclude: true
+                - path: modules/apps/configs/prd/*
+                  exclude: true
+    template: |-
+      apiVersion: argoproj.io/v1alpha1
+      kind: ApplicationSet
+      metadata:
+        name: '{{ .name }}'
+        namespace: argocd
+      spec:
+        generators: {{ toYaml .generators | nindent 4 }}
+        goTemplate: true
+        syncPolicy:
+          preserveResourcesOnDeletion: false
+        template:
+          metadata:
+            name: '{{`{{ index .path.segments 3 }}`}}-{{`{{ index .path.segments 4 }}`}}'
+            namespace: argocd-config
+            annotations:
+              notifications.argoproj.io/subscribe.on-created.googlechat: spaceName
+              notifications.argoproj.io/subscribe.on-deleted.googlechat: spaceName
+              notifications.argoproj.io/subscribe.on-deployed.googlechat: spaceName
+              notifications.argoproj.io/subscribe.on-health-degraded.googlechat: spaceName
+              notifications.argoproj.io/subscribe.on-sync-succeeded.googlechat: spaceName
+              notifications.argoproj.io/subscribe.on-sync-failed.googlechat: spaceName
+              notifications.argoproj.io/subscribe.on-sync-running.googlechat: spaceName
+              notifications.argoproj.io/subscribe.on-sync-status-unknown.googlechat: spaceName
+              notifications.argoproj.io/subscribe.on-sync-succeeded.googlechat: spaceName
+          spec:
+            destination:
+              namespace: '{{`{{ index .path.segments 3 }}`}}-{{`{{ index .path.segments 1 }}`}}'
+              server: https://kubernetes.default.svc
+            info:
+              - name: url
+                value: https://argoproj.github.io/
+            project: {{`{{ index .path.segments 3 }}`}}
+            sources:
+              - chart: '{{`{{ index .path.segments 4 }}`}}'
+                helm:
+                  ignoreMissingValueFiles: false
+                  valueFiles:
+                    - $deployValues/environments/ALL.yaml
+                    - $deployValues/environments/{{`{{ index .path.segments 3 }}`}}.yaml
+                    - $deployValues/modules/{{`{{ index .path.segments 1 }}`}}/environments/{{`{{ index .path.segments 3 }}`}}/environment.yaml
+                    - $deployValues/modules/{{`{{ index .path.segments 1 }}`}}/configs/{{`{{ index .path.segments 3 }}`}}/{{`{{ index .path.segments 4 }}`}}/service.yaml
+                repoURL: https://nexus.kukutyin.hu/repository/helm
+                targetRevision: 1.4.2
+              - ref: deployValues
+                repoURL: git@gitlab.kukutyin.hu:devops/deploy.git
+                targetRevision: main
+            syncPolicy:
+              automated:
+                prune: false
+                selfHeal: false
+              syncOptions:
+                - CreateNamespace=true
+                - ApplyOutOfSyncOnly=false
