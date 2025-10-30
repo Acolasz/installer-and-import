@@ -39,7 +39,6 @@ helm pull --untar bitnami/redis --version 17.3.9
 helm pull --untar --untardir ${CHART_NAME}-12.8.2 ${REPO_NAME}/${CHART_NAME} --version 12.8.2
 
 # tar -xzvf ./${CHART_NAME}-12.8.2.tar.gz -C ./${CHART_NAME}
-helm pull --untar hugo-helm/dookug-document-service --version 1.0.2
 
 helm show all ${REPO_NAME}/${CHART_NAME}
 
@@ -71,6 +70,37 @@ helm upgrade --install -n ${CHART_NAMESPACE} ${CHART_NAME} repo/${CHART_NAME} -f
 ```
 
 ### Remote
+
+```shell
+helm repo add helm-manual-local https://artifactory.com/artifactory/helm-manual-local/ --username oo --password <token>
+cat psw.txt | helm repo add helm-manual-local https://artifactory.com/artifactory/helm-manual-local/ --username oo --password-stdin
+```
+
+#### repositories.yaml
+
+```shell
+apiVersion: ""
+generated: "0001-01-01T00:00:00Z"
+repositories:
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: helm-release
+  pass_credentials_all: false
+  password: 'password'
+  url: https://artifactory.kktyn.hu/repository/helm-release
+  username: username
+- caFile: ""
+  certFile: ""
+  insecure_skip_tls_verify: false
+  keyFile: ""
+  name: helm-snapshot
+  pass_credentials_all: false
+  password: 'password'
+  url: https://nexus.kktyn.hu/repository/helm-snapshot
+  username: username
+```
 
 ```shell
 CHART_NAME=
@@ -120,10 +150,7 @@ helm plugin install "name/repo"
     * `helm plugin install https://github.com/databus23/helm-diff`
 * [unittest][unittest]
     * `helm plugin install https://github.com/helm-unittest/helm-unittest.git`
-
-```shell
-https://github.com/helm-unittest/helm-unittest
-```
+    * [helm-unittest][helm_plugin_unittest]
 
 # Helm Hooks
 
@@ -186,3 +213,5 @@ Helm and Kustomize together [helm ... --post-render][post-render]
 [elastic_charts]:<https://helm.elastic.co>
 
 [jetstack_charts]:<https://charts.jetstack.io>
+
+[helm_plugin_unittest]:<https://github.com/helm-unittest/helm-unittest>

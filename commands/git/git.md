@@ -3,13 +3,15 @@
 ## Global config
 
 ```shell
-git config --global user.email "olasz@kukutyin.hu"
+git config --global user.email "olasz@kktyn.hu"
 git config --global user.name "Olivér"
 ```
 
 ## gitignore
 
 > [.gitignore][gitignore]
+> 
+> [.gitignore for web][gitignore_web]
 
 ## gitattributes
 
@@ -101,6 +103,41 @@ git reset --mixed HEAD~1
 git reset --hard HEAD~1
 ```
 
+## Git Stash
+
+### Git Stash Saved changes
+
+```shell
+# Stash Saved changes
+git stash
+# Stash Saved changes with message
+git stash save "Stash message"
+# Stash Saved changes with message and include untracked files
+git stash save -u "Stash message"
+# Stash Saved changes with message and include untracked files and ignored files
+git stash save -a "Stash message"
+```
+
+### Git Stash List
+
+```shell
+# Stash List
+git stash list
+
+stash@{0}: On master: GC-16-MAVEN_CLI
+```
+
+### Git Stash reapply
+
+```shell
+# Stash reapply
+git stash apply
+# Stash reapply with specific stash
+git stash apply stash@{0}
+# Stash reapply and drop it
+git stash pop stash@{0}
+```
+
 ## Git Commit
 
 ### Merge revert commit
@@ -160,7 +197,7 @@ git update-ref HEAD 9f0abf890b113a287e10d56b66dbab66adc1662d
 
 ```shell
 # Staged files to unstacked files
-git restore --staged .
+git restore --staged --w.
 ```
 
 ### Unstaged
@@ -170,11 +207,24 @@ git restore --staged .
 git restore .
 # or
 git reset --hard
+# Untracked files DRY RUN
+git clean -n -d
 # Untracked files
 git clean -f
 ```
 
+## Git Tag
+
+### Get create time and date if git tags
+
+```shell
+git for-each-ref --format="%(refname:short) | %(creatordate)" "refs/tags/*"
+git for-each-ref --format="%(refname:short) | %(creatordate)" "refs/tags/release/*"
+```
+
 [gitignore]:<https://github.com/github/gitignore>
+
+[gitignore_web]:<https://www.toptal.com/developers/gitignore>
 
 [gitattributes]:<https://github.com/alexkaratarakis/gitattributes/blob/master/.gitattributes>
 

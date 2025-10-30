@@ -1,5 +1,7 @@
 # Helm charts
 
+* argo-cd [argo-cd install][argo_cd]
+    * argocd-apps - project and application(sets)
 * reflector [emberstack/kubernetes-reflector][reflector]
 * metrics-server [metrics-server/metrics-server][metrics_server]
 * longhorn
@@ -23,6 +25,7 @@
     * Related article:
         * [Prometheus’ performance and cardinality in practice][prometheus_performance_in_practice]
         * [How relabeling in Prometheus works][prometheus_relabeling]
+        * [Grafana dashboards Mixin][grafana_dashboards_mixin]
 * fluent-bit [fluent/fluent-bit][fluent_bit]
     * mount PV/PVC sample: [Persistent storage for container logging using Fluent Bit and Amazon EFS][fluent_bit_pv_pvc]
 * elastic-operator [elastic/elasticsearch][elastic_operator]
@@ -34,6 +37,8 @@
 * redis
     * install
     * [Eviction][redis_eviction] policies
+* redis-ui
+    * install
 * hpa-operator
     * [install][hpa_operator_install]
     * [banzaicloud-stable/hpa-operator][hpa_operator]
@@ -49,8 +54,61 @@
 * etcd
 * nfs-subdir-external-provisioner [nfs-subdir-external-provisioner/nfs-subdir-external-provisioner][nfs_provisioner]
     * [How to Setup Dynamic NFS Provisioning in a Kubernetes Cluster][nfs_provisioner_sample]
+* oauth2-proxy
+    * [oauth2-proxy][oauth2_proxy]
+
 
 # Install
+
+## ArgoCD
+
+```shell
+REPO_NAME=argo-cd
+
+RELEASE_NAME=argocd
+CHART_NAME=argo-cd
+CHART_VERSION=7.7.15
+
+helm repo add ${REPO_NAME} https://argoproj.github.io/argo-helm
+helm repo update ${REPO_NAME}
+helm search repo ${REPO_NAME}/${CHART_NAME}
+helm show values ${REPO_NAME}/${CHART_NAME} --version ${CHART_VERSION}
+
+NS=argocd
+helm upgrade --install ${RELEASE_NAME} \
+${REPO_NAME}/${CHART_NAME} --version ${CHART_VERSION} \
+--create-namespace \
+--namespace ${NS}
+```
+
+### ArgoCD apps
+
+```shell
+REPO_NAME=argo-cd
+CHART_NAME=argocd-apps
+CHART_VERSION=2.0.2
+
+helm repo add ${REPO_NAME} https://argoproj.github.io/argo-helm
+helm repo update ${REPO_NAME}
+helm search repo ${REPO_NAME}/${CHART_NAME}
+helm show values ${REPO_NAME}/${CHART_NAME} --version ${CHART_VERSION}
+
+NS=argocd-config
+RELEASE_NAME=argocd-apps-projects
+helm install ${RELEASE_NAME} \
+${REPO_NAME}/${CHART_NAME} --version ${CHART_VERSION} \
+--create-namespace \
+--namespace ${NS} \
+-f "${DIR}/${ENV}/projects-values.yaml"
+
+RELEASE_NAME=argocd-apps-applicationsets
+
+helm install ${RELEASE_NAME} \
+${REPO_NAME}/${CHART_NAME} --version ${CHART_VERSION} \
+--create-namespace \
+--namespace ${NS} \
+-f "./applicationsets-values.yaml"
+```
 
 ## reflector
 
@@ -194,7 +252,7 @@ prometheus-community/kube-prometheus-stack --version 55.5.1 \
 
 ```shell
 helm repo add fluent https://fluent.github.io/helm-charts
-helm repo update
+helm repo update fluent
 helm search repo fluent/fluent-bit
 helm show values fluent/fluent-bit --version 0.46.10
 
@@ -284,6 +342,18 @@ helm show values bitnami/redis --version 18.6.2
 NS=redis
 helm upgrade --install redis-cache \
 bitnami/redis --version 18.6.2 \
+--create-namespace \
+--namespace ${NS}
+```
+
+### Redis UI install
+
+```shell
+REPO_NAME=https://github.com/patrikx3/redis-ui/tree/master/k8s/chart
+
+NS=redis
+helm upgrade --install redis-cache \
+REPO_NAME/redis \
 --create-namespace \
 --namespace ${NS}
 ```
@@ -392,11 +462,11 @@ bitnami/postgresql --version 13.4.1 \
 helm repo add runix https://helm.runix.net
 helm repo update
 helm search repo runix/pgadmin4
-helm show values runix/pgadmin4 --version 1.23.1
+helm show values runix/pgadmin4 --version 1.35.0
 
 NS=postgresql
 helm upgrade --install pgadmin4 \
-runix/pgadmin4 --version 1.23.1 \
+runix/pgadmin4 --version 1.35.0 \
 --create-namespace \
 --namespace ${NS} \
 --set env.email=admin@kukutyin.hu \
@@ -453,6 +523,22 @@ nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --version 4.0.18
 --set storageClass.onDelete=true
 ```
 
+## OAuth2 Proxy
+
+```shell
+helm repo add oauth2-proxy https://oauth2-proxy.github.io/manifests
+helm repo update
+helm search repo oauth2-proxy
+helm show values oauth2-proxy/oauth2-proxy --version 7.12.8
+
+NS=monitoring
+helm upgrade --install alertmanager-proxy \
+oauth2-proxy/oauth2-proxy --version 7.12.8 \
+--create-namespace \
+--namespace ${NS}
+-f ./sonarqube/default-values.yaml
+```
+
 # Usage
 
 ## reflector
@@ -489,6 +575,8 @@ helm search repo bitnami/etcd
 helm show values bitnami/etcd --version 8.8.3
 ```
 
+[argo_cd]:<https://argo-cd.readthedocs.io/en/stable/operator-manual/installation/#helm>
+
 [reflector]:<https://github.com/emberstack/kubernetes-reflector>
 
 [metrics_server]:<https://artifacthub.io/packages/helm/metrics-server/metrics-server>
@@ -496,6 +584,8 @@ helm show values bitnami/etcd --version 8.8.3
 [kube_prometheus_stack]:<https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack>
 
 [grafana_dashboards]:<https://grafana.com/grafana/dashboards/>
+
+[grafana_dashboards_mixin]:<https://github.com/monitoring-mixins/website/tree/master/assets>
 
 [prometheus_performance_in_practice]:<https://medium.com/@dotdc/prometheus-performance-and-cardinality-in-practice-74d5d9cd6230>
 
@@ -546,3 +636,5 @@ helm show values bitnami/etcd --version 8.8.3
 [nfs_provisioner]:<https://artifacthub.io/packages/helm/nfs-subdir-external-provisioner/nfs-subdir-external-provisioner>
 
 [nfs_provisioner_sample]:<https://hbayraktar.medium.com/how-to-setup-dynamic-nfs-provisioning-in-a-kubernetes-cluster-cbf433b7de29>
+
+[oauth2_proxy]:<https://oauth2-proxy.github.io/oauth2-proxy/>

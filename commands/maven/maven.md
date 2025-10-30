@@ -55,6 +55,13 @@ mvn help:describe -Dplugin=hu.kukutyin.sample:kukutyin-maven-plugin
 mvn kukutyin-maven-plugin:help -Ddetail=true
 mvn hu.kukutyin.sample:kukutyin-maven-plugin:help -Ddetail=true
 mvn hu.kukutyin.sample:kukutyin-maven-plugin:help -Ddetail=true -Dgoal=kukutyin
+mvn archetype:help -Ddetail=true -Dgoal=generate
+```
+
+### Project
+
+```shell
+mvn clean package -Ddetail=true -Dgoal=generate
 ```
 
 ### Sonar (product)
@@ -67,7 +74,7 @@ mvn sonar:sonar -Dsonar.host.url=http://localhost:56988/ -Dsonar.login=squ_36b11
 
 ### Configuration
 
-> Custom settings.xmls
+> Custom settings.xml
 
 ```shell
 mvn -U clean package --global-settings ./path/to/location/global-settings.xml --settings ./path/to/location/local-settings.xml
@@ -75,5 +82,4 @@ mvn -U clean package --global-settings ./path/to/location/global-settings.xml --
 
 [install_java_maven]:<https://www.digitalocean.com/community/tutorials/install-maven-mac-os>
 
-[maven_lifecycle]:<https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
->
+[maven_lifecycle]:<https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html>
