@@ -4,6 +4,22 @@
 
 ## Commands
 
+### Stack
+
+```shell
+docker stack ls
+docker stack services <stack_name>
+docker stack deploy -c /tmp/docker-compose.yaml <stack_name>
+```
+
+### Node
+
+```shell
+docker node ls
+```
+
+### Service
+
 ```shell
 # List
 docker service ls

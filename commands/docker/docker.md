@@ -1,4 +1,5 @@
 # Usage
+kubectl -n monitoring cp prometheus-grafana-6db8b7d854-sm4tw:/var/lib/grafana/grafana.db -c grafana ./grafana.db
 
 ## Docker local registry
 
@@ -34,6 +35,12 @@ echo "export DOCKER_HOST=tcp://10.120.10.210:2375" >> ~/.bashrc && source ~/.bas
 ### Build
 
 > [Cross-platform emulator collection distributed with Docker images.][multi_build]
+
+### Login
+
+```shell
+docker 
+```
 
 ### Images
 

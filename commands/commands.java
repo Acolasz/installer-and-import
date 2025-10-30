@@ -24,29 +24,10 @@ gradle init
 // List tasks
 ./gradlew tasks
 /*****************************************************/
-/********************* NVM ***************************/
-/*****************************************************/
-/** Download **/
-https://github.com/coreybutler/nvm-windows/releases 
-/** install for windows **/
-https://stackoverflow.com/questions/25654234/node-version-manager-nvm-on-windows
-installed: 
-	c:\Portable\nvm\nvm-1.1.7\nvm\
-//
-nvm version
-nvm install <nodejs_version>
-nvm install 10.15.1
-// installed: 
-//	c:\Portable\nvm\nvm-1.1.7\nvm\v10.15.1
-// symlink to c:\Portable\nodejs
-nvm list
-nvm use <nodejs_version>
-nvm use 10.15.1
-/** Transitive Dependencies **/
-https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Transitive_Dependencies
-/*****************************************************/
 /********************* NPM ***************************/
 /*****************************************************/
+/** Transitive Dependencies **/
+https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Transitive_Dependencies
 /*************************************/
 /**** evironment variables ***********/
 // https://docs.npmjs.com/cli/v9/using-npm/config#environment-variables
@@ -492,13 +473,6 @@ crontab -u <user> -e
 sudo less /var/log/cron
 // or
 sudo less /var/log/syslog
-/** vi usage **/
-vi <filename>
-press i or a
-ESC
-:wq
-// if no write in file
-:q!
 /** particiók mérete **/
 fdisk -l
 dmesg | grep -i sda

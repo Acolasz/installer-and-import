@@ -5,6 +5,7 @@
 * last
 * [lz4][lz4_command]
 * [curl-wget][curl_wget]
+* htop
 
 [curl_wget]:<./curl-wget/curl-wget.md>
 
