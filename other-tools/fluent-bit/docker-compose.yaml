@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  fluentbit:
+    image: ${PROJECT_NAME}/${SERVICE_APP_NAME}:${SERVICE_VERSION_TAG}
+#    platform: linux/amd64
+    container_name: ${SERVICE_APP_NAME}-local-1
+    restart: unless-stopped
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    volumes:
+      - fluentbit_data:/fluent-bit/etc/:w
+    networks:
+      - fluentbit
+
+networks:
+  fluentbit:
+    name: fluentbit
+
+volumes:
+  fluentbit_data:
+    name: fluentbit_data
