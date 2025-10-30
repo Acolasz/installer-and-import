@@ -14,6 +14,10 @@
 softwareupdate --install-rosetta --agree-to-license
 ```
 
+## Extra tools
+
+* OH-MY_ZSH
+
 [tools]:<./TOOLS.MD>
 
 [packages]:<./PACKAGES.MD>
